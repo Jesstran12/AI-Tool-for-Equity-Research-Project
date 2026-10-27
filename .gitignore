@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[oc]
+build/
+dist/
+*.egg-info
+.venv
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+
+# OS noise
+.DS_Store
+
+# Secrets: copy .env.example to .env
+.env
+
+# Raw filings and technical reports, pulled manually or via EDGAR (see data/README.md)
+data/raw/
+
+# PDFs: copyrighted papers and source documents are kept locally, never redistributed
+*.pdf
+
+# Local-only logs, kept up to date on this machine, not tracked by git
+PROJECTLOG.md
+WORKLOG.md
+CLAUDE.local.md
+.claude/settings.local.json
