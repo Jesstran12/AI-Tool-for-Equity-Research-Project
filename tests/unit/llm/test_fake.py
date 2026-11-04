@@ -48,3 +48,22 @@ def test_fake_missing_raises_with_key(tmp_path: Path) -> None:
         FakeProvider(tmp_path).complete(
             system="sys", user="nope", schema=Answer, model="claude-opus-5-5", effort="medium"
         )
+
+
+def test_fake_replays_recorded_cost(tmp_path: Path) -> None:
+    key = request_key("sys", "q", "Answer", "claude-opus-5-5")
+    (tmp_path / f"{key}.json").write_text(
+        json.dumps(
+            {
+                "parsed": {"answer": "x"},
+                "raw_text": "",
+                "usage": {"input_tokens": 1, "output_tokens": 1},
+                "model": "claude-opus-5-5",
+                "cost_usd": 0.339,
+            }
+        )
+    )
+    c = FakeProvider(tmp_path).complete(
+        system="sys", user="q", schema=Answer, model="claude-opus-5-5", effort="medium"
+    )
+    assert c.cost_usd == 0.339

@@ -27,6 +27,6 @@ class FakeProvider:
             raw_text=data.get("raw_text", ""),
             usage=Usage.model_validate(data.get("usage", {"input_tokens": 0, "output_tokens": 0})),
             model=data.get("model", model),
-            cost_usd=0.0,
+            cost_usd=float(data.get("cost_usd", 0.0)),  # real spend of the recording, if any
             request_key=key,
         )
