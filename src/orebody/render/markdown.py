@@ -32,6 +32,7 @@ _FIELD_FORMAT: dict[str, str] = {
 }
 
 _ROW_LABELS = {"base": "base", "spot": "spot", "deck_a": "deck A", "deck_b": "deck B"}
+_ESCAPE = str.maketrans({"|": "\\|", "[": "\\[", "]": "\\]", "`": "\\`", "<": "&lt;"})
 
 
 @dataclass(frozen=True)
@@ -40,6 +41,11 @@ class PriceDeck:
     deck_a_usd_per_t: float | None
     deck_b_usd_per_t: float | None
     source: str
+
+
+def _safe(text: str) -> str:
+    """Model-supplied text goes into tables and footnotes: neutralise Markdown control chars."""
+    return " ".join(text.split()).translate(_ESCAPE)
 
 
 def _fmt_value(field: str, value: float) -> str:
@@ -112,7 +118,7 @@ def render_section3(
         if value is None:
             continue
         claim = by_field.get(field)
-        printed = claim.value_orig if claim else "—"
+        printed = _safe(claim.value_orig) if claim else "—"
         source = f"[^{footnote_of[field]}]" if claim else "no claim"
         if claim and claim.final_status != "verified":
             source += " ⚠ unverified"
@@ -132,6 +138,6 @@ def render_section3(
             )
     out.append("")
     for n, c in enumerate(claims, start=1):
-        out.append(f'[^{n}]: {c.doc_id}, p.{c.page}: "{c.quote}"')
+        out.append(f'[^{n}]: {_safe(c.doc_id)}, p.{c.page}: "{_safe(c.quote)}"')
     out.extend(["", DISCLAIMER, ""])
     return "\n".join(out)

@@ -123,3 +123,13 @@ def test_disclaimer_verbatim() -> None:
     md = _render()
     assert md.rstrip().endswith(DISCLAIMER)
     assert f"> {DISCLAIMER}" in SPEC.read_text()
+
+
+def test_cells_escape_pipes_and_newlines() -> None:
+    claims = [_vc("initial_capex_usd_m", "US$1,240 | million", 5, "capex\nis US$1,240 [x]")]
+    inputs = EconInputs(initial_capex_usd_m=1240)
+    md = _render(inputs=inputs, claims=claims, results=None, missing=["mine_life_years"])
+    row = next(line for line in md.splitlines() if line.startswith("| initial_capex_usd_m"))
+    assert len(re.findall(r"(?<!\\)\|", row)) == 5  # 4 cells; the printed pipe is escaped
+    assert "US$1,240 \\| million" in row
+    assert '[^1]: fixture_report, p.5: "capex is US$1,240 \\[x\\]"' in md
