@@ -107,11 +107,20 @@ def run(
         )
         raise typer.Exit(code=2)
 
+    pdf_path = raw_dir / report.file
+    if not pdf_path.exists():
+        typer.echo(
+            f"error: {pdf_path} not found. Company PDFs are not committed; download it as "
+            "described in README.md (or run `make demo-data` for the synthetic FIX company).",
+            err=True,
+        )
+        raise typer.Exit(code=2)
+
     run_id = f"{ticker}-{as_of_date.isoformat()}-{datetime.now().strftime('%H%M%S')}"
     run_dir = data_dir / "runs" / run_id
     run_dir.mkdir(parents=True, exist_ok=False)
 
-    extracted = extract_pages(raw_dir / report.file, data_dir / "pages")
+    extracted = extract_pages(pdf_path, data_dir / "pages")
     pages = [read_page(extracted.pages_dir, n) for n in range(1, extracted.n_pages + 1)]
     index = build_index(pages, load_patterns(CONFIG_DIR / "sections.yaml"))
     bundle = build_context(extracted.pages_dir, index)

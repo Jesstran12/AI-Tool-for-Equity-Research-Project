@@ -141,3 +141,26 @@ def test_demo_data_runs_on_fresh_clone(tmp_path: Path) -> None:
     )
     assert result.exit_code == 0, result.output
     assert "verified 10/10" in result.output
+
+
+def test_run_missing_pdf_errors_clearly(tmp_path: Path) -> None:
+    raw = tmp_path / "raw" / "FIX"
+    raw.mkdir(parents=True)
+    (raw / "manifest.yaml").write_text(MANIFEST)  # names fixture_report.pdf, which is absent
+    result = CliRunner().invoke(
+        app,
+        [
+            "run",
+            "FIX",
+            "--as-of",
+            "2026-11-05",
+            "--spot",
+            "4.5",
+            "--provider",
+            "fake",
+            "--data-dir",
+            str(tmp_path),
+        ],
+    )
+    assert result.exit_code == 2
+    assert "fixture_report.pdf" in result.output and "README" in result.output
