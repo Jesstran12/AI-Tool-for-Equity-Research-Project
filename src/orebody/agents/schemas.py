@@ -14,7 +14,7 @@ class Claim(BaseModel):
     value_orig: str
     unit_orig: str | None = None
     currency_orig: str | None = None
-    doc_id: str
+    doc_id: str = ""  # stamped by the pipeline; the model need not fill it
     page: int
     quote: str = Field(max_length=300)
 

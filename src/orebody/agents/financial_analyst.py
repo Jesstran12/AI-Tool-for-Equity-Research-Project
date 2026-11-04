@@ -36,10 +36,8 @@ def run_financial_analyst(
     )
     output = FinancialAnalystOutput.model_validate(completion.parsed)
     for claim in output.claims:
-        if claim.doc_id != doc_id:
-            raise ValueError(
-                f"claim {claim.field!r} cites doc {claim.doc_id!r}, expected {doc_id!r}"
-            )
+        # The model saw exactly one document and cannot know its id: the pipeline stamps it.
+        claim.doc_id = doc_id
         if claim.page not in bundle.pages:
             raise ValueError(
                 f"claim {claim.field!r} cites page {claim.page}, which was not in the context"

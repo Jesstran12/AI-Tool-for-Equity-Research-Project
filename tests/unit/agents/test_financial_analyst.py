@@ -49,10 +49,12 @@ def test_claim_page_outside_context_rejected(
         run_financial_analyst(FakeProvider(tmp_path), bundle, doc_id, MODEL, "medium", PROMPT)
 
 
-def test_claim_wrong_doc_id_rejected(fixture_extracted, fixture_index, tmp_path: Path) -> None:
+def test_claims_stamped_with_pipeline_doc_id(
+    fixture_extracted, fixture_index, tmp_path: Path
+) -> None:
+    # The model is shown one document and cannot know its id; the pipeline owns doc_id.
     bundle = build_context(fixture_extracted.pages_dir, fixture_index)
     doc_id = fixture_extracted.doc_id
-    parsed = happy_financial_output("other_doc")
-    _record(tmp_path, bundle, parsed)
-    with pytest.raises(ValueError, match="other_doc"):
-        run_financial_analyst(FakeProvider(tmp_path), bundle, doc_id, MODEL, "medium", PROMPT)
+    _record(tmp_path, bundle, happy_financial_output("Model_Invented_Id"))
+    out, _ = run_financial_analyst(FakeProvider(tmp_path), bundle, doc_id, MODEL, "medium", PROMPT)
+    assert {c.doc_id for c in out.claims} == {doc_id}
