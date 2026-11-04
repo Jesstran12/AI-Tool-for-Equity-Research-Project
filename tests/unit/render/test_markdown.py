@@ -141,3 +141,11 @@ def test_cells_escape_backslashes() -> None:
         inputs=EconInputs(initial_capex_usd_m=1240), claims=claims, results=None, missing=[]
     )
     assert '"capex \\\\\\| trick"' in md
+
+
+def test_fractional_mine_life_not_rounded() -> None:
+    # MARI discloses a 12.7-year mine life; the Value column must not show "13 years".
+    claims = [_vc("mine_life_years", "12.7 years", 54, "planned mine life of 12.7 years")]
+    md = _render(inputs=EconInputs(mine_life_years=12.7), claims=claims, results=None, missing=[])
+    row = next(line for line in md.splitlines() if line.startswith("| mine_life_years"))
+    assert [c.strip() for c in row.split("|")][2] == "12.7 years"

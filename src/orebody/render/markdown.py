@@ -18,7 +18,7 @@ DISCLAIMER = (
 )
 
 _FIELD_FORMAT: dict[str, str] = {
-    "mine_life_years": "{:,.0f} years",
+    "mine_life_years": "{:g} years",
     "annual_payable_metal_t": "{:,.0f} t/yr",
     "unit_cost_usd_per_t": "US${:,.2f}/t",
     "initial_capex_usd_m": "US${:,.0f} M",
