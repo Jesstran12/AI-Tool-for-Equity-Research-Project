@@ -7,22 +7,34 @@ response, so nothing can fail on network or API. Total API spend to date: US$0.3
 
 ## 0. Before you walk in (10 minutes, the night before)
 
-1. Open a terminal in `~/project-4`. On a fresh clone first run `uv sync && make fetch-mari`
-   (downloads the public report, 18 MB). Then run the demo command once so a fresh run folder
-   exists:
+1. Open a terminal in the repo (`git clone https://github.com/sonha2409/orebody` if needed) and
+   install:
+   ```
+   uv sync
+   ```
+2. Fetch the report. Company PDFs are not in the repo; this downloads the public feasibility
+   study (18 MB) from marimaca.com into `data/raw/MARI/` and checks its sha256:
+   ```
+   make fetch-mari
+   ```
+   Expected last line: `data/raw/MARI/2025-08-25_MarimacaOxide_FS_NI43-101.pdf: OK`.
+   If the sha check fails, the company changed the file; the recorded response will not replay.
+   Use the FIX fallback at the bottom of this script.
+3. Run the demo command once so a fresh run folder exists:
    ```
    uv run orebody run MARI --as-of 2026-11-05 --spot 6.71 --deck-a 3.50 --deck-b 5.00 --provider fake
    ```
    Expected last line: `MARI-2026-11-05-HHMMSS: verified 10/10 rate=1.00 cost=US$0.3391 ...`
-2. Open the PDF `data/raw/MARI/2025-08-25_MarimacaOxide_FS_NI43-101.pdf` in Preview and leave
+   (the first run takes a second or two to extract 361 pages; later runs are instant).
+4. Open the PDF `data/raw/MARI/2025-08-25_MarimacaOxide_FS_NI43-101.pdf` in Preview and leave
    it open. You will jump to PDF page **329** (printed "Page 304") and PDF page **55** (printed
    "Page 30"). Use Preview's "Go to Page" with the PDF index, not the printed number.
-3. Open `data/runs/<the run id>/note.md` in VS Code with Markdown preview (Cmd+Shift+V) so the
+5. Open `data/runs/<the run id>/note.md` in VS Code with Markdown preview (Cmd+Shift+V) so the
    tables render. Keep the raw file in a second tab for the footnotes.
-4. Open `SPEC.md` scrolled to §1 "Intent".
-5. Check `make lint test` is green (87 passed, 1 skipped). Do not run anything with
+6. Open `SPEC.md` scrolled to §1 "Intent".
+7. Check `make lint test` is green (87 passed, 1 skipped). Do not run anything with
    `--provider anthropic` during the demo; it spends money and takes 40 seconds.
-6. Have `reports/audit.md` open in a tab for the questions section.
+8. Have `reports/audit.md` open in a tab for the questions section.
 
 ---
 
@@ -198,6 +210,9 @@ results summary. Roughly four weeks of sessions per the spec.
 
 ## If something breaks
 
+- `error: data/raw/MARI/...pdf not found`: run `make fetch-mari` (needs internet). If the
+  site is down, copy the PDF from another machine to that exact path; the sha256 in the
+  Makefile tells you whether it is the same file.
 - Replay fails (missing fixture): the recorded response lives in
   `tests/fixtures/llm/1bc990a873026319.json`; check that file exists and that `--provider fake`
   is on the command. The request key depends on the prompt file and the extracted pages, so do
