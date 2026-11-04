@@ -1,0 +1,19 @@
+{
+  "parsed": {
+    "answer": "Blue"
+  },
+  "raw_text": "{\"answer\":\"Blue\"}",
+  "usage": {
+    "input_tokens": 236,
+    "output_tokens": 13,
+    "cache_read_input_tokens": 0
+  },
+  "model": "claude-sonnet-5-5",
+  "request": {
+    "system": "Answer with one word.",
+    "user": "What colour is the sky on a clear day?",
+    "schema": "Answer",
+    "effort": "low"
+  },
+  "cost_usd": 0.000602
+}
