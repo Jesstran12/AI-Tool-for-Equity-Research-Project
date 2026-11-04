@@ -10,11 +10,23 @@ uv sync
 cp .env.example .env   # add ANTHROPIC_API_KEY for live runs
 ```
 
-## Run
+## Run on a fresh clone (no company data needed)
 
 ```
-uv run orebody run MARI --as-of 2026-11-05 --spot 4.50 --deck-a 3.50 --deck-b 5.00
-uv run orebody run MARI --as-of 2026-11-05 --spot 4.50 --provider fake   # replay the recording
+make demo-data   # builds the synthetic company FIX under data/raw/FIX/
+uv run orebody run FIX --as-of 2026-11-05 --spot 4.50 --deck-a 3.50 --deck-b 5.00 --provider fake
+```
+
+## Run on Marimaca (MARI)
+
+Company PDFs are never committed. `data/raw/MARI/manifest.yaml` is in the repo; download the
+NI 43-101 Feasibility Study technical report (effective 2025-08-25, filed 2025-10-09) from
+marimaca.com or SEDAR+ and save it as `data/raw/MARI/2025-08-25_MarimacaOxide_FS_NI43-101.pdf`.
+Then:
+
+```
+uv run orebody run MARI --as-of 2026-11-05 --spot 6.71 --deck-a 3.50 --deck-b 5.00 --provider fake   # replays the recorded response
+uv run orebody run MARI --as-of 2026-11-05 --spot 6.71 --deck-a 3.50 --deck-b 5.00                   # live (needs ANTHROPIC_API_KEY)
 ```
 
 Inputs: `data/raw/<TICKER>/manifest.yaml` plus the technical report PDF it names.

@@ -1,0 +1,61 @@
+# Marimaca Copper Corp — demo company for the 2026-11-05 slice.
+# Documents downloaded 2026-11-04 from marimaca.com (company website, public filings).
+# filing_date values marked "approx" were taken from the website upload month; confirm on SEDAR+ if an as-of cutoff lands near them.
+ticker: MARI
+exchange: TSX
+name: Marimaca Copper Corp.
+flagship_project: Marimaca Oxide Deposit
+primary_commodity: Cu
+by_products: []
+jurisdiction: {country: Chile, region: Antofagasta}
+reporting_currency: USD   # verify on the financial statements cover page
+documents:
+  - file: 2025-08-25_MarimacaOxide_FS_NI43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2025-08-25
+    filing_date: 2025-10-09
+    title: "Marimaca Oxide Deposit Project NI 43-101 Technical Report & Feasibility Study"
+    project: Marimaca Oxide Deposit
+  - file: 2025-12-31_FS_annual-2025.pdf
+    type: annual_financials
+    standard: none
+    effective_date: 2025-12-31
+    filing_date: 2026-03-30
+    title: "Consolidated financial statements, year ended 31 December 2025"
+  - file: 2025-12-31_MDA_annual-2025.pdf
+    type: mdna
+    standard: none
+    effective_date: 2025-12-31
+    filing_date: 2026-03-30
+    title: "MD&A, year ended 31 December 2025"
+  - file: 2026-03-30_AIF-2025.pdf
+    type: aif
+    standard: none
+    effective_date: 2025-12-31
+    filing_date: 2026-03-30
+    title: "Annual Information Form, 30 March 2026"
+  - file: 2026-06-30_FS_Q2-2026.pdf
+    type: quarterly_financials
+    standard: none
+    effective_date: 2026-06-30
+    filing_date: 2026-08-14   # approx
+    title: "Condensed interim financial statements, Q2 2026"
+  - file: 2026-06-30_MDA_Q2-2026.pdf
+    type: mdna
+    standard: none
+    effective_date: 2026-06-30
+    filing_date: 2026-08-14   # approx
+    title: "MD&A, Q2 2026"
+  - file: 2026-10-01_news_project-updates.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-10-01
+    filing_date: 2026-10-01
+    title: "Marimaca announces project updates"
+  - file: 2026-11-01_presentation_corporate-nov-2026.pdf
+    type: presentation
+    standard: none
+    effective_date: 2026-11-01
+    filing_date: 2026-11-01   # approx
+    title: "Corporate presentation, November 2026"

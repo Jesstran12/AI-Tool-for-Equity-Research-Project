@@ -111,3 +111,33 @@ def test_run_without_manifest_errors(tmp_path: Path) -> None:
         ],
     )
     assert result.exit_code != 0
+
+
+def test_demo_data_runs_on_fresh_clone(tmp_path: Path) -> None:
+    # A fresh clone has no data/: `make demo-data` must create a runnable FIX company whose
+    # recorded fixture is committed under tests/fixtures/llm/.
+    from tests.fixtures.make_demo_data import make_demo_data
+
+    data_dir = tmp_path / "data"
+    make_demo_data(data_dir)
+    assert (data_dir / "raw" / "FIX" / "manifest.yaml").exists()
+    result = CliRunner().invoke(
+        app,
+        [
+            "run",
+            "FIX",
+            "--as-of",
+            "2026-11-05",
+            "--spot",
+            "4.50",
+            "--provider",
+            "fake",
+            "--data-dir",
+            str(data_dir),
+            "--fixtures",
+            str(ROOT / "tests" / "fixtures" / "llm"),
+        ],
+        catch_exceptions=False,
+    )
+    assert result.exit_code == 0, result.output
+    assert "verified 10/10" in result.output

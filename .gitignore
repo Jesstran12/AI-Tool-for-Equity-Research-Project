@@ -1,4 +1,7 @@
-data/
+data/**
+!data/raw/
+!data/raw/*/
+!data/raw/*/manifest.yaml
 *.sqlite
 .env
 .venv/
