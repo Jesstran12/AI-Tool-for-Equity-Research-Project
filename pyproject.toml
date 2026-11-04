@@ -1,0 +1,33 @@
+[project]
+name = "orebody"
+version = "0.0.1"
+description = "AI-generated, source-linked equity research notes for under-covered copper juniors"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2",
+    "pymupdf",
+    "pyyaml",
+    "typer",
+    "anthropic",
+]
+
+[project.scripts]
+orebody = "orebody.cli:app"
+
+[dependency-groups]
+dev = ["pytest", "ruff"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/orebody"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["live: calls the live Anthropic API; skipped without ANTHROPIC_API_KEY"]

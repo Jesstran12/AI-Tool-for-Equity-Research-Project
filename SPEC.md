@@ -1,0 +1,449 @@
+# Orebody — Specification and Feature Log
+
+> **Session protocol.** Every session: (1) read §0 "Current state" and the last §12 session-log entry; (2) pick the first `TODO` feature in §11 unless Current state says otherwise; (3) build it per CLAUDE.md; (4) set its status, update §0, append a §12 entry, commit with the code. Status values: `TODO` · `IN PROGRESS` · `DONE` · `BLOCKED(reason)` · `DEFERRED`. Never delete a feature; mark it `DEFERRED` and say why.
+
+## 0. Current state
+
+- **Phase:** D (demo slice for 2026-11-05) — see `DEMO_PLAN.md`; after the demo, return to F0.2
+- **Last completed feature:** none
+- **Next feature:** D1 Scaffold (DEMO_PLAN.md Task 1); Task 0 prerequisites are Son Ha's
+- **Blockers:** API key check only (DEMO_PLAN.md Task 0; MARI documents are in place)
+- **Universe status:** proposed in §10, not yet confirmed. Foran (FOM) removed 2026-11-04 (acquired by Eldorado Gold, closed 2026-04-14). Pilots are now MARI (demo company, documents collected), SLS, FDY. MARI drop folder complete: technical report (361 pp), FY2025 FS + MD&A, AIF 2026, Q2 2026 FS + MD&A, Oct 2026 news, Nov 2026 presentation.
+- **Spend to date:** US$0 of ≈ US$50 (D43)
+
+## 1. Intent
+
+Build the proof of concept named in the proposal's "Proposed next steps": a technical-report parser plus a five-agent pipeline that writes a five-section, fully source-linked research note for ~10 listed copper companies, with every number traceable to a page in a company filing, and the NPV rebuilt and re-priced rather than quoted. The audience for the PoC is a professor deciding whether this becomes a supervised project (independent study or thesis, spring 2027). The audience for the notes is a trading desk or resource investor who will throw the note away on the first wrong capex figure.
+
+The evidence base is Francis & Zhang (2026): a four-agent GPT-4o/CrewAI system produced reports that general-population evaluators rated above Value Line (8.13 vs 6.64, 77% preference, n=194 pairs), finance grad students were split (51%, underpowered), LLM judges were unstable (48–96% by model), and no strategy generated alpha. The product therefore sells synthesis, speed, and coverage, never returns. What the paper did not measure, and what this PoC adds, is **factual accuracy**, via a Verifier agent and a claims ledger.
+
+## 2. Goals, non-goals, anti-goals
+
+**Goals (PoC, ~4 weeks of sessions)**
+- G1. Generate a five-section note for each company in the universe from hand-collected filings, with every number and named fact in a claims ledger linked to document + page + quoted snippet.
+- G2. Rebuild NPV parametrically from disclosed inputs; re-price at spot and user decks; print the gap vs the company's stated NPV.
+- G3. Two-tier verification (deterministic matcher, then LLM) with an honest, measured flag rate. Stage 1 pass condition from the proposal: Verifier flags under 5% of figures; manual audit of notes finds no unsupported capex, NPV, or resource figure.
+- G4. A local dashboard: company list, run trigger, split-view note + PDF page viewer with snippet highlight, ledger table, run trace, blinded compare, live re-pricing.
+- G5. Full reproducibility and cost accounting per run, so the pipeline can later be the subject of the Stage 2 expert evaluation.
+- G6. Deliverable for the professor: live dashboard demo, one exported PDF per company, and an auto-generated results summary (verification rate, cost, time per note, judge scores).
+
+**Non-goals (PoC)**
+- Automated fetching from SEDAR+/EDGAR (manual drop folder only).
+- Web search by agents.
+- Refresh-on-filing automation, subscriptions, auth, multi-user, hosting.
+- Full annual cash-flow DCF, NSR/TC-RC modelling, multi-metal NPV.
+- Commodities beyond copper (zinc/nickel by-products are handled only as disclosed credits).
+- The Stage 2 evaluator-recruitment interface and statistics (the blinded compare view is a seed for it, not the thing).
+
+**Anti-goals (would make this a failure even if it "works")**
+- A number in a note that cannot be traced to a page.
+- An invented economic estimate for a company that has not published one.
+- A note that reads as an investment recommendation or carries a return claim.
+- A pipeline whose output cannot be re-run and compared because prompts, model, or inputs were not recorded.
+- LLM-judge scores presented as evidence of quality.
+
+## 3. Decisions log
+
+| ID | Decision | Source |
+|----|----------|--------|
+| D1 | Repo's first life is the PoC for the professor; research artifact, not a product. | user |
+| D2 | Documents arrive via a manual drop folder `data/raw/<TICKER>/` with a `manifest.yaml`; no scraping. | user |
+| D3 | NPV is rebuilt parametrically; reconciliation line vs company NPV is mandatory; company sensitivity table is a cross-check; annual-schedule DCF is a backlog feature. | user (on my recommendation) |
+| D4 | Hand-rolled Python orchestrator on the Anthropic SDK; thin provider interface so another vendor's model can be plugged in (for self-preference checks). | user |
+| D5 | Dashboard = FastAPI backend + Next.js frontend. | user |
+| D6 | PDF parsing = PyMuPDF text per page + section index keyed to NI 43-101 items / S-K 1300 sections; vision-model fallback only for pages whose tables extract as garbage. | user |
+| D7 | Verifier failure after max revision rounds → note is still released with failed claims visibly flagged; flag rate is a first-class metric. | user |
+| D8 | Verifier is two-tier: deterministic number/entity matcher on the cited page first, LLM second. | user |
+| D9 | Claim scope = every number and every named fact (entities, jurisdictions, permits, stage, dates). Section 5 analytical sentences are tagged `synthesis` and exempt. | user |
+| D10 | Citation = document id + page + exact quoted snippet; viewer opens the PDF at the page and highlights the snippet by text search. | user |
+| D11 | One note per company; flagship project named in the manifest; other projects get one line in the snapshot. | user |
+| D12 | No economic study → Section 3 is an explicit "no economics disclosed" block with in-situ metal value at spot (labelled not a valuation) plus runway. | user |
+| D13 | Prices: free delayed proxies via yfinance (COMEX HG=F for copper, plus configured proxies for Zn/Ni/Au/Ag) with `config/prices.yaml` manual override; every note records price, source, timestamp. | user |
+| D14 | Normalize all figures to USD and metric at the FX rate stated in the source report (fallback: `config/fx.yaml`); keep original value/unit in the ledger; flag technical reports older than 24 months. | user |
+| D15 | Every run has a hard `as_of` date; documents dated after it are excluded and the exclusion logged; price deck is as of that date. | user |
+| D16 | Notes are author-agnostic (`author: agent | human`); hand-written comparator notes use the same schema, ledger, and viewer. | user |
+| D17 | LLM-judge harness exists as a regression tool using the paper's rubric + accuracy; never used for product claims. | user |
+| D18 | Budget envelope ≈ US$2 and ≈10 minutes per note. | user |
+| D19 | Split-view note page: note left, PDF right, click-to-jump with highlight. | user |
+| D20 | Live re-pricing in the dashboard via a pure-Python NPV endpoint; released note freezes base/spot/two default decks. | user |
+| D21 | Dashboard views: company list + run trigger; claims ledger with filters; run trace; blinded compare. | user |
+| D22 | Deliverable: dashboard demo + exported PDF notes + results summary. | user |
+| D23 | No web search; the drop folder is the universe of truth. | user |
+| D24 | Agents emit structured JSON (fields + claims array); Markdown is rendered by code, never by the model. | user |
+| D25 | Stance = `Favourable / Neutral / Unfavourable on disclosed fundamentals`, no price target, no return forecast, fixed disclaimer in every note. | user |
+| D26 | Storage = SQLite + files under `data/`; no Docker. | user |
+| D27 | Ports: API **8114**, web **3014**. | user |
+| D28 | Solo repo; SPEC.md and CLAUDE.md committed. | user |
+| D29 | Ground rules: uv + ruff + pytest, TDD; pure-function core without LLM calls; reproducible runs with versioned prompts; small per-feature commits, no credit lines, SPEC.md updated in the same commit. | user |
+| D30 | Universe proposed by Claude (§10), to be confirmed/edited by Son Ha. | user |
+| D31 | Models tiered: Project Analyst, Advisor, vision fallback, renderer-free = `claude-sonnet-5-5`; Financial Analyst and tier-2 Verifier = `claude-opus-5-5`. Per-agent model is config; a single-model run is one flag. | user |
+| D32 | Section 4 = disclosed offtake/stream/royalty terms + computed uncommitted share of planned production; no NSR modelling. | user |
+| D33 | Human overrides (mark claim verified, fix value, override stage/flagship) stored separately from agent output, in a later phase. | user |
+| D34 | Max revision rounds = 3. | my call |
+| D35 | Staleness flag threshold = 24 months from technical report effective date. | my call |
+| D36 | "Deterministic" means: pinned model ids, fixed `effort`, versioned prompts, hashed inputs, full logs. Current Claude models reject `temperature`; reruns are *compared*, never assumed byte-identical. | my call (corrects the "temperature 0" ground rule) |
+| D37 | Agent context is section-targeted, never the whole report: the Financial Analyst sees Items 1, 21, 22 (+19 for offtake, +4 for royalties); the Project Analyst sees Items 1, 4, 14, 15, 16, 20, 24, 25, 26 plus MD&A/news. This is how the $2 budget is met. | my call |
+| D38 | Structured outputs via `output_config.format` with a JSON schema per agent; no prefill. | my call |
+| D39 | Tier-1 matcher normalizes scale (M/B/k, Mlb/kt), thousands separators, currency symbols, and tolerates rounding to the precision printed in the source. | my call |
+| D40 | Vision fallback model = `claude-sonnet-5-5` on a rendered page image at 150 dpi; triggered when a page's table-density heuristic says "table" but text extraction yields < N numeric tokens or broken row alignment. | my call |
+| D41 | Pilot companies = Marimaca (MARI, demo company) and Solaris (SLS); documents collected by hand (F1.0) so real filings exist for Phase 2 fixtures and the first live run. Third pilot = Faraday (FDY), for the staleness-flag path. Foran was dropped on 2026-11-04: acquired by Eldorado Gold (closed 2026-04-14), shares delisted. | user; revised after web check |
+| D42 | Cut line: after the CLI phase, run the three pilots end-to-end and keep them demo-ready (F7.5). If time runs short, cut in this order: judges (Phase 10) → secondary dashboard pages (ledger, trace, compare) → company count. Company count is cut last. | user |
+| D43 | Total API spend ceiling ≈ US$50. Pilots may be run several times; the remaining companies get one pass each; judges on a subset (pilots + up to 2 more). Every live response is recorded as a `FakeProvider` fixture so fixes replay offline. Cumulative spend is printed by `orebody summary`. | user |
+| D44 | Son Ha hand-writes comparator notes (same template, same claims format) for MARI and SLS; the compare page shows agent vs human, blinded. | user |
+| D45 | S-K 1300 section index (F2.2) is DEFERRED: no company in the universe files under S-K 1300. Revived if a US filer is added. | my call (reviewer finding) |
+
+## 4. The note
+
+### 4.1 Template (fixed, five sections)
+
+| # | Section | Required fields (each a ledgered claim unless marked) | Owner agent |
+|---|---------|------------------------------------------------------|-------------|
+| 1 | Project snapshot | commodity(ies); jurisdiction (country, region); stage ∈ {exploration, PEA, PFS, FS, construction, production}; flagship project name; resource tonnage/grade/contained metal by category (M&I, Inferred); reserves (P&P) if any; mine life; other projects (one line each) | Project Analyst |
+| 2 | Capital structure & funding | cash; debt; quarterly burn (computed from two balance dates, derivation shown); runway in quarters (computed); recent raises (date, amount, instrument); major shareholders (>5% if disclosed); streams/royalties (counterparty, %/rate, scope) | Financial Analyst |
+| 3 | Economics | initial capex; sustaining capex; C1 and/or AISC; company base-case price; company NPV (rate) and IRR; **rebuilt NPV at base, spot, deck A, deck B** (computed); **reconciliation gap %** (computed); payback; sensitivity-table cross-check if present. If stage = exploration with no study: "No economic study disclosed" block + in-situ value at spot (computed, labelled) | Financial Analyst |
+| 4 | Offtake & commercial terms | offtake agreements (counterparty, product, tonnage or %, term, pricing basis if disclosed); TC/RC exposure statement for concentrate producers (disclosed terms only); streams/royalties cross-referenced; **uncommitted share of planned production** (computed) | Financial Analyst |
+| 5 | Catalysts, risks, view | catalysts (dated where disclosed); risks; stance ∈ {Favourable, Neutral, Unfavourable} "on disclosed fundamentals"; one-paragraph thesis citing only ledgered facts; fixed disclaimer | Investment Advisor |
+
+Header on every note: company, ticker, exchange, as-of date, author (hidden in blinded views), verification rate, flagged count, price deck used, pipeline version, report-age flag.
+
+### 4.2 Fixed disclaimer (verbatim in every note and PDF)
+
+> This note is an automated synthesis of the company's public disclosures as of the stated date. It is not investment advice, contains no forecast of returns, and the stance expressed describes disclosed fundamentals only. Every figure links to its source page; figures marked "unverified" could not be matched to a source and should not be relied on.
+
+### 4.3 Claim schema
+
+```
+claim_id        uuid
+note_id         fk
+section         1..5
+field           e.g. "initial_capex"
+claim_type      number | entity | date | synthesis
+value_norm      float|str      (USD, metric)
+unit_norm       str            (USD_M, t, kt, Mlb, pct, g_t, years, ...)
+value_orig      str            (as printed)
+unit_orig       str
+currency_orig   str|null
+fx_rate_used    float|null
+doc_id          fk|null        (null only for synthesis)
+page            int|null       (1-indexed)
+quote           str|null       (exact snippet, ≤ 300 chars)
+tier1_status    pass | fail | na
+tier2_status    pass | fail | skipped
+final_status    verified | unverified | synthesis
+revision_round  int
+override_id     fk|null        (Phase L1)
+```
+
+### 4.4 Verification statuses
+- `verified`: tier-1 pass, or tier-1 fail + tier-2 pass.
+- `unverified`: both tiers fail after the final revision round. Rendered with a visible tag.
+- `synthesis`: exempt; must not contain a number that is not also a verified claim elsewhere in the note (renderer check).
+
+## 5. Architecture
+
+### 5.1 Components
+
+```
+data/raw/<TICKER>/            PDFs + manifest.yaml        (gitignored)
+data/pages/<doc_id>/NNN.txt   extracted text per page     (gitignored, derived)
+data/runs/<run_id>/           every prompt/response, timings, cost (gitignored)
+orebody.sqlite                companies, documents, runs, notes, claims, judge_scores, overrides
+src/orebody/
+  ingest/      manifest loader, PyMuPDF extraction, hashing, as-of filter
+  index/       NI 43-101 / S-K 1300 section index, table-garble detector, vision fallback
+  core/        units.py, fx.py, npv.py, insitu.py, prices.py, matcher.py   (pure, no LLM)
+  llm/         provider.py (interface), anthropic_provider.py, fake_provider.py, logging, cost
+  agents/      manager.py, project_analyst.py, financial_analyst.py, advisor.py, verifier.py, schemas.py
+  render/      markdown.py, pdf.py
+  judge/       rubric.py, runner.py
+  api/         FastAPI app
+  cli.py
+prompts/       one .md per agent, with a version header
+config/        models.yaml, prices.yaml, fx.yaml, sections.yaml
+web/           Next.js app
+tests/         pytest; fixtures/ holds small hand-built PDFs and recorded LLM responses
+```
+
+### 5.2 Data flow (one run)
+
+1. `orebody run <TICKER> --as-of YYYY-MM-DD [--deck-a X --deck-b Y]`
+2. Load manifest; exclude documents dated after as-of (log them); hash included documents.
+3. Ensure pages are extracted and the section index exists for each technical report.
+4. Resolve price deck: spot from `core/prices.py` (yfinance, as-of close, or override), deck A/B from CLI or config defaults.
+5. Manager builds task contexts (section-targeted page text) and calls, in order: Project Analyst → Financial Analyst → Investment Advisor. Each returns a structured object validated against its schema.
+6. Financial Analyst's numeric outputs go through `core/npv.py`; computed claims are ledgered with `doc_id = null`, `claim_type = number`, and a `derivation` string listing the input claim ids.
+7. Verifier tier 1 runs on every non-synthesis claim; tier 2 (LLM) runs on tier-1 failures and on all entity/date claims.
+8. If any claim fails and `round < 3`: Manager re-calls the owning agent with the failed claims and the Verifier's reason; go to 7.
+9. Renderer produces Markdown from the structured note; renderer check ensures no unledgered number appears in prose.
+10. Persist note, claims, stats; write run trace and cost.
+
+### 5.3 Agents
+
+| Agent | Model (config) | Input | Output schema | Notes |
+|-------|----------------|-------|---------------|-------|
+| Strategy Manager | none (code) | manifest, index, config | — | Pure orchestration; builds contexts, enforces template, runs the revision loop. Not an LLM. |
+| Project Analyst | sonnet-5-5 | Items 1, 4, 14, 15, 16, 20, 24–26 text; MD&A; news releases | `Section1`, `CatalystsRisks` (feeds §5) | Stage classification must cite the sentence that justifies it. |
+| Financial Analyst | opus-5-5 | Items 1, 19, 21, 22 (+4 for royalties); financial statements; MD&A | `Section2`, `EconInputs`, `Section4` | Emits NPV *inputs* only; NPV itself is computed in code. |
+| Investment Advisor | sonnet-5-5 | Sections 1–4 structured objects only | `Section5` | May not introduce new facts; may only reference claim ids. |
+| Verifier (tier 2) | opus-5-5 | one claim + the cited page text (±1 page) | `{status, reason, suggested_quote?}` | Prompt forbids using outside knowledge. |
+| Vision fallback | sonnet-5-5 | page image | page text (Markdown table) | Only on flagged pages; output cached to `data/pages`. |
+
+Prompts live in `prompts/<agent>.md` with a `version:` header. A run records every prompt version.
+
+### 5.4 Provider interface
+
+`LLMProvider.complete(messages, schema, model, effort) -> (parsed, raw, usage)`. `AnthropicProvider` uses the official SDK with `output_config.format`, adaptive thinking default, server-side fallbacks enabled, streaming for long outputs. `FakeProvider` replays recorded JSON from `tests/fixtures/llm/` keyed by a hash of the request, so the whole pipeline runs in tests without a key. Adding a second vendor = one new class.
+
+### 5.5 Reproducibility & cost
+Each run stores: pipeline git SHA, model ids, effort levels, prompt versions, document hashes, as-of, price deck + source + timestamp, FX, every request/response, token usage, USD cost (from a `config/models.yaml` price table), wall time per agent. `orebody diff-runs A B` compares two runs' claims.
+
+### 5.6 Database (SQLite)
+
+`companies`, `documents` (doc_id, ticker, type, date, standard, path, sha256, pages), `runs`, `notes`, `claims`, `judge_scores`, `overrides`, `prices` (as-of cache). Schema managed by plain SQL migration files under `src/orebody/db/migrations/`.
+
+## 6. Data inputs
+
+### 6.1 Drop folder & manifest
+
+```
+data/raw/FOM/
+  manifest.yaml
+  2022-02-28_McIlvennaBay_FS_NI43-101.pdf
+  2026-02-19_news_operations_update.pdf
+  2025-12-31_FS_annual.pdf
+  2026-03-31_MDA_Q1.pdf
+```
+
+```yaml
+ticker: FOM
+exchange: TSX
+name: Foran Mining Corporation
+flagship_project: McIlvenna Bay
+primary_commodity: Cu
+by_products: [Zn, Au, Ag]
+jurisdiction: {country: Canada, region: Saskatchewan}
+reporting_currency: CAD
+documents:
+  - file: 2022-02-28_McIlvennaBay_FS_NI43-101.pdf
+    type: technical_report        # technical_report | annual_financials | quarterly_financials | mdna | aif | news_release | presentation
+    standard: NI43-101            # NI43-101 | SK1300 | JORC | none
+    effective_date: 2022-02-28
+    filing_date: 2022-03-15
+    title: "McIlvenna Bay Feasibility Study"
+    project: McIlvenna Bay
+```
+
+`filing_date` is what the as-of filter uses; `effective_date` drives the staleness flag.
+
+### 6.2 Section index
+
+`config/sections.yaml` maps NI 43-101 Items 1–27 and S-K 1300 §229.601(b)(96) sections to regex heading patterns. The indexer finds each item's start page by heading match + table-of-contents cross-check and stores `(doc_id, item, start_page, end_page)`. Items not found are logged; agents receive what was found plus the TOC pages.
+
+### 6.3 Prices & FX
+`core/prices.py`: `spot(commodity, as_of) -> Price(value, unit, source, timestamp)`. Order: `config/prices.yaml` override → yfinance proxy (HG=F copper; others configured) → error. FX: report-stated rate from the Financial Analyst's `EconInputs.fx_stated` claim → `config/fx.yaml` → error. Units: copper always shown in USD/lb and USD/t.
+
+## 7. NPV engine (`core/npv.py`, pure)
+
+Inputs (all from ledgered claims or explicit defaults recorded in the note):
+`mine_life_years`, `annual_payable_metal` (t), `price` (USD/t), `unit_cost` (USD/t, C1 net of by-products if disclosed, else AISC), `initial_capex` (USD M), `sustaining_capex_total` (USD M, spread evenly over production years), `construction_years` (default 2, capex spread evenly), `ramp_up_year1_fraction` (default 0.7), `tax_rate` (effective; from report, default 0.30 flagged), `discount_rate` (from report, usually 0.08).
+
+Outputs: `npv`, `irr`, `payback_years`, annual cash-flow table (for the trace). Run at base, spot, deck A, deck B. `reconciliation_gap = (npv_rebuilt_base - npv_company) / npv_company`. If a sensitivity table exists, compare rebuilt-at-each-price to the table's values and report max deviation.
+
+Explorers: `core/insitu.py`: Σ(tonnes × grade × price) by category, labelled "in-situ value, not a valuation".
+
+Tests: hand-computed fixtures (3 synthetic projects), IRR bracket test, zero-mine-life edge, negative NPV, sustaining-capex spreading.
+
+## 8. Dashboard
+
+### 8.1 API (FastAPI, port 8114)
+`GET /companies` · `GET /companies/{ticker}` · `POST /runs` {ticker, as_of, deck_a, deck_b} (background task, returns run_id) · `GET /runs/{id}` (status, stats) · `GET /runs/{id}/trace` · `GET /notes/{id}` (structured + markdown) · `GET /notes/{id}/claims?status=&section=&tier=` · `GET /documents/{id}/file` (PDF) · `GET /documents/{id}/pages/{n}` (text) · `POST /npv` (inputs → outputs, no LLM) · `POST /judge/{note_id}` · `GET /judge/{note_id}` · `GET /compare?a=&b=` (labels stripped) · `GET /notes/{id}/export.pdf`.
+
+### 8.2 Pages (Next.js, port 3014)
+- `/` companies: ticker, name, stage, docs count, last run, verification rate, [Run] button with as-of + decks.
+- `/notes/[id]` split view (D19): left = rendered note with clickable claims (verified = underline, unverified = red tag, synthesis = plain); right = pdf.js viewer at the cited page with text-layer highlight of `quote`; bottom-right = claim card (status, tiers, original value/unit, derivation for computed claims). Price-deck panel (D20) with inputs for spot/deck A/deck B recomputes Section 3 numbers live.
+- `/notes/[id]/ledger` table with filters and CSV export.
+- `/runs/[id]` trace: timeline of agent calls, each expandable to prompt/response/usage/cost; revision rounds shown as groups.
+- `/compare` two notes side by side, author hidden, with a reveal toggle and judge scores below.
+
+## 9. Evaluation harness
+
+`orebody judge <note_id> --models m1,m2`: each judge model receives the anonymized note Markdown and scores 1–10 on clarity/structure, depth, data relevance, logical consistency, actionable insight (the paper's five) plus **factual accuracy** (judge is given the ledger with statuses), and returns a short justification. Scores stored per (note, model, rubric_version). `orebody summary` writes `reports/summary.md`: per-company verification rate, tier-1 pass rate, unverified count by section, cost, wall time, judge scores, reconciliation gap.
+
+## 10. PoC universe (PROPOSED — confirm or edit)
+
+Copper-primary, listed, spanning stages. Status as of early Nov 2026 web checks; **verify each is still listed and which technical report is current before collecting documents**.
+
+| # | Company | Ticker | Flagship | Stage (believed) | Note |
+|---|---------|--------|----------|------------------|------|
+| 1 | Kodiak Copper | KDK.V | MPD, BC | Exploration (resource, no study) | tests D12 path |
+| 2 | Faraday Copper | FDY.TO | Copper Creek, AZ | PEA (2023) | old report → staleness flag |
+| 3 | Hot Chili | HCH.AX / HCH.TO | Costa Fuego, Chile | PFS | ASX + TSX dual filer |
+| 4 | Los Andes Copper | LA.V | Vizcachitas, Chile | PFS (2023) | |
+| 5 | Solaris Resources | SLS.TO | Warintza, Ecuador | PFS (Nov 2025) | Royal Gold stream, Zijin stake → tests §2/§4 |
+| 6 | Marimaca Copper | MARI.TO | Marimaca Oxide, Chile | DFS (Aug 2025) | SX-EW cathode, no concentrate |
+| 7 | Western Copper and Gold | WRN.TO | Casino, Yukon | FS (2022) | Cu-Au-Mo, large capex |
+| 8 | Highland Copper | HI.V | Copperwood, MI | FS (2023) | US project, NI 43-101 filer |
+| 9 | NGEx Minerals | NGEX.TO | Lunahuasi, Argentina | Exploration (no resource/study) | replaces Foran; construction stage is covered by Taseko's Florence |
+| 10 | Taseko Mines | TKO.TO / TGB | Gibraltar + Florence, BC/AZ | Production (+ construction) | has sell-side coverage → acts as a covered control |
+
+Alternates: Ero Copper (ERO.TO, producer), Northern Dynasty (NDM.TO, Pebble). Excluded: Foran Mining (acquired by Eldorado Gold, Apr 2026), Arizona Sonoran (acquired by Hudbay, June 2026), Alta Copper (acquired by Fortescue, 2026), SolGold (acquired by Jiangxi, Mar 2026).
+
+## 11. Feature log
+
+Each feature: acceptance criteria (AC) are the definition of done. Status column is updated by the session that completes it.
+
+### Phase D — Demo slice (2026-11-05), detailed in `DEMO_PLAN.md`
+Built out of order so a professor demo exists on 2026-11-05. Each row maps to a later feature (right column); trimmed ones stay `IN PROGRESS` there after the demo.
+| ID | Feature | AC | Maps to | Status |
+|----|---------|----|---------|--------|
+| D0 | Demo company = MARI: report + manifest in `data/raw/MARI/`; API key available | files present (done); `ant auth status` or key set (pending) | F1.0 | IN PROGRESS |
+| D1 | Scaffold (uv, ruff, pytest, Makefile, gitignore) | `make lint test` green | F0.1 | TODO |
+| D2 | Manifest loader | tests | F1.1 | TODO |
+| D3 | PDF page extraction + synthetic fixture report | tests | F1.2 | TODO |
+| D4 | NI 43-101 item index | tests on fixture; Items 1/21/22 found on the real report | F2.1 (trimmed) | TODO |
+| D5 | Units parser | 12 parametrized rows + FX/lb conversions | F3.1 (trimmed) | TODO |
+| D6 | NPV engine | two hand-computed fixtures | F3.3 | TODO |
+| D7 | Tier-1 matcher | tests | F3.6 (trimmed) | TODO |
+| D8 | Provider interface, FakeProvider, AnthropicProvider, cost | fake tests + one live fixture | F4.1, F4.2 | TODO |
+| D9 | Financial Analyst agent, schemas, page-bounded context, prompt v1 | tests with fake fixtures | F5.3 (trimmed, Section 3 only) | TODO |
+| D10 | Tier-1 verification pass | tests | F6.1 | TODO |
+| D11 | Section 3 Markdown renderer with footnotes, reconciliation, disclaimer | tests | F5.6 (trimmed) | TODO |
+| D12 | `orebody run` CLI, fake end-to-end, first live note, `reports/audit.md` | live note with rate ≥ 0.8, cost ≤ US$2 | F7.1 (trimmed) | TODO |
+| D13 | SPEC.md log updated after the demo; §0 points back to F0.2 | this file | — | TODO |
+
+### Phase 0 — Scaffold
+| ID | Feature | AC | Status |
+|----|---------|----|--------|
+| F0.1 | Repo scaffold: `uv` project, `src/orebody`, `tests/`, `Makefile` (`make lint test`), `.gitignore` (data/, *.sqlite, .env, web/node_modules), `.env.example` | `make lint test` passes with one placeholder test | TODO |
+| F0.2 | Config loader + `config/models.yaml` (per-agent model + effort + USD prices), `config/sections.yaml`, `config/prices.yaml`, `config/fx.yaml` | typed config object, tests for defaults and override | TODO |
+| F0.3 | SQLite schema + migration runner (§5.6) | `orebody db init` creates all tables; tests | TODO |
+
+### Phase 1 — Ingestion
+| ID | Feature | AC | Status |
+|----|---------|----|--------|
+| F1.0 | **Pilot documents (by hand):** technical report, latest annual + quarterly financials, MD&A, and recent news for MARI and SLS into `data/raw/<TICKER>/` with a draft `manifest.yaml` (D41) | both folders exist; manifests list every file with dates | IN PROGRESS (MARI done 2026-11-04; SLS pending) |
+| F1.1 | Manifest loader + validation (§6.1) | bad manifest fails with a clear message; tests | TODO |
+| F1.2 | PyMuPDF page extraction → `data/pages/<doc_id>/NNN.txt`, sha256, page count, idempotent | fixture PDF extracts; re-run is a no-op | TODO |
+| F1.3 | As-of filter with exclusion log | docs after as-of excluded; log lists them; tests | TODO |
+| F1.4 | `orebody ingest <TICKER>` CLI | registers documents in DB | TODO |
+
+### Phase 2 — Technical report index
+| ID | Feature | AC | Status |
+|----|---------|----|--------|
+| F2.1 | NI 43-101 item index (heading regex + TOC cross-check) | on a fixture report, ≥ 20 of 27 items found with correct start pages | TODO |
+| F2.2 | S-K 1300 section index | same on an S-K 1300 fixture | DEFERRED (D45; see L11) |
+| F2.3 | Table-garble detector | precision/recall measured on 20 hand-labelled pages from the pilot reports, logged in tests | TODO |
+| F2.4 | Vision fallback (sonnet-5-5, page image → Markdown table), cached | flagged page re-extracts; cost logged | TODO |
+
+### Phase 3 — Deterministic core
+| ID | Feature | AC | Status |
+|----|---------|----|--------|
+| F3.1 | `core/units.py`: scale/unit/currency parsing and normalization (D39) | 40+ parametrized cases incl. "US$1,240 M", "C$1.2 billion", "412 Mt @ 0.48% Cu", "2.1 Blb", "g/t", "short tons" | TODO |
+| F3.2 | `core/fx.py` | stated-rate precedence, fallback, error | TODO |
+| F3.3 | `core/npv.py` (§7) | hand-computed fixtures match to 0.1%; IRR, payback | TODO |
+| F3.4 | `core/insitu.py` | fixture match | TODO |
+| F3.5 | `core/prices.py` with yfinance + override + as-of | override wins; as-of close used; offline test via recorded data | TODO |
+| F3.6 | `core/matcher.py` tier-1 verifier | finds normalized numbers and entity strings on page text; rounding tolerance; 30+ cases | TODO |
+
+### Phase 4 — LLM layer
+| ID | Feature | AC | Status |
+|----|---------|----|--------|
+| F4.1 | `LLMProvider` interface + `FakeProvider` replay | pipeline unit tests run without API key | TODO |
+| F4.2 | `AnthropicProvider` with structured output, logging to `data/runs/`, usage + cost accounting | one live smoke test (skipped without key) records request/response files and cost | TODO |
+| F4.3 | Prompt files with version headers + loader | run records prompt versions | TODO |
+
+### Phase 5 — Agents and note
+| ID | Feature | AC | Status |
+|----|---------|----|--------|
+| F5.1 | Pydantic schemas for Sections 1–5, EconInputs, Claim (§4.3) | schema round-trip tests | TODO |
+| F5.2 | Project Analyst (context assembly per D37, prompt, parse) | on fixture company with FakeProvider produces valid Section1 with claims | TODO |
+| F5.3 | Financial Analyst → EconInputs → `core/npv.py` → Section 3 with computed claims + reconciliation + sensitivity cross-check; Section 2 runway; Section 4 uncommitted share | fixture run yields all computed fields with derivations | TODO |
+| F5.4 | Investment Advisor constrained to claim ids; stance + disclaimer | advisor output referencing an unknown claim id fails validation | TODO |
+| F5.5 | Manager orchestration (sequential, state passing, run record) | end-to-end fixture run produces a note row | TODO |
+| F5.6 | Markdown renderer + unledgered-number check | renderer raises on a prose number not in ledger | TODO |
+
+### Phase 6 — Verification
+| ID | Feature | AC | Status |
+|----|---------|----|--------|
+| F6.1 | Tier-1 pass over all claims, statuses persisted | fixture: known-good claims pass, planted bad claim fails | TODO |
+| F6.2 | Tier-2 LLM verifier (opus-5-5) with page ±1 context, outside knowledge forbidden | FakeProvider tests; prompt reviewed | TODO |
+| F6.3 | Revision loop (max 3) re-calling the owning agent with failures | fixture: planted failure corrected in round 2; unresolved failure released as `unverified` | TODO |
+| F6.4 | Run stats: verification rate, tier-1 rate, unverified by section, cost, time | stored on run; `orebody run` prints them | TODO |
+
+### Phase 7 — CLI completeness
+| ID | Feature | AC | Status |
+|----|---------|----|--------|
+| F7.1 | `orebody run <TICKER> --as-of --deck-a --deck-b` | full live run on one real company | TODO |
+| F7.2 | `orebody export <note_id> --pdf` (citations as footnotes, disclaimer, unverified tags) | PDF opens; footnotes correct | TODO |
+| F7.3 | `orebody diff-runs A B` | claim-level diff output | TODO |
+| F7.4 | `orebody note import <markdown+claims.yaml> --author human` (D16) | human note stored and rendered identically | TODO |
+| F7.5 | **Pilot notes, demo-ready (D42):** collect SLS and FDY documents; run MARI, SLS, FDY live end-to-end; fix what breaks; record all live responses as fixtures; export PDFs | three released notes with stats; cumulative spend logged | TODO |
+
+### Phase 8 — API
+| ID | Feature | AC | Status |
+|----|---------|----|--------|
+| F8.1 | FastAPI app on 8114 with endpoints in §8.1, background run task | OpenAPI docs render; tests with TestClient | TODO |
+| F8.2 | PDF + page text serving, `/npv` pure endpoint | tests | TODO |
+
+### Phase 9 — Dashboard
+| ID | Feature | AC | Status |
+|----|---------|----|--------|
+| F9.1 | Next.js scaffold on 3014, API client, companies page with run trigger | lists companies, starts a run, shows status | TODO |
+| F9.2 | Note split view with pdf.js, click-to-jump, snippet highlight, claim card | clicking a claim lands on the right page with highlight for ≥ 90% of verified claims on a real note | TODO |
+| F9.3 | Ledger page with filters + CSV | works | TODO |
+| F9.4 | Run trace page | works | TODO |
+| F9.5 | Live re-pricing panel (D20) | NPV updates without an LLM call | TODO |
+| F9.6 | Blinded compare page with reveal toggle | works | TODO |
+
+### Phase 10 — Judges and summary
+| ID | Feature | AC | Status |
+|----|---------|----|--------|
+| F10.1 | Judge rubric + runner (§9), ≥ 2 models configurable | scores stored | TODO |
+| F10.2 | `orebody summary` → `reports/summary.md` | table generated from DB | TODO |
+
+### Phase 11 — The ten notes (the deliverable)
+| ID | Feature | AC | Status |
+|----|---------|----|--------|
+| F11.1 | Confirm universe; collect documents + manifests for the remaining 7 | all manifests validate | TODO |
+| F11.2 | Run the remaining 7 once each (D43); fix parser/prompt issues offline via fixtures; selective re-runs only | 10 notes released | TODO |
+| F11.3 | Manual audit of capex, NPV, resource figures on every note (recorded in `reports/audit.md`) | no unsupported capex/NPV/resource figure, or each exception documented | TODO |
+| F11.4 | **Human comparator notes (Son Ha, by hand, D44):** MARI and SLS in the note template with a claims file; import via F7.4 | two human notes in the DB, blinded compare works | TODO |
+| F11.5 | Judge pilots + up to 2 more (D43); export PDFs; `orebody summary`; demo script in `reports/demo.md` | deliverable complete | TODO |
+
+### Later (backlog, not scheduled)
+| ID | Feature | Why deferred |
+|----|---------|--------------|
+| L1 | Human overrides in dashboard (D33) | after core pipeline |
+| L2 | Annual cash-flow schedule DCF when disclosed | D3 |
+| L3 | Web fetch with URL + snapshot citations | D23 |
+| L4 | EDGAR API ingestion for S-K 1300 filers | D2 |
+| L5 | Postgres migration + hosted evaluator interface for Stage 2 | multi-user only |
+| L6 | NSR / TC-RC payability model | D32 |
+| L7 | Multi-metal NPV, by-product revenue lines | §7 single-metal |
+| L8 | Refresh-on-filing watcher | product feature |
+| L9 | Cross-vendor Verifier (self-preference check) | needs second API account; provider interface already allows it |
+| L10 | Zinc and nickel universes | after copper proves out |
+| L11 | S-K 1300 section index (was F2.2) | no S-K 1300 filer in the universe (D45) |
+
+## 12. Session log
+
+- **2026-11-04** — Interview completed; SPEC.md and CLAUDE.md written. No code. Next: F0.1.
+- **2026-11-04 (later)** — Professor demo moved to 2026-11-05. Wrote `DEMO_PLAN.md` (Phase D, 13 tasks, Section-3-only vertical slice for one company). §0 now points at D1; after the demo, resume at F0.2. No code yet.
+- **2026-11-04 (later still)** — Web check found Foran acquired by Eldorado Gold (closed 2026-04-14); removed from universe and pilots, NGEx added. Collected the MARI drop folder from marimaca.com (8 documents incl. the 361-page FS technical report, effective 2025-08-25, filed 2025-10-09) and wrote `data/raw/MARI/manifest.yaml`. Q3 2026 financials not yet posted. Demo company = MARI.
+
+## 13. Open questions
+
+- OQ1. Confirm the universe in §10 (status checks were web-search only).
+- OQ2. Whether any ASX-only filer (JORC) should be included; JORC reports have a different structure and the indexer in F2 covers only NI 43-101 and S-K 1300.
+- OQ3. Whether a non-Anthropic judge model/API account will be available for F10.1 (otherwise two Anthropic tiers are used and the limitation is noted in the summary).
+- OQ4. Demo date with the professor (not yet set; D42 cut order applies whenever it is).
+
+## 14. Risks (PoC-specific)
+
+| Risk | Mitigation in this spec |
+|------|-------------------------|
+| Section index misses items in oddly formatted reports | F2.1 AC measured on fixtures; agents also get TOC pages; log misses per document |
+| Tier-1 matcher false negatives from rounding/units | D39 tolerance; tier-2 catches the rest; stats separate the tiers |
+| Cost blows past $2 | D37 section targeting; cost logged per agent; `config/models.yaml` can drop tiers |
+| pdf.js text-layer highlight fails on scanned/odd PDFs | fallback: page jump only, claim card shows the quote |
+| Model nondeterminism undermines "reproducible" | D36: compare runs via `diff-runs`, report claim-level agreement |
