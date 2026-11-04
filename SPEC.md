@@ -4,12 +4,12 @@
 
 ## 0. Current state
 
-- **Phase:** D (demo slice for 2026-11-05) — see `DEMO_PLAN.md`; after the demo, return to F0.2
-- **Last completed feature:** none
-- **Next feature:** D1 Scaffold (DEMO_PLAN.md Task 1); Task 0 prerequisites are Son Ha's
-- **Blockers:** API key check only (DEMO_PLAN.md Task 0; MARI documents are in place)
+- **Phase:** D complete (demo slice built 2026-11-04 for the 2026-11-05 demo; see `DEMO_PLAN.md` and `reports/audit.md`). Resume the main plan at Phase 0.
+- **Last completed feature:** D13 (Phase D done: `orebody run MARI` produces a tier-1-verified Section 3 note; first live note 10/10 verified, US$0.34)
+- **Next feature:** F0.2 (config loader). F0.1, F1.1, F1.2, F3.3, F4.1, F4.2, F6.1 are DONE via Phase D; F2.1, F3.1, F3.6, F5.3, F5.6, F7.1 are IN PROGRESS with the demo-slice subset built.
+- **Blockers:** none. Demo fallback: `uv run orebody run MARI --as-of 2026-11-05 --spot 6.71 --deck-a 3.50 --deck-b 5.00 --provider fake` replays the recorded response.
 - **Universe status:** proposed in §10, not yet confirmed. Foran (FOM) removed 2026-11-04 (acquired by Eldorado Gold, closed 2026-04-14). Pilots are now MARI (demo company, documents collected), SLS, FDY. MARI drop folder complete: technical report (361 pp), FY2025 FS + MD&A, AIF 2026, Q2 2026 FS + MD&A, Oct 2026 news, Nov 2026 presentation.
-- **Spend to date:** US$0 of ≈ US$50 (D43)
+- **Spend to date:** US$0.34 of ≈ US$50 (D43) — one Opus 5.5 call on the MARI FS (US$0.3391) plus the D8 smoke test (US$0.0006)
 
 ## 1. Intent
 
@@ -296,25 +296,25 @@ Each feature: acceptance criteria (AC) are the definition of done. Status column
 Built out of order so a professor demo exists on 2026-11-05. Each row maps to a later feature (right column); trimmed ones stay `IN PROGRESS` there after the demo.
 | ID | Feature | AC | Maps to | Status |
 |----|---------|----|---------|--------|
-| D0 | Demo company = MARI: report + manifest in `data/raw/MARI/`; API key available | files present (done); `ant auth status` or key set (pending) | F1.0 | IN PROGRESS |
-| D1 | Scaffold (uv, ruff, pytest, Makefile, gitignore) | `make lint test` green | F0.1 | TODO |
-| D2 | Manifest loader | tests | F1.1 | TODO |
-| D3 | PDF page extraction + synthetic fixture report | tests | F1.2 | TODO |
-| D4 | NI 43-101 item index | tests on fixture; Items 1/21/22 found on the real report | F2.1 (trimmed) | TODO |
-| D5 | Units parser | 12 parametrized rows + FX/lb conversions | F3.1 (trimmed) | TODO |
-| D6 | NPV engine | two hand-computed fixtures | F3.3 | TODO |
-| D7 | Tier-1 matcher | tests | F3.6 (trimmed) | TODO |
-| D8 | Provider interface, FakeProvider, AnthropicProvider, cost | fake tests + one live fixture | F4.1, F4.2 | TODO |
-| D9 | Financial Analyst agent, schemas, page-bounded context, prompt v1 | tests with fake fixtures | F5.3 (trimmed, Section 3 only) | TODO |
-| D10 | Tier-1 verification pass | tests | F6.1 | TODO |
-| D11 | Section 3 Markdown renderer with footnotes, reconciliation, disclaimer | tests | F5.6 (trimmed) | TODO |
-| D12 | `orebody run` CLI, fake end-to-end, first live note, `reports/audit.md` | live note with rate ≥ 0.8, cost ≤ US$2 | F7.1 (trimmed) | TODO |
-| D13 | SPEC.md log updated after the demo; §0 points back to F0.2 | this file | — | TODO |
+| D0 | Demo company = MARI: report + manifest in `data/raw/MARI/`; API key available | files present; key in `.env` worked for the live run | F1.0 | DONE |
+| D1 | Scaffold (uv, ruff, pytest, Makefile, gitignore) | `make lint test` green | F0.1 | DONE |
+| D2 | Manifest loader | tests | F1.1 | DONE |
+| D3 | PDF page extraction + synthetic fixture report | tests | F1.2 | DONE |
+| D4 | NI 43-101 item index | tests on fixture; Items 1/21/22 found on the real report | F2.1 (trimmed) | DONE |
+| D5 | Units parser | 12 parametrized rows + FX/lb conversions | F3.1 (trimmed) | DONE |
+| D6 | NPV engine | two hand-computed fixtures | F3.3 | DONE |
+| D7 | Tier-1 matcher | tests | F3.6 (trimmed) | DONE |
+| D8 | Provider interface, FakeProvider, AnthropicProvider, cost | fake tests + one live fixture | F4.1, F4.2 | DONE |
+| D9 | Financial Analyst agent, schemas, page-bounded context, prompt v1 | tests with fake fixtures | F5.3 (trimmed, Section 3 only) | DONE |
+| D10 | Tier-1 verification pass | tests | F6.1 | DONE |
+| D11 | Section 3 Markdown renderer with footnotes, reconciliation, disclaimer | tests | F5.6 (trimmed) | DONE |
+| D12 | `orebody run` CLI, fake end-to-end, first live note, `reports/audit.md` | live note with rate ≥ 0.8, cost ≤ US$2 | F7.1 (trimmed) | DONE |
+| D13 | SPEC.md log updated after the demo; §0 points back to F0.2 | this file | — | DONE |
 
 ### Phase 0 — Scaffold
 | ID | Feature | AC | Status |
 |----|---------|----|--------|
-| F0.1 | Repo scaffold: `uv` project, `src/orebody`, `tests/`, `Makefile` (`make lint test`), `.gitignore` (data/, *.sqlite, .env, web/node_modules), `.env.example` | `make lint test` passes with one placeholder test | TODO |
+| F0.1 | Repo scaffold: `uv` project, `src/orebody`, `tests/`, `Makefile` (`make lint test`), `.gitignore` (data/, *.sqlite, .env, web/node_modules), `.env.example` | `make lint test` passes with one placeholder test | DONE (D1) |
 | F0.2 | Config loader + `config/models.yaml` (per-agent model + effort + USD prices), `config/sections.yaml`, `config/prices.yaml`, `config/fx.yaml` | typed config object, tests for defaults and override | TODO |
 | F0.3 | SQLite schema + migration runner (§5.6) | `orebody db init` creates all tables; tests | TODO |
 
@@ -322,15 +322,15 @@ Built out of order so a professor demo exists on 2026-11-05. Each row maps to a 
 | ID | Feature | AC | Status |
 |----|---------|----|--------|
 | F1.0 | **Pilot documents (by hand):** technical report, latest annual + quarterly financials, MD&A, and recent news for MARI and SLS into `data/raw/<TICKER>/` with a draft `manifest.yaml` (D41) | both folders exist; manifests list every file with dates | IN PROGRESS (MARI done 2026-11-04; SLS pending) |
-| F1.1 | Manifest loader + validation (§6.1) | bad manifest fails with a clear message; tests | TODO |
-| F1.2 | PyMuPDF page extraction → `data/pages/<doc_id>/NNN.txt`, sha256, page count, idempotent | fixture PDF extracts; re-run is a no-op | TODO |
+| F1.1 | Manifest loader + validation (§6.1) | bad manifest fails with a clear message; tests | DONE (D2) |
+| F1.2 | PyMuPDF page extraction → `data/pages/<doc_id>/NNN.txt`, sha256, page count, idempotent | fixture PDF extracts; re-run is a no-op | DONE (D3) |
 | F1.3 | As-of filter with exclusion log | docs after as-of excluded; log lists them; tests | TODO |
 | F1.4 | `orebody ingest <TICKER>` CLI | registers documents in DB | TODO |
 
 ### Phase 2 — Technical report index
 | ID | Feature | AC | Status |
 |----|---------|----|--------|
-| F2.1 | NI 43-101 item index (heading regex + TOC cross-check) | on a fixture report, ≥ 20 of 27 items found with correct start pages | TODO |
+| F2.1 | NI 43-101 item index (heading regex + TOC cross-check) | on a fixture report, ≥ 20 of 27 items found with correct start pages | IN PROGRESS (D4: demo slice built, 27/27 items on the MARI FS after the TOC rule became 'contiguous run of dot-leader pages'; remaining AC: TOC cross-check, a second real report) |
 | F2.2 | S-K 1300 section index | same on an S-K 1300 fixture | DEFERRED (D45; see L11) |
 | F2.3 | Table-garble detector | precision/recall measured on 20 hand-labelled pages from the pilot reports, logged in tests | TODO |
 | F2.4 | Vision fallback (sonnet-5-5, page image → Markdown table), cached | flagged page re-extracts; cost logged | TODO |
@@ -338,18 +338,18 @@ Built out of order so a professor demo exists on 2026-11-05. Each row maps to a 
 ### Phase 3 — Deterministic core
 | ID | Feature | AC | Status |
 |----|---------|----|--------|
-| F3.1 | `core/units.py`: scale/unit/currency parsing and normalization (D39) | 40+ parametrized cases incl. "US$1,240 M", "C$1.2 billion", "412 Mt @ 0.48% Cu", "2.1 Blb", "g/t", "short tons" | TODO |
+| F3.1 | `core/units.py`: scale/unit/currency parsing and normalization (D39) | 40+ parametrized cases incl. "US$1,240 M", "C$1.2 billion", "412 Mt @ 0.48% Cu", "2.1 Blb", "g/t", "short tons" | IN PROGRESS (D5: demo slice built, 12 rows + FX/lb; remaining AC: 40+ cases incl. grade, short tons, '412 Mt @ 0.48% Cu') |
 | F3.2 | `core/fx.py` | stated-rate precedence, fallback, error | TODO |
-| F3.3 | `core/npv.py` (§7) | hand-computed fixtures match to 0.1%; IRR, payback | TODO |
+| F3.3 | `core/npv.py` (§7) | hand-computed fixtures match to 0.1%; IRR, payback | DONE (D6; audit.md asks for expansion capex + production profile later) |
 | F3.4 | `core/insitu.py` | fixture match | TODO |
 | F3.5 | `core/prices.py` with yfinance + override + as-of | override wins; as-of close used; offline test via recorded data | TODO |
-| F3.6 | `core/matcher.py` tier-1 verifier | finds normalized numbers and entity strings on page text; rounding tolerance; 30+ cases | TODO |
+| F3.6 | `core/matcher.py` tier-1 verifier | finds normalized numbers and entity strings on page text; rounding tolerance; 30+ cases | IN PROGRESS (D7: demo slice built; remaining AC: rounding tolerance, entity strings, 30+ cases) |
 
 ### Phase 4 — LLM layer
 | ID | Feature | AC | Status |
 |----|---------|----|--------|
-| F4.1 | `LLMProvider` interface + `FakeProvider` replay | pipeline unit tests run without API key | TODO |
-| F4.2 | `AnthropicProvider` with structured output, logging to `data/runs/`, usage + cost accounting | one live smoke test (skipped without key) records request/response files and cost | TODO |
+| F4.1 | `LLMProvider` interface + `FakeProvider` replay | pipeline unit tests run without API key | DONE (D8) |
+| F4.2 | `AnthropicProvider` with structured output, logging to `data/runs/`, usage + cost accounting | one live smoke test (skipped without key) records request/response files and cost | DONE (D8; logs to data/runs/<run_id>/ and tests/fixtures/llm/) |
 | F4.3 | Prompt files with version headers + loader | run records prompt versions | TODO |
 
 ### Phase 5 — Agents and note
@@ -357,15 +357,15 @@ Built out of order so a professor demo exists on 2026-11-05. Each row maps to a 
 |----|---------|----|--------|
 | F5.1 | Pydantic schemas for Sections 1–5, EconInputs, Claim (§4.3) | schema round-trip tests | TODO |
 | F5.2 | Project Analyst (context assembly per D37, prompt, parse) | on fixture company with FakeProvider produces valid Section1 with claims | TODO |
-| F5.3 | Financial Analyst → EconInputs → `core/npv.py` → Section 3 with computed claims + reconciliation + sensitivity cross-check; Section 2 runway; Section 4 uncommitted share | fixture run yields all computed fields with derivations | TODO |
+| F5.3 | Financial Analyst → EconInputs → `core/npv.py` → Section 3 with computed claims + reconciliation + sensitivity cross-check; Section 2 runway; Section 4 uncommitted share | fixture run yields all computed fields with derivations | IN PROGRESS (D9: Section 3 only; remaining AC: derivations on computed claims, sensitivity cross-check, Section 2 runway, Section 4) |
 | F5.4 | Investment Advisor constrained to claim ids; stance + disclaimer | advisor output referencing an unknown claim id fails validation | TODO |
 | F5.5 | Manager orchestration (sequential, state passing, run record) | end-to-end fixture run produces a note row | TODO |
-| F5.6 | Markdown renderer + unledgered-number check | renderer raises on a prose number not in ledger | TODO |
+| F5.6 | Markdown renderer + unledgered-number check | renderer raises on a prose number not in ledger | IN PROGRESS (D11: Section 3 renderer; remaining AC: unledgered-number check on prose) |
 
 ### Phase 6 — Verification
 | ID | Feature | AC | Status |
 |----|---------|----|--------|
-| F6.1 | Tier-1 pass over all claims, statuses persisted | fixture: known-good claims pass, planted bad claim fails | TODO |
+| F6.1 | Tier-1 pass over all claims, statuses persisted | fixture: known-good claims pass, planted bad claim fails | DONE (D10; statuses persisted in run_dir/claims.json until F0.3 adds the DB) |
 | F6.2 | Tier-2 LLM verifier (opus-5-5) with page ±1 context, outside knowledge forbidden | FakeProvider tests; prompt reviewed | TODO |
 | F6.3 | Revision loop (max 3) re-calling the owning agent with failures | fixture: planted failure corrected in round 2; unresolved failure released as `unverified` | TODO |
 | F6.4 | Run stats: verification rate, tier-1 rate, unverified by section, cost, time | stored on run; `orebody run` prints them | TODO |
@@ -373,7 +373,7 @@ Built out of order so a professor demo exists on 2026-11-05. Each row maps to a 
 ### Phase 7 — CLI completeness
 | ID | Feature | AC | Status |
 |----|---------|----|--------|
-| F7.1 | `orebody run <TICKER> --as-of --deck-a --deck-b` | full live run on one real company | TODO |
+| F7.1 | `orebody run <TICKER> --as-of --deck-a --deck-b` | full live run on one real company | IN PROGRESS (D12: live run on MARI done; remaining AC: as-of document filtering beyond the technical report, DB registration, `orebody summary`) |
 | F7.2 | `orebody export <note_id> --pdf` (citations as footnotes, disclaimer, unverified tags) | PDF opens; footnotes correct | TODO |
 | F7.3 | `orebody diff-runs A B` | claim-level diff output | TODO |
 | F7.4 | `orebody note import <markdown+claims.yaml> --author human` (D16) | human note stored and rendered identically | TODO |
@@ -430,6 +430,8 @@ Built out of order so a professor demo exists on 2026-11-05. Each row maps to a 
 - **2026-11-04** — Interview completed; SPEC.md and CLAUDE.md written. No code. Next: F0.1.
 - **2026-11-04 (later)** — Professor demo moved to 2026-11-05. Wrote `DEMO_PLAN.md` (Phase D, 13 tasks, Section-3-only vertical slice for one company). §0 now points at D1; after the demo, resume at F0.2. No code yet.
 - **2026-11-04 (later still)** — Web check found Foran acquired by Eldorado Gold (closed 2026-04-14); removed from universe and pilots, NGEx added. Collected the MARI drop folder from marimaca.com (8 documents incl. the 361-page FS technical report, effective 2025-08-25, filed 2025-10-09) and wrote `data/raw/MARI/manifest.yaml`. Q3 2026 financials not yet posted. Demo company = MARI.
+
+- **2026-11-04 (Phase D)** — Built DEMO_PLAN.md Tasks 1–12 (commits D1…D12b, one per task, TDD throughout). Live run on the MARI FS: `uv run orebody run MARI --as-of 2026-11-05 --spot 6.71 --deck-a 3.50 --deck-b 5.00` → stats line `MARI-2026-11-05-104923: verified 10/10 rate=1.00 cost=US$0.3391 seconds=0.1 items_missing=[]` (the first live call, run 104632, recorded fixture `1bc990a873026319.json` then aborted because the model invented a doc id; the pipeline now stamps `doc_id`, and later runs replay the recording). Hand audit in `reports/audit.md`: all ten figures correct; rebuilt base-case NPV US$570 M vs stated US$709 M (−19.6%), explained by the parametric model shape, nameplate vs LOM-average production, and the omitted US$77 M expansion capital. Plan deviations (all ledgered): TOC detection changed to a contiguous run of dot-leader pages (the plan's 'largest page ≤ 15' rule put Items 21–27 on their TOC entries); renderer escapes Markdown control characters in model text (security review); FakeProvider replays recorded cost; CLI refuses a technical report filed after `--as-of`. Spot price US$6.71/lb was a 2026-10-13 quote (no live feed yet). `make lint test`: `................                                                         [100%] 87 passed, 1 skipped in 1.07s`. Next: F0.2.
 
 ## 13. Open questions
 
