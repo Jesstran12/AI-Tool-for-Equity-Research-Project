@@ -32,7 +32,7 @@ response, so nothing can fail on network or API. Total API spend to date: US$0.3
 5. Open `data/runs/<the run id>/note.md` in VS Code with Markdown preview (Cmd+Shift+V) so the
    tables render. Keep the raw file in a second tab for the footnotes.
 6. Open `SPEC.md` scrolled to §1 "Intent".
-7. Check `make lint test` is green (87 passed, 1 skipped). Do not run anything with
+7. Check `make lint test` is green (89 passed, 1 skipped). Do not run anything with
    `--provider anthropic` during the demo; it spends money and takes 40 seconds.
 8. Have `reports/audit.md` open in a tab for the questions section.
 
