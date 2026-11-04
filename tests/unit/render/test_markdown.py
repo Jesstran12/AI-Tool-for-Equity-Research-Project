@@ -133,3 +133,11 @@ def test_cells_escape_pipes_and_newlines() -> None:
     assert len(re.findall(r"(?<!\\)\|", row)) == 5  # 4 cells; the printed pipe is escaped
     assert "US$1,240 \\| million" in row
     assert '[^1]: fixture_report, p.5: "capex is US$1,240 \\[x\\]"' in md
+
+
+def test_cells_escape_backslashes() -> None:
+    claims = [_vc("initial_capex_usd_m", "US$1,240 million", 5, "capex \\| trick")]
+    md = _render(
+        inputs=EconInputs(initial_capex_usd_m=1240), claims=claims, results=None, missing=[]
+    )
+    assert '"capex \\\\\\| trick"' in md

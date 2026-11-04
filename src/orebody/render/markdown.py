@@ -32,7 +32,7 @@ _FIELD_FORMAT: dict[str, str] = {
 }
 
 _ROW_LABELS = {"base": "base", "spot": "spot", "deck_a": "deck A", "deck_b": "deck B"}
-_ESCAPE = str.maketrans({"|": "\\|", "[": "\\[", "]": "\\]", "`": "\\`", "<": "&lt;"})
+_ESCAPE = str.maketrans({"\\": "\\\\", "|": "\\|", "[": "\\[", "]": "\\]", "`": "\\`", "<": "&lt;"})
 
 
 @dataclass(frozen=True)
