@@ -1,0 +1,47 @@
+from pathlib import Path
+
+import pytest
+
+from orebody.ingest.manifest import load_manifest
+
+VALID = """
+ticker: FIX
+name: Fixture Copper Corp
+exchange: TSXV
+flagship_project: Fixture
+reporting_currency: USD
+documents:
+  - file: 2025-08-25_FS_report.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2025-08-25
+    filing_date: 2025-10-09
+    title: Fixture FS
+    project: Fixture
+"""
+
+
+def _write(tmp_path: Path, text: str) -> Path:
+    p = tmp_path / "manifest.yaml"
+    p.write_text(text)
+    return p
+
+
+def test_load_valid_manifest(tmp_path: Path) -> None:
+    m = load_manifest(_write(tmp_path, VALID))
+    assert m.ticker == "FIX"
+    assert m.technical_report().file == "2025-08-25_FS_report.pdf"
+    assert m.documents[0].standard == "NI43-101"
+
+
+def test_missing_filing_date_raises(tmp_path: Path) -> None:
+    bad = VALID.replace("    filing_date: 2025-10-09\n", "")
+    with pytest.raises(ValueError, match="filing_date"):
+        load_manifest(_write(tmp_path, bad))
+
+
+def test_no_technical_report_raises(tmp_path: Path) -> None:
+    text = VALID.replace("type: technical_report", "type: news_release")
+    m = load_manifest(_write(tmp_path, text))
+    with pytest.raises(ValueError, match="technical_report"):
+        m.technical_report()
