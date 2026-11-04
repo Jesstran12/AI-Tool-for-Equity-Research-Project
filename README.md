@@ -19,9 +19,13 @@ uv run orebody run FIX --as-of 2026-11-05 --spot 4.50 --deck-a 3.50 --deck-b 5.0
 
 ## Run on Marimaca (MARI)
 
-Company PDFs are never committed. `data/raw/MARI/manifest.yaml` is in the repo; download the
-NI 43-101 Feasibility Study technical report (effective 2025-08-25, filed 2025-10-09) from
-marimaca.com or SEDAR+ and save it as `data/raw/MARI/2025-08-25_MarimacaOxide_FS_NI43-101.pdf`.
+Company PDFs are never committed. `data/raw/MARI/manifest.yaml` is in the repo; fetch the
+public NI 43-101 Feasibility Study technical report (18 MB, from marimaca.com, sha256-checked):
+
+```
+make fetch-mari
+```
+
 Then:
 
 ```

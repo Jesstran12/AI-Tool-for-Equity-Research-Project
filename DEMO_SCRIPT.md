@@ -7,7 +7,9 @@ response, so nothing can fail on network or API. Total API spend to date: US$0.3
 
 ## 0. Before you walk in (10 minutes, the night before)
 
-1. Open a terminal in `~/project-4` and run the demo command once so a fresh run folder exists:
+1. Open a terminal in `~/project-4`. On a fresh clone first run `uv sync && make fetch-mari`
+   (downloads the public report, 18 MB). Then run the demo command once so a fresh run folder
+   exists:
    ```
    uv run orebody run MARI --as-of 2026-11-05 --spot 6.71 --deck-a 3.50 --deck-b 5.00 --provider fake
    ```
