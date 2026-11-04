@@ -28,6 +28,10 @@ packages = ["src/orebody"]
 line-length = 100
 target-version = "py312"
 
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+addopts = ["-W", "ignore:builtin type:DeprecationWarning"]
 markers = ["live: calls the live Anthropic API; skipped without ANTHROPIC_API_KEY"]
