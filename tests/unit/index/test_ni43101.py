@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from orebody.index.ni43101 import ItemSpan, build_index, load_patterns
+from orebody.index.ni43101 import ItemSpan, build_index, load_patterns, toc_end
 from orebody.ingest.extract import extract_pages, read_page
 
 SECTIONS_YAML = Path(__file__).resolve().parents[3] / "config" / "sections.yaml"
@@ -40,3 +40,36 @@ def test_index_ends_at_next_item(index: dict[int, ItemSpan]) -> None:
 def test_missing_item_omitted(index: dict[int, ItemSpan]) -> None:
     assert 27 not in index
     assert 2 not in index
+
+
+def _toc_page(n_lines: int) -> str:
+    return "\n".join(f"{i}.{i} Some Heading ........ {100 + i}" for i in range(n_lines))
+
+
+def test_toc_end_follows_long_contiguous_toc() -> None:
+    # Real reports (MARI FS): cover pages, then a 16-page TOC, then body pages whose running
+    # headers end in digits ("Page 1", "August 25, 2025"), then a data table full of numbers.
+    body = "Page 1\nAugust 25, 2025\n1 \nSUMMARY\n1.1\nIntroduction\n2024\n2025\n2026\n"
+    table = "\n".join(f"Row {i} 123 456 {i}" for i in range(75))
+    pages = ["Cover", "Title page"] + [_toc_page(40)] * 16 + [body, table] + ["x"] * 10
+    assert toc_end(pages) == 18
+    # A table of numbers after the TOC must not extend it.
+    assert toc_end(["Cover", _toc_page(10), "1 SUMMARY\nbody", table]) == 2
+    # No TOC at all → 0.
+    assert toc_end(["1 SUMMARY\nbody", "2 INTRODUCTION"]) == 0
+
+
+def test_index_on_long_toc_skips_front_matter() -> None:
+    pages = (
+        ["Cover"]
+        + [_toc_page(40)] * 16
+        + [
+            "1 \nSUMMARY\ntext",
+            "21 \nCAPITAL AND OPERATING COSTS\ntext",
+            "22 \nECONOMIC ANALYSIS\ntext",
+        ]
+    )
+    idx = build_index(
+        pages, {1: "Summary", 21: "Capital and Operating Costs", 22: "Economic Analysis"}
+    )
+    assert idx[1].start == 18 and idx[21].start == 19 and idx[22] == ItemSpan(22, 20, 20)

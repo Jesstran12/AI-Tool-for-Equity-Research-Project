@@ -8,8 +8,9 @@ from pathlib import Path
 
 import yaml
 
-MAX_TOC_PAGE = 15
-MIN_TOC_LINES = 5
+MAX_TOC_PAGE = 40  # the TOC must start within the first 40 pages
+MIN_TOC_LINES = 5  # dot-leader lines ('Heading ...... 226') per page to count as a TOC page
+_TOC_LINE = re.compile(r"\.{3,}\s*\d+\s*$")
 
 
 def load_patterns(path: Path = Path("config/sections.yaml")) -> dict[int, str]:
@@ -32,16 +33,24 @@ def heading_regex(item: int, title: str) -> re.Pattern[str]:
 
 
 def _looks_like_toc(text: str) -> bool:
-    return sum(1 for line in text.splitlines() if re.search(r"\d\s*$", line)) >= MIN_TOC_LINES
+    return sum(1 for line in text.splitlines() if _TOC_LINE.search(line)) >= MIN_TOC_LINES
 
 
 def toc_end(pages: list[str]) -> int:
-    """Largest page number ≤ MAX_TOC_PAGE whose text looks like a table of contents; 0 if none."""
-    last = 0
-    for n, text in enumerate(pages[:MAX_TOC_PAGE], start=1):
-        if _looks_like_toc(text):
-            last = n
-    return last
+    """Last page of the first contiguous run of TOC-like pages; 0 if none starts in MAX_TOC_PAGE.
+
+    Pinned to contiguity rather than "largest TOC-like page" because body tables full of numbers
+    would otherwise extend the TOC past the first items' real headings.
+    """
+    start = next(
+        (n for n, text in enumerate(pages[:MAX_TOC_PAGE], start=1) if _looks_like_toc(text)), 0
+    )
+    if start == 0:
+        return 0
+    end = start
+    while end < len(pages) and _looks_like_toc(pages[end]):
+        end += 1
+    return end
 
 
 def build_index(pages: list[str], patterns: dict[int, str]) -> dict[int, ItemSpan]:
