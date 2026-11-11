@@ -9,3 +9,6 @@ __pycache__/
 web/node_modules/
 reports/*.pdf
 .superpowers/
+PROJECTLOG.md
+WORKLOG.md
+CLAUDE.local.md

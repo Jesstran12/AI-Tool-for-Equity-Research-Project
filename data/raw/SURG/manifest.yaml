@@ -1,0 +1,15 @@
+# Surge Copper Corp. Transferred 2026-11-11 from AI-Tool-for-Equity-Research-Project/data/raw/surge-copper/.
+# filing_date is the report date on the cover (2026-07-28); confirm the actual SEDAR+ filing date before an as-of run near it.
+ticker: SURG
+exchange: TSXV
+name: Surge Copper Corp.
+flagship_project: Berg Copper Project
+reporting_currency: CAD   # verify on the financial statements cover page
+documents:
+  - file: 2026-06-12_berg_ni43-101-pfs.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2026-06-12
+    filing_date: 2026-07-28
+    title: "Berg Copper Project NI 43-101 Technical Report and Pre-Feasibility Study"
+    project: Berg Copper Project
