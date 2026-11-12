@@ -2,7 +2,6 @@
 # filing_date marked approx = estimated from the press release or upload month; confirm on SEDAR+ if an as-of lands near it.
 # The first technical_report listed is the current economic study, which `orebody run` uses.
 # White Pine North was sold to Kinterra (closed March 2026); flagship is now Copperwood.
-# News releases not collected: highlandcopper.com news and GlobeNewswire both refuse automated access.
 # Fiscal year ends 30 June.
 ticker: HI
 exchange: TSXV
@@ -43,3 +42,83 @@ documents:
     title: "Corporate presentation, October 2026"
     url: https://www.highlandcopper.com/wp-content/uploads/2026/10/27102026-Highland-Copper-Corporate-Presentation.pdf
     sha256: 0a08f85ffb1f62bae90c3b41e3850f32076f443239d6f54891c8d637a14b2616
+  - file: 2026-01-13_news_highland-copper-signs-definitive-agreement-for-sale-of-34-in.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-01-13
+    filing_date: 2026-01-13
+    title: "Highland Copper Signs Definitive Agreement for Sale of 34% Interest in White Pine for US$30 Million"
+    url: https://www.highlandcopper.com/news/highland-copper-signs-definitive-agreement-for-sale-of-34-interest-in-white-pine-for-us30-million/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-01-27_news_highland-copper-recaps-2025-execution-and-announces-2026-wor.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-01-27
+    filing_date: 2026-01-27
+    title: "Highland Copper Recaps 2025 Execution and Announces 2026 Work Plan to Advance Copperwood Toward Construction Decision"
+    url: https://www.highlandcopper.com/news/highland-copper-recaps-2025-execution-and-announces-2026-work-plan-to-advance-copperwood-toward-construction-decision/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-02-03_news_highland-copper-to-present-at-upcoming-events-2.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-02-03
+    filing_date: 2026-02-03
+    title: "Highland Copper to Present at Upcoming Events"
+    url: https://www.highlandcopper.com/news/highland-copper-to-present-at-upcoming-events-2/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-02-09_news_highland-copper-announces-upcoming-investor-presentation.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-02-09
+    filing_date: 2026-02-09
+    title: "Highland Copper Announces Upcoming Investor Presentation"
+    url: https://www.highlandcopper.com/news/highland-copper-announces-upcoming-investor-presentation/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-03-02_news_highland-copper-closes-sale-of-34-interest-in-white-pine-for.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-03-02
+    filing_date: 2026-03-02
+    title: "Highland Copper Closes Sale of 34% Interest in White Pine for US$30 Million"
+    url: https://www.highlandcopper.com/news/highland-copper-closes-sale-of-34-interest-in-white-pine-for-us30-million/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-04-06_news_highland-copper-acknowledged-in-white-house-publication-as-c.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-04-06
+    filing_date: 2026-04-06
+    title: "Highland Copper Acknowledged in White House Publication as Contributor to Expanding U.S. Domestic Mining"
+    url: https://www.highlandcopper.com/news/highland-copper-acknowledged-in-white-house-publication-as-contributor-to-expanding-u-s-domestic-mining/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-04-21_news_highland-copper-strengthens-leadership-with-appointment-of-t.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-04-21
+    filing_date: 2026-04-21
+    title: "Highland Copper Strengthens Leadership With Appointment of Trace Arlaud as Copperwood Project Director and Peter Hemstead as Interim CFO"
+    url: https://www.highlandcopper.com/news/highland-copper-strengthens-leadership-with-appointment-of-trace-arlaud-as-copperwood-project-director-and-peter-hemstead-as-interim-cfo/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-06-03_news_highland-copper-identifies-key-optimization-opportunities-th.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-06-03
+    filing_date: 2026-06-03
+    title: "Highland Copper Identifies Key Optimization Opportunities Through Detailed Engineering At The Copperwood Project"
+    url: https://www.highlandcopper.com/news/highland-copper-identifies-key-optimization-opportunities-through-detailed-engineering-at-the-copperwood-project/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-08-25_news_highland-copper-announces-final-approval-of-us50-million-gra.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-08-25
+    filing_date: 2026-08-25
+    title: "Highland Copper Announces Final Approval of US$50 Million Grant from the State of Michigan for Copperwood Project"
+    url: https://www.highlandcopper.com/news/highland-copper-announces-final-approval-of-us50-million-grant-from-the-state-of-michigan-for-copperwood-project/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-11-05_news_highland-copper-announces-grant-of-stock-options-restricted.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-11-05
+    filing_date: 2026-11-05
+    title: "Highland Copper Announces Grant of Stock Options, Restricted Share Units and Deferred Share Units"
+    url: https://www.highlandcopper.com/news/highland-copper-announces-grant-of-stock-options-restricted-share-units-and-deferred-share-units-3/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch

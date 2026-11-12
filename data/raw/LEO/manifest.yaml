@@ -1,9 +1,9 @@
 # Lion Copper and Gold Corp.: written 2026-11-11 from public company-website and EDGAR downloads (same approach as MARI).
 # filing_date marked approx = estimated from the press release or upload month; confirm on SEDAR+ if an as-of lands near it.
 # The first technical_report listed is the current economic study, which `orebody run` uses.
-# Ticker folder LEO = TSXV symbol; Nasdaq symbol is LCU. S-K 1300 .htm exhibits from EDGAR are kept for provenance; the pipeline reads the NI 43-101 PDFs.
+# Ticker folder LEO = CSE symbol (moved from TSXV); Nasdaq symbol is LCU. S-K 1300 .htm exhibits from EDGAR are kept for provenance; the pipeline reads the NI 43-101 PDFs.
 ticker: LEO
-exchange: TSXV / Nasdaq (LCU)
+exchange: CSE (LEO) / Nasdaq (LCU)
 name: Lion Copper and Gold Corp.
 flagship_project: Yerington Copper Project
 reporting_currency: USD   # verify on the financial statements cover page
@@ -86,20 +86,20 @@ documents:
     title: "Corporate presentation, October 2026"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/10/LCU-Corporate-Presentation-26-10-21.pdf
     sha256: 38ed84fa1e4e33beb71db8a52a5cd5f172180a1d2269de9194210a4db26eaa80
-  - file: 2026-01-26_news_2026-0126-nr-nuton-funding.pdf
+  - file: 2026-01-22_news_2026-0126-nr-nuton-funding.pdf
     type: news_release
     standard: none
-    effective_date: 2026-01-26
-    filing_date: 2026-01-26
-    title: "2026-0126-nr-nuton-funding"
+    effective_date: 2026-01-22
+    filing_date: 2026-01-22
+    title: "Lion Copper and Gold Corp. Receives US$30.5 Million from Nuton to Advance Yerington Copper Project"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/01/2026-0126-NR-Nuton-Funding.pdf
     sha256: fbeb876f6d5cac6e3b5c58ce0f779cfa6d2cd82e42646315c5e5a6422d7bb876
-  - file: 2026-04-15_news_lcg-pr-dfs-and-permitting-26-0415.pdf
+  - file: 2026-04-13_news_lcg-pr-dfs-and-permitting-26-0415.pdf
     type: news_release
     standard: none
-    effective_date: 2026-04-15
-    filing_date: 2026-04-15
-    title: "lcg-pr-dfs-and-permitting-26-0415"
+    effective_date: 2026-04-13
+    filing_date: 2026-04-13
+    title: "Lion Copper & Gold Corp. Announces Key Milestones Advancing the"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/04/LCG-PR-DFS-and-Permitting-26-0415.pdf
     sha256: 1217727b0a1a40ef2d3286475a1fb90a176140db4747c6ce95a256d70c5971f4
   - file: 2026-06-29_news_nr-26-0629-application-to-list-on-nasdaq.pdf
@@ -107,7 +107,7 @@ documents:
     standard: none
     effective_date: 2026-06-29
     filing_date: 2026-06-29
-    title: "nr-26-0629-application-to-list-on-nasdaq"
+    title: "Lion Copper Announces Application to List on Nasdaq Capital Market"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/06/NR-26-0629-Application-to-List-on-Nasdaq.pdf
     sha256: 2201a9ec135ecc50f748e75c654381ea98b61cbcffed4e19e7e8b78caffcd12a
   - file: 2026-07-28_news_nr-26-0728-ds-transition.pdf
@@ -115,7 +115,7 @@ documents:
     standard: none
     effective_date: 2026-07-28
     filing_date: 2026-07-28
-    title: "nr-26-0728-ds-transition"
+    title: "Lion Copper & Gold Announces Management Transition"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/07/NR-26-0728-DS-Transition.pdf
     sha256: 822f1b3d53782fa435eeb657230297651eb4e1a045eb6185e9b2aa658965ee74
   - file: 2026-07-31_news_nr-26-0731-bear-land-acquisition.pdf
@@ -123,7 +123,7 @@ documents:
     standard: none
     effective_date: 2026-07-31
     filing_date: 2026-07-31
-    title: "nr-26-0731-bear-land-acquisition"
+    title: "Lion Copper & Gold Expands Strategic Land Position Associated with the Bear Project Area in the Yerington Copper District"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/07/NR-26-0731-Bear-Land-Acquisition.pdf
     sha256: 29c47f9a83d013160a87911ee71dd1bbd9780ae6571fd72ec8ad580e62969e5a
   - file: 2026-08-04_news_nr-26-0804-bear-mre-2.pdf
@@ -131,7 +131,7 @@ documents:
     standard: none
     effective_date: 2026-08-04
     filing_date: 2026-08-04
-    title: "nr-26-0804-bear-mre-2"
+    title: "Lion Copper & Gold Announces Maiden Mineral Resource Estimate for the Bear Deposit"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/08/NR-26-0804-Bear-MRE.2.pdf
     sha256: 40f8f4bdf835063f20a35130a504faa72a8b9c275e5a6d9797ce5fcf99407825
   - file: 2026-08-10_news_nr-26-0810-dfs-update.pdf
@@ -139,7 +139,7 @@ documents:
     standard: none
     effective_date: 2026-08-10
     filing_date: 2026-08-10
-    title: "nr-26-0810-dfs-update"
+    title: "Lion Copper & Gold Provides Definitive Feasibility Study and Permitting Update for the Yerington Copper Project"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/08/NR-26-0810-DFS-update.pdf
     sha256: 180d1d12d142af0cd57584e2156f50ad63679f6d7309c346544bbcebf542ac82
   - file: 2026-08-18_news_nr-26-0818-directors.pdf
@@ -147,7 +147,7 @@ documents:
     standard: none
     effective_date: 2026-08-18
     filing_date: 2026-08-18
-    title: "nr-26-0818-directors"
+    title: "Lion Copper Announces Director Transition and Appointment of Co-Chairman"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/08/NR-26-0818-Directors.pdf
     sha256: 55de2b8e78470df5370df2c7aa2b21e77c98e73ae18401fec27415d384cf458e
   - file: 2026-09-04_news_nr-26-0904-share-consolidation.pdf
@@ -155,7 +155,7 @@ documents:
     standard: none
     effective_date: 2026-09-04
     filing_date: 2026-09-04
-    title: "nr-26-0904-share-consolidation"
+    title: "Lion Copper Announces Share Consolidation and Name Change"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/09/NR-26-0904-Share-Consolidation.pdf
     sha256: 45d4bb1bb6d5e1c3b2663d8698318605be9414a0d87e46a8a606f5003338175c
   - file: 2026-09-14_news_nr-26-0914-bear-mre-3.pdf
@@ -163,7 +163,7 @@ documents:
     standard: none
     effective_date: 2026-09-14
     filing_date: 2026-09-14
-    title: "nr-26-0914-bear-mre-3"
+    title: "Lion Copper Corp. Announces Filing of NI 43-101 Technical Report for Bear Deposit"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/09/NR-26-0914-Bear-MRE.3.pdf
     sha256: f6728ec5b7a4a761ac75e7bf071d6a3496931a0e5fb913acb5ee5db315f32bd5
   - file: 2026-09-14_news_nr-26-0914-consolidation-2.pdf
@@ -171,7 +171,7 @@ documents:
     standard: none
     effective_date: 2026-09-14
     filing_date: 2026-09-14
-    title: "nr-26-0914-consolidation-2"
+    title: "Lion Copper Corp. Completes Share Consolidation and Name Change"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/09/NR-26-0914-CONSOLIDATION.2.pdf
     sha256: 15e30136f8061e775544d1ca5b88fd1a24679313890d5daca9802056b5cf486d
   - file: 2026-10-05_news_nr-26-1005-banning-director.pdf
@@ -179,7 +179,7 @@ documents:
     standard: none
     effective_date: 2026-10-05
     filing_date: 2026-10-05
-    title: "nr-26-1005-banning-director"
+    title: "Lion Copper Corp. Appoints John Banning To Board Of Directors"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/10/NR-26-1005-Banning-Director.pdf
     sha256: 5e11ef21589ade05d0c35c5ab6f34b8fa8fd06095ff0d008156ba897fe284251
   - file: 2026-10-14_news_nr-26-1014-nasdaq-approval.pdf
@@ -187,7 +187,7 @@ documents:
     standard: none
     effective_date: 2026-10-14
     filing_date: 2026-10-14
-    title: "nr-26-1014-nasdaq-approval"
+    title: "Lion Copper Corp. Receives Approval To List On NASDAQ Capital Market"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/10/NR-26-1014-NASDAQ-approval.pdf
     sha256: 70cb75d6c3806768f706456784833d04f28051cbda2c170d14e22126f6297b55
   - file: 2026-10-19_news_nr-26-1019-nasdaq-and-renmark.pdf
@@ -195,7 +195,7 @@ documents:
     standard: none
     effective_date: 2026-10-19
     filing_date: 2026-10-19
-    title: "nr-26-1019-nasdaq-and-renmark"
+    title: "Lion Copper Corp. Commences Trading on NASDAQ Under Symbol “LCU” and Retains Renmark Financial Communications USA Inc. Nasdaq listing enhances U.S. capital markets visibility and broadens investor access as Lion advances its Yerington Copper Project in Nevada"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/10/NR-26-1019-Nasdaq-and-Renmark.pdf
     sha256: 1ffe086466ae417c147a6e4d551422c163de5dbfc579d0e296c93cfc1c071736
   - file: 2026-10-20_news_nr-26-1020-debenture-atrium.pdf
@@ -203,7 +203,7 @@ documents:
     standard: none
     effective_date: 2026-10-20
     filing_date: 2026-10-20
-    title: "nr-26-1020-debenture-atrium"
+    title: "Lion Copper Corp. Completes Restructuring of Convertible Debentures and Engages Atrium Research Corporation for Equity Research Coverage"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/10/NR-26-1020-Debenture-Atrium-.pdf
     sha256: 3e48971d80f6c028765ef4ab7697a54e03c05fac64840cf017211c8876a3cbef
   - file: 2026-11-11_news_nr-26-1111-bear-s-k-1300-final.pdf
@@ -211,6 +211,6 @@ documents:
     standard: none
     effective_date: 2026-11-11
     filing_date: 2026-11-11
-    title: "nr-26-1111-bear-s-k-1300-final"
+    title: "Lion Copper Corp. Completes S-K 1300 Technical Report Summary for Bear Copper Deposit"
     url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/11/NR-26-1111-Bear-S-K-1300-FINAL.pdf
     sha256: 71972daaa5e13ec2403047a2dc327891c1938e729a5a593cd081f85d268549bc

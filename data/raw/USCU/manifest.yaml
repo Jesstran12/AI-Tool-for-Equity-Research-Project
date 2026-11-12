@@ -45,7 +45,7 @@ documents:
     standard: none
     effective_date: 2025-12-15
     filing_date: 2025-12-15
-    title: "US Copper Stakes Additional Claims to Accommodate Future Surface Facilities at the Moonlight-Superior Copper Project – US Copper Corp"
+    title: "US Copper Stakes Additional Claims to Accommodate Future Surface Facilities at the Moonlight-Superior Copper Project"
     url: https://uscoppercorp.com/us-copper-stakes-additional-claims-to-accommodate-future-surface-facilities-at-the-moonlight-superior-copper-project/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-06-17_news_us-copper-announces-positive-locked-cycle-test-results-from.htm
@@ -53,6 +53,6 @@ documents:
     standard: none
     effective_date: 2026-06-17
     filing_date: 2026-06-17
-    title: "US Copper Announces Positive Locked Cycle Test Results from Metallurgical Testwork at the Moonlight-Superior Copper Project – US Copper Corp"
+    title: "US Copper Announces Positive Locked Cycle Test Results from Metallurgical Testwork at the Moonlight-Superior Copper Project"
     url: https://uscoppercorp.com/us-copper-announces-positive-locked-cycle-test-results-from-metallurgical-testwork-at-the-moonlight-superior-copper-project/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch

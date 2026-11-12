@@ -48,7 +48,7 @@ documents:
     standard: none
     effective_date: 2025-11-19
     filing_date: 2025-11-19
-    title: "Surge Copper Corp."
+    title: "Surge Copper Advances Berg Project Pre-Feasibility Study"
     url: https://surgecopper.com/news-releases/surge-copper-advances-berg-project-pre-feasibility-study/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-02-11_news_surge-copper-announces-upsize-of-private-placement-to-20-mil.htm
@@ -56,7 +56,7 @@ documents:
     standard: none
     effective_date: 2026-02-11
     filing_date: 2026-02-11
-    title: "Surge Copper Corp."
+    title: "Surge Copper Announces Upsize of Private Placement to $20 Million"
     url: https://surgecopper.com/news-releases/surge-copper-announces-upsize-of-private-placement-to-20-million/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-02-20_news_surge-copper-announces-berg-project-acceptance-into-bc-criti.htm
@@ -64,7 +64,7 @@ documents:
     standard: none
     effective_date: 2026-02-20
     filing_date: 2026-02-20
-    title: "Surge Copper Corp."
+    title: "Surge Copper Announces Berg Project Acceptance into BC Critical Minerals Office"
     url: https://surgecopper.com/news-releases/surge-copper-announces-berg-project-acceptance-into-bc-critical-minerals-office/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-02-26_news_surge-copper-announces-closing-of-first-tranche-of-20-millio.htm
@@ -72,7 +72,7 @@ documents:
     standard: none
     effective_date: 2026-02-26
     filing_date: 2026-02-26
-    title: "Surge Copper Corp."
+    title: "Surge Copper Announces Closing of First Tranche of $20 Million Private Placement"
     url: https://surgecopper.com/news-releases/surge-copper-announces-closing-of-first-tranche-of-20-million-private-placement/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-03-31_news_surge-copper-provides-corporate-and-operational-update-1.htm
@@ -80,7 +80,7 @@ documents:
     standard: none
     effective_date: 2026-03-31
     filing_date: 2026-03-31
-    title: "Surge Copper Corp."
+    title: "Surge Copper Provides Corporate and Operational Update"
     url: https://surgecopper.com/news-releases/surge-copper-provides-corporate-and-operational-update-1/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-04-27_news_surge-copper-announces-closing-of-final-tranche-of-20-millio.htm
@@ -88,7 +88,7 @@ documents:
     standard: none
     effective_date: 2026-04-27
     filing_date: 2026-04-27
-    title: "Surge Copper Corp."
+    title: "Surge Copper Announces Closing of Final Tranche of $20 Million Private Placement"
     url: https://surgecopper.com/news-releases/surge-copper-announces-closing-of-final-tranche-of-20-million-private-placement/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-05-29_news_surge-copper-announces-adoption-of-shareholder-rights-plan.htm
@@ -96,7 +96,7 @@ documents:
     standard: none
     effective_date: 2026-05-29
     filing_date: 2026-05-29
-    title: "Surge Copper Corp."
+    title: "Surge Copper Announces Adoption of Shareholder Rights Plan"
     url: https://surgecopper.com/news-releases/surge-copper-announces-adoption-of-shareholder-rights-plan/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-06-15_news_surge-copper-announces-results-of-berg-pre-feasibility-study.htm
@@ -104,7 +104,7 @@ documents:
     standard: none
     effective_date: 2026-06-15
     filing_date: 2026-06-15
-    title: "Surge Copper Corp."
+    title: "Surge Copper Announces Results of Berg Pre-Feasibility Study with After-Tax NPV8% of C$4.6 billion and 24% IRR"
     url: https://surgecopper.com/news-releases/surge-copper-announces-results-of-berg-pre-feasibility-study-with-after-tax-npv8-of-c-4.6-billion-and-24-irr/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-07-08_news_surge-copper-launches-comprehensive-2026-field-program-at-th.htm
@@ -112,7 +112,7 @@ documents:
     standard: none
     effective_date: 2026-07-08
     filing_date: 2026-07-08
-    title: "Surge Copper Corp."
+    title: "Surge Copper Launches Comprehensive 2026 Field Program at the Berg Copper Project"
     url: https://surgecopper.com/news-releases/surge-copper-launches-comprehensive-2026-field-program-at-the-berg-copper-project/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-07-29_news_surge-copper-announces-board-renewal-and-director-nominees-f.htm
@@ -120,7 +120,7 @@ documents:
     standard: none
     effective_date: 2026-07-29
     filing_date: 2026-07-29
-    title: "Surge Copper Corp."
+    title: "Surge Copper Announces Board Renewal and Director Nominees for 2026 Annual General Meeting"
     url: https://surgecopper.com/news-releases/surge-copper-announces-board-renewal-and-director-nominees-for-2026-annual-general-meeting/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-07-30_news_surge-copper-files-ni-43-101-technical-report-for-the-berg-p.htm
@@ -128,7 +128,7 @@ documents:
     standard: none
     effective_date: 2026-07-30
     filing_date: 2026-07-30
-    title: "Surge Copper Corp."
+    title: "Surge Copper Files NI 43-101 Technical Report for the Berg PFS"
     url: https://surgecopper.com/news-releases/surge-copper-files-ni-43-101-technical-report-for-the-berg-pfs/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-08-24_news_surge-copper-provides-mid-season-berg-update-and-advances-en.htm
@@ -136,7 +136,7 @@ documents:
     standard: none
     effective_date: 2026-08-24
     filing_date: 2026-08-24
-    title: "Surge Copper Corp."
+    title: "Surge Copper Provides Mid-Season Berg Update and Advances Environmental Assessment Preparations"
     url: https://surgecopper.com/news-releases/surge-copper-provides-mid-season-berg-update-and-advances-environmental-assessment-preparations/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-09-10_news_surge-coppers-berg-project-selected-for-canada-investment-su.htm
@@ -144,7 +144,7 @@ documents:
     standard: none
     effective_date: 2026-09-10
     filing_date: 2026-09-10
-    title: "Surge Copper Corp."
+    title: "Surge Copper’s Berg Project Selected for Canada Investment Summit Dealbook"
     url: https://surgecopper.com/news-releases/surge-coppers-berg-project-selected-for-canada-investment-summit-dealbook/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-09-16_news_surge-copper-commences-environmental-assessment-process-for.htm
@@ -152,7 +152,7 @@ documents:
     standard: none
     effective_date: 2026-09-16
     filing_date: 2026-09-16
-    title: "Surge Copper Corp."
+    title: "Surge Copper Commences Environmental Assessment Process for Berg Copper Project"
     url: https://surgecopper.com/news-releases/surge-copper-commences-environmental-assessment-process-for-berg-copper-project/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-10-02_news_surge-copper-announces-agm-results-and-grant-of-deferred-sha.htm
@@ -160,7 +160,7 @@ documents:
     standard: none
     effective_date: 2026-10-02
     filing_date: 2026-10-02
-    title: "Surge Copper Corp."
+    title: "Surge Copper Announces AGM Results and Grant of Deferred Share Units"
     url: https://surgecopper.com/news-releases/surge-copper-announces-agm-results-and-grant-of-deferred-share-units/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
   - file: 2026-11-06_news_surge-copper-completes-2026-drilling-program-at-berg-copper.htm
@@ -168,6 +168,6 @@ documents:
     standard: none
     effective_date: 2026-11-06
     filing_date: 2026-11-06
-    title: "Surge Copper Corp."
+    title: "Surge Copper Completes 2026 Drilling Program at Berg Copper Project"
     url: https://surgecopper.com/news-releases/surge-copper-completes-2026-drilling-program-at-berg-copper-project/
     # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch

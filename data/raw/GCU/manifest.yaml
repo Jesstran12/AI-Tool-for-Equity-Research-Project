@@ -1,7 +1,8 @@
 # Gunnison Copper Corp.: written 2026-11-11 from public company-website and EDGAR downloads (same approach as MARI).
 # filing_date marked approx = estimated from the press release or upload month; confirm on SEDAR+ if an as-of lands near it.
 # The first technical_report listed is the current economic study, which `orebody run` uses.
-# Financial statements, MD&A and AIF are not posted on gunnisoncopper.com: SEDAR+ only (see SEDAR_TODO).
+# Financials, MD&A and AIF come from EDGAR (CIK 1514860): the Oct 2026 Form 40-F registration attaches the Canadian disclosure record as Ex. 99.x.
+# Listed on NYSE American as GUNN since 26 Oct 2026; Johnson Camp reached commercial production Sept 2026.
 ticker: GCU
 exchange: TSX
 name: Gunnison Copper Corp.
@@ -44,6 +45,55 @@ documents:
     project: Gunnison Copper Project
     url: https://minedocs.com/19/Gunnison-PFS-Update-and-JCM-Heap-Leach-PEA-02012023.pdf
     sha256: 54bccea84b460a533658c325a550b6ad27b48b9fd904bcf1e4d67d22b44acafd
+  - file: 2026-03-31_johnson-camp_ni43-101_ex99-72.htm
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2026-03-31
+    filing_date: 2026-03-31   # approx
+    title: "Johnson Camp Mine NI 43-101 Technical Report (2026), 40-F Ex. 99.72"
+    project: Johnson Camp Mine
+    url: https://www.sec.gov/Archives/edgar/data/1514860/000149315226046558/ex99-72.htm
+    sha256: c00afb5c344a1211aa298cc33d92595d161b0683acdd520f1cad1b19ae62018e
+  - file: 2025-12-31_AIF-2025_ex99-73.htm
+    type: aif
+    standard: none
+    effective_date: 2025-12-31
+    filing_date: 2026-03-31   # approx
+    title: "Annual Information Form, year ended 31 December 2025 (40-F Ex. 99.73)"
+    url: https://www.sec.gov/Archives/edgar/data/1514860/000149315226046558/ex99-73.htm
+    sha256: 3479f9a840be7017ba5a7a992611c36fcf5f4ba2000750bf83f2682df2fe9ea5
+  - file: 2025-12-31_FS_annual-2025_ex99-74.htm
+    type: annual_financials
+    standard: none
+    effective_date: 2025-12-31
+    filing_date: 2026-03-31   # approx
+    title: "Audited consolidated financial statements, 2025 and 2024 (40-F Ex. 99.74)"
+    url: https://www.sec.gov/Archives/edgar/data/1514860/000149315226046558/ex99-74.htm
+    sha256: 1ef5827a6b20ac9a71a7dba0764a32519bae68685a46ad47b8dbee5ca92525f4
+  - file: 2025-12-31_MDA_annual-2025_ex99-77.htm
+    type: mdna
+    standard: none
+    effective_date: 2025-12-31
+    filing_date: 2026-03-31   # approx
+    title: "MD&A, year ended 31 December 2025 (40-F Ex. 99.77)"
+    url: https://www.sec.gov/Archives/edgar/data/1514860/000149315226046558/ex99-77.htm
+    sha256: dbdf3d3000ae65cd38316b00b13bd43ba48dc5030cf34390594624af007e035b
+  - file: 2026-06-30_FS_Q2-2026_ex99-115.htm
+    type: quarterly_financials
+    standard: none
+    effective_date: 2026-06-30
+    filing_date: 2026-08-13
+    title: "Condensed interim financial statements, Q2 2026 (40-F Ex. 99.115)"
+    url: https://www.sec.gov/Archives/edgar/data/1514860/000149315226046558/ex99-115.htm
+    sha256: 910a1bab2b5b96e177a9d228a53105ee898b5a0fd1b8fa535f8d1ec94f72688c
+  - file: 2026-06-30_MDA_Q2-2026_ex99-116.htm
+    type: mdna
+    standard: none
+    effective_date: 2026-06-30
+    filing_date: 2026-08-13
+    title: "MD&A, Q2 2026 (40-F Ex. 99.116)"
+    url: https://www.sec.gov/Archives/edgar/data/1514860/000149315226046558/ex99-116.htm
+    sha256: 635e41a70a389d656b8e43454dc96c5d4adf60dd9cc19ef83851b2ada936fe3d
   - file: 2026-11-02_presentation_corporate-nov-2026.pdf
     type: presentation
     standard: none

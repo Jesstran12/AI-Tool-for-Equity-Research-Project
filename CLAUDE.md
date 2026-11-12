@@ -50,3 +50,30 @@ See SPEC.md §5.1. Keep it.
 - `tests/unit/` mirrors `src/orebody/`. `tests/fixtures/pdf/` holds small hand-built PDFs (generate with PyMuPDF in a fixture script, never commit real filings). `tests/fixtures/llm/` holds recorded responses.
 - Every numeric engine test states the hand computation in a comment.
 - Matcher and units tests are parametrized tables; add a row for every bug found in the real reports.
+
+## Data collection (how a company's drop folder is built)
+Same method for every ticker; MARI was the first. The tool's job is to gather the documents, not the user's.
+1. **Sources, in order:** the company website (technical reports, financials, MD&A, presentations, news), then EDGAR (S-K 1300 exhibits, 10-K/10-Q, 40-F/6-K; descriptive User-Agent, within rate limits), then SEDAR+ by hand only for what neither has (no scraping SEDAR+). Third-party mirrors (minedocs.com) only as a stopgap; replace with the original.
+2. **Set per company:** every technical report ever published (history feeds the study-over-study graph), latest annual FS + MD&A, AIF if filed, latest quarterly FS + MD&A, latest corporate presentation, news releases for the trailing 12 months.
+3. **Manifest:** `data/raw/<TICKER>/manifest.yaml` lists each file with `url` and `sha256`; dates not confirmed on SEDAR+ are marked `# approx`. The first `technical_report` listed is the current economic study, which `run` uses. `make fetch T=<TICKER>` rebuilds the folder on a fresh clone.
+4. **HTML news pages have no sha256:** they carry session tokens and live quotes. Before any agent reads news, extract the article body only; a page saved today embeds today's share price, which breaks as-of discipline.
+5. **News index:** `uv run python scripts/news_index.py` regenerates `docs/news_index.md` from the manifests.
+6. **Check corporate changes when collecting:** sales of projects (Highland sold White Pine North), new listings (Gunnison → NYSE American, Lion → Nasdaq/CSE), production starts. A producer is no longer an under-covered junior; flag it for the sample.
+
+## Product vision (future; not in scope until it is a feature in SPEC §11)
+The end state is a website with one page per project. Each page has:
+- **Project overview:** stage, jurisdiction, ownership, flagship study headline numbers, all source-linked.
+- **History graph:** NPV, capex, resource and grade per study (PEA → PFS → FS), each point annotated with the metal price deck it used, so a higher deck is not mistaken for a better project.
+- **Recent news feed:** tagged (Funding, Deal, Study, Permits, Drilling, Production, Listing, People), newest first, with "what changed" in one line each.
+
+What the desk page must show (agreed with the user 2026-11-11; spec each as a feature before building):
+1. **One-screen deal sheet on top:** stage, next catalyst and its expected date, cash vs. quarterly burn (months of runway), funding gap to construction, and who is already in the capital stack (strategics, streams, royalties, e.g. Nuton/Rio Tinto at Gunnison and Lion, Wheaton at Northisle, ARM at Surge).
+2. **Offtake status:** is concentrate or cathode already committed, to whom, and on what terms? Uncommitted tonnage is the origination opportunity a desk looks for first.
+3. **Product quality:** concentrate grade, by-product credits, deleterious elements (As, Bi, Hg, F) and penalty risk, from the technical report's Item 19 (market studies) or metallurgy sections.
+4. **Logistics:** port, rail or truck route, distance to smelter or SX-EW plant, from Item 18 (infrastructure).
+5. **Re-pricing at the desk's own deck:** NPV/IRR recomputed at spot and at a user-entered price, side by side with the company's deck.
+6. **"What changed since last note":** a diff between the current and previous study and between quarterly filings (capex, grade, schedule, cash), surfaced first.
+7. **Location:** country, state/province, nearest town, coordinates and a map pin, from Item 4 (property description and location).
+8. **Ownership:** who owns the project and in what share (e.g. Highland sold its 34% of White Pine North to Kinterra), the owner's type (public company, private company or fund, state-owned, or mixed/semi-state such as a government agency holding a stake or carried interest), plus royalty and stream holders. Source each line to the technical report (Item 4) or the latest MD&A/AIF.
+
+Every number on the page clicks through to its source page. Stance language and disclaimer rules (ground rule 10) still apply.

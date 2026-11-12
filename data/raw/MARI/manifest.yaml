@@ -59,3 +59,155 @@ documents:
     effective_date: 2026-11-01
     filing_date: 2026-11-01   # approx
     title: "Corporate presentation, November 2026"
+  - file: 2025-11-11_news_25-11-11-marimaca-announces-receipt-of-environmental-approva.pdf
+    type: news_release
+    standard: none
+    effective_date: 2025-11-11
+    filing_date: 2025-11-11
+    title: "News Release"
+    url: https://marimaca.com/wp-content/uploads/2026/07/25-11-11-Marimaca-Announces-Receipt-of-Environmental-Approval.pdf
+    sha256: 7c49e641a9133027be3bb5e1cf57ffba8ffc290505a62334fc95723317fb790d
+  - file: 2026-01-26_news_marimaca-announces-oxide-drilling-from-pampa-medina-vf.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-01-26
+    filing_date: 2026-01-26
+    title: "Pampa Medina Scout Drilling Delivers Significant Oxide Extensions; Western Deep"
+    url: https://marimaca.com/wp-content/uploads/2026/07/Marimaca-Announces-Oxide-Drilling-from-Pampa-Medina_vF.pdf
+    sha256: f8c6188f50b1196b063bc96ab0ee0df2c14fca4a2beb7b48bd8791cf9ce476b5
+  - file: 2026-02-17_news_marimaca-copper-announces-global-offering-of-c409-million-a4.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-02-17
+    filing_date: 2026-02-17
+    title: "News Release"
+    url: https://marimaca.com/wp-content/uploads/2026/07/Marimaca-Copper-Announces-Global-Offering-of-C409-Million-A423-Million.pdf
+    sha256: 64835e23e1810f02df9499e0b626ccab6517578bd297a02b92f4eccb625131c9
+  - file: 2026-02-18_news_marimaca-copper-completes-bookbuild-for-c409-million-a423-mi.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-02-18
+    filing_date: 2026-02-18
+    title: "Legal/94646587_6"
+    url: https://marimaca.com/wp-content/uploads/2026/06/Marimaca-Copper-Completes-Bookbuild-for-C409-Million-A423-Million.pdf
+    sha256: abe81362220b27f6767d31ad1f8d9b7fc5b4aae9e9222fb5269b0ef3cd34b7e3
+  - file: 2026-02-26_news_marimaca-copper-announces-closing-of-australian-offering-vf.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-02-26
+    filing_date: 2026-02-26
+    title: "News Release"
+    url: https://marimaca.com/wp-content/uploads/2026/06/Marimaca-Copper-Announces-Closing-of-Australian-Offering_vF-1.pdf
+    sha256: c07db5cd9b4a008f3686a1e0a20be9a21cab2d9cdcf1a2786c423ad1a34eb11d
+  - file: 2026-02-26_news_marimaca-copper-announces-closing-of-canadian-offering-final.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-02-26
+    filing_date: 2026-02-26
+    title: "News Release"
+    url: https://marimaca.com/wp-content/uploads/2026/06/Marimaca-Copper-Announces-Closing-of-Canadian-Offering_Final_vF.pdf
+    sha256: 7f449c0a69bcf5a83bbeb816afda6358a9194cf2feee84056ed62aedc01ca717
+  - file: 2026-03-02_news_marimaca-copper-corp-nr-2326.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-03-02
+    filing_date: 2026-03-02
+    title: "Marimaca Announces Senior Management Updates"
+    url: https://marimaca.com/wp-content/uploads/2026/08/Marimaca_Copper_Corp._NR_2326.pdf
+    sha256: 78f6414beabc9e0ba1b2a2d82abb53087b8b35e721deb4aaaab0243e13b3abae
+  - file: 2026-03-11_news_marimaca-announces-further-step-outs-at-pampa-medina-vf.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-03-11
+    filing_date: 2026-03-11
+    title: "Marimaca Reports Further High-Grade Copper and Silver Intersections"
+    url: https://marimaca.com/wp-content/uploads/2026/06/Marimaca-Announces-Further-Step-Outs-at-Pampa-Medina-vF.pdf
+    sha256: 8cbf92bf1dc2939689464019ff4935e75aa44fb9b4782042a0edfb516f1d270e
+  - file: 2026-03-30_news_marimaca-announces-changes-to-board-of-directors-final.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-03-30
+    filing_date: 2026-03-30
+    title: "Marimaca Announces the Appointment of Zenon Wozniak to its Board of Directors;"
+    url: https://marimaca.com/wp-content/uploads/2026/06/Marimaca-Announces-Changes-to-Board-of-Directors-FINAL.pdf
+    sha256: 2a18ff573c32d870d3b4a75b52bbb7416d238df69784aa7f4fa8e60970da83e0
+  - file: 2026-04-02_news_marimaca-announces-further-silver-assays-from-the-pampa-medi.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-04-02
+    filing_date: 2026-04-02
+    title: "Marimaca Reports Additional High-Grade Silver Assays from Consolidated Drill Results"
+    url: https://marimaca.com/wp-content/uploads/2026/06/Marimaca-Announces-Further-Silver-Assays-from-the-Pampa-Medina-Project_Final-1.pdf
+    sha256: 99734408c2c9d1186cb441e6ab9ca63930771b40c14e1b60364db03f4a9600b3
+  - file: 2026-05-19_news_marimaca-announces-pampa-medina-results-may-2026-vf-release.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-05-19
+    filing_date: 2026-05-19
+    title: "Drilling Program at Pampa Medina Continues to Demonstrate Continuity and Scale of"
+    url: https://marimaca.com/wp-content/uploads/2026/06/Marimaca-Announces-Pampa-Medina-Results-May-2026-vF-Release-1.pdf
+    sha256: 028debf69cae9426e26252c2003fa62b7d1371c57496551a26be387933fa22e2
+  - file: 2026-05-19_news_marimaca-announces-project-update-final-for-release-1.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-05-19
+    filing_date: 2026-05-19
+    title: "Marimaca Provides Positive Progress Update on the MOD and Sulphuric Acid Strategy"
+    url: https://marimaca.com/wp-content/uploads/2026/06/Marimaca-Announces-Project-Update-Final-for-Release-1.pdf
+    sha256: d67c8dfa87860d47275681737b227780fc19bd5266b813566715c09a6f094cd7
+  - file: 2026-06-08_news_pampa-medina-sulphide-drilling-intersects-significant-extens.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-06-08
+    filing_date: 2026-06-08
+    title: "Pampa Medina Sulphide Drilling Intersects 16m of 5.70% Cu and 62.6 g/t Ag including"
+    url: https://marimaca.com/wp-content/uploads/2026/06/Pampa-Medina-Sulphide-Drilling-Intersects-Significant-Extension-of-UHG-Bornite-Zone_Final-1-1.pdf
+    sha256: 2fefddaeac71716c828bc4830938e0770fcf3606908bfc7b44f5c39127c28a34
+  - file: 2026-06-30_news_marimaca-announces-results-of-annual-general-and-special-mee.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-06-30
+    filing_date: 2026-06-30
+    title: "Marimaca Announces Results of Annual General and Special Meeting of Shareholders"
+    url: https://marimaca.com/wp-content/uploads/2026/07/Marimaca-Announces-Results-of-Annual-General-and-Special-Meeting-of-Shareholders_vFinal.pdf
+    sha256: 1f59e2c2390a6222f60b9f62b243c21e13e5242499df2dcbaf3f783cff2a0f83
+  - file: 2026-07-14_news_marimaca-copper-continues-to-extend-high-grade-sulphide-zone.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-07-14
+    filing_date: 2026-07-14
+    title: "Marimaca Copper Extends High-Grade Bornite Zone at Pampa Medina – 6m of 6.11% Cu"
+    url: https://marimaca.com/wp-content/uploads/2026/07/Marimaca-Copper-Continues-to-Extend-High-Grade-Sulphide-Zone_vF-003.pdf
+    sha256: 0932a128392ed1b80c6626e139a4d3bea08e48e8c0e35bbf2bb62bdfc8d2e5d0
+  - file: 2026-09-01_news_marimaca-copper-announces-appointment-of-nicole-porcile-as-i.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-09-01
+    filing_date: 2026-09-01
+    title: "Marimaca Copper Announces Appointment of Nicole Porcile as Independent Director"
+    url: https://marimaca.com/wp-content/uploads/2026/09/Marimaca-Copper-Announces-Appointment-of-Nicole-Porcile-as-Independent-Director-vF.pdf
+    sha256: 17d8e70794c5594c0ae3b02be9e77edd2fc8787593bde19be78cb6337c3a50b2
+  - file: 2026-09-08_news_marimaca-copper-pampa-medina-drilling-continues-to-deliver-e.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-09-08
+    filing_date: 2026-09-08
+    title: "Pampa Medina Continues to Deliver Extraordinary Cu-Ag Grade-Widths – Drilling"
+    url: https://marimaca.com/wp-content/uploads/2026/09/Marimaca-Copper-Pampa-Medina-Drilling-Continues-to-Deliver-Extraordinary-Results_vF-002.pdf
+    sha256: e41b72ae445c617cf3b5d21a56a8ca5ff2f89749f68ee9d30d2b8ca59a4bad6f
+  - file: 2026-10-08_news_marimaca-appoints-peter-garner-winship-as-cfo.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-10-08
+    filing_date: 2026-10-08
+    title: "Marimaca Appoints Peter Garner-Winship as CFO"
+    url: https://marimaca.com/wp-content/uploads/2026/10/Marimaca-Appoints-Peter-Garner-Winship-as-CFO.pdf
+    sha256: d1195a95d4c69dbdf9888f9b7ef1a4c689894a0f18cf22016eed714becc5d1e4
+  - file: 2026-11-02_news_marimaca-announces-appointment-of-louis-irvine-to-board.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-11-02
+    filing_date: 2026-11-02
+    title: "Marimaca Announces the Appointment of Louis Irvine to its Board of Directors"
+    url: https://marimaca.com/wp-content/uploads/2026/11/Marimaca-Announces-Appointment-of-Louis-Irvine-to-Board.pdf
+    sha256: ab90c093138ca39e8a656af526fbdeaca699dc93feefcf6e85139870bf67c95a
