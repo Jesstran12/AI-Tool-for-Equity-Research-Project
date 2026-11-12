@@ -9,11 +9,12 @@ Rules, each reported separately with a message that names it:
 4. text_layer        PDF: at least MIN_TEXT_SHARE of pages have >= MIN_PAGE_CHARS characters;
                      HTML: non-empty text. A page "has text" at >= 20 chars: a scan without a
                      text layer has 0, so the bar only separates nothing from something.
-5. items_found       NI 43-101 section index finds Item 1 and at least MIN_ITEMS items; S-K 1300
-                     reports fail until F2.2 exists
+5. items_found       section index finds Item 1 and at least MIN_ITEMS items (NI 43-101 titles, or
+                     S-K 1300 titles for SK1300 reports; HTML exhibits split at CSS page breaks)
 
-Also reported (not a rule): section3_path = "economics" if Items 21 and 22 are found, else
-"no_study" (ground rule 4). Deterministic: no LLM, no network.
+Also reported (not a rule): section3_path = "economics" if the costs and economics items are found
+(21/22 for NI 43-101, 18/19 for S-K 1300), else "no_study" (ground rule 4).
+Deterministic: no LLM, no network.
 """
 
 from __future__ import annotations
@@ -26,7 +27,7 @@ import pymupdf
 from pydantic import BaseModel
 
 from orebody.index.ni43101 import detect_index, load_patterns
-from orebody.ingest.alternate import document_text
+from orebody.index.sk1300 import ECONOMICS_ITEMS, SK1300_SECTIONS, html_pages, sk1300_index
 from orebody.ingest.manifest import load_manifest
 
 COMMODITIES_IN_SCOPE = frozenset({"Cu"})
@@ -128,7 +129,8 @@ def check_folder(folder: Path, as_of: date, sections_yaml: Path) -> Eligibility:
     else:
         path = folder / report.file
         is_pdf = path.suffix.lower() == ".pdf"
-        pages = _pages(path) if is_pdf else []
+        # HTML exhibits (EDGAR) are split at their CSS page breaks so claims keep page numbers
+        pages = _pages(path) if is_pdf else html_pages(path.read_text(errors="ignore"))
         if is_pdf:
             with_text = sum(len(p.strip()) >= MIN_PAGE_CHARS for p in pages)
             share = with_text / len(pages) if pages else 0.0
@@ -138,24 +140,24 @@ def check_folder(folder: Path, as_of: date, sections_yaml: Path) -> Eligibility:
                 f"{with_text}/{len(pages)} pages have text (need {MIN_TEXT_SHARE:.0%})",
             )
         else:
-            text = document_text(path)
-            add("text_layer", bool(text), f"HTML report, {len(text)} characters of text")
+            chars = sum(len(p) for p in pages)
+            add("text_layer", chars > 0, f"HTML report, {len(pages)} pages, {chars} characters")
 
         if report.standard == "SK1300":
-            add("items_found", False, "S-K 1300 report; its section index is F2.2 (not built)")
-        elif not is_pdf:
-            add("items_found", False, "HTML report; the NI 43-101 index reads PDF pages only")
+            index = sk1300_index(pages, load_patterns(SK1300_SECTIONS))
+            method = "S-K 1300"
         else:
             index, method = detect_index(pages, load_patterns(sections_yaml))
-            ok = 1 in index and len(index) >= MIN_ITEMS
-            add(
-                "items_found",
-                ok,
-                f"{len(index)} items found via {method} headings (Item 1 "
-                f"{'found' if 1 in index else 'missing'}; need Item 1 and >= {MIN_ITEMS})",
-            )
-            if ok:
-                path3 = "economics" if 21 in index and 22 in index else "no_study"
+        ok = 1 in index and len(index) >= MIN_ITEMS
+        add(
+            "items_found",
+            ok,
+            f"{len(index)} items found via {method} headings (Item 1 "
+            f"{'found' if 1 in index else 'missing'}; need Item 1 and >= {MIN_ITEMS})",
+        )
+        if ok:
+            costs, economics = ECONOMICS_ITEMS.get(report.standard, ECONOMICS_ITEMS["NI43-101"])
+            path3 = "economics" if costs in index and economics in index else "no_study"
 
     return Eligibility(
         ticker=m.ticker,

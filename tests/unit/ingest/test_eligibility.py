@@ -128,11 +128,31 @@ def test_unnumbered_headings_fail_items_found(tmp_path: Path, fixture_pdf: Path)
     assert "0 items" in _rule(r, "items_found").message
 
 
-def test_sk1300_report_fails_items_found_until_f22(tmp_path: Path, fixture_pdf: Path) -> None:
-    d = _folder(tmp_path, fixture_pdf, MANIFEST.replace("NI43-101", "SK1300"))
+def test_sk1300_html_report_is_eligible(tmp_path: Path) -> None:
+    # Was test_sk1300_report_fails_items_found_until_f22 (a placeholder until F2.2); replaced with
+    # the user's approval when F2.2 added the S-K 1300 index (2026-11-11).
+    d = tmp_path / "FIX"
+    d.mkdir()
+    body = "Body text of the section. " * 8
+    pages = [
+        f"<p>{n}.0</p><p>{title}</p><p>{body}</p>"
+        for n, title in [
+            (1, "EXECUTIVE SUMMARY"),
+            (2, "INTRODUCTION"),
+            (11, "MINERAL RESOURCE ESTIMATES"),
+            (18, "CAPITAL AND OPERATING COSTS"),
+            (19, "ECONOMIC ANALYSIS"),
+        ]
+    ]
+    brk = '<div style="page-break-before: always"></div>'
+    (d / "report.htm").write_text("<html><body>" + brk.join(pages) + "</body></html>")
+    (d / "manifest.yaml").write_text(
+        MANIFEST.replace("report.pdf", "report.htm").replace("NI43-101", "SK1300")
+    )
     r = check_folder(d, AS_OF, SECTIONS)
-    assert not _rule(r, "items_found").passed
-    assert "F2.2" in _rule(r, "items_found").message
+    assert r.passed, [x.message for x in r.rules if not x.passed]
+    assert "5 items found via S-K 1300 headings" in _rule(r, "items_found").message
+    assert r.section3_path == "economics"  # Items 18 and 19, not 21 and 22
 
 
 def test_no_study_path_when_items_21_22_absent(tmp_path: Path, fixture_pdf: Path) -> None:
