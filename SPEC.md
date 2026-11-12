@@ -91,6 +91,7 @@ The evidence base is Francis & Zhang (2026): a four-agent GPT-4o/CrewAI system p
 | D43 | Total API spend ceiling ≈ US$50. Pilots may be run several times; the remaining companies get one pass each; judges on a subset (pilots + up to 2 more). Every live response is recorded as a `FakeProvider` fixture so fixes replay offline. Cumulative spend is printed by `orebody summary`. | user |
 | D44 | Son Ha hand-writes comparator notes (same template, same claims format) for MARI and SLS; the compare page shows agent vs human, blinded. | user |
 | D45 | S-K 1300 section index (F2.2) is DEFERRED: no company in the universe files under S-K 1300. Revived if a US filer is added. | my call (reviewer finding) |
+| D46 | Desk view (Phase 12): eight per-project features chosen for a trading-desk reader (deal sheet, offtake, product quality, logistics, re-pricing at the desk's deck, what changed, location, ownership). Volumes, peer table and alerts were considered and left out. Scheduled after Phase 11. | user, 2026-11-11 |
 
 ## 4. The note
 
@@ -410,6 +411,19 @@ Built out of order so a professor demo exists on 2026-11-05. Each row maps to a 
 | F11.4 | **Human comparator notes (Son Ha, by hand, D44):** MARI and SLS in the note template with a claims file; import via F7.4 | two human notes in the DB, blinded compare works | TODO |
 | F11.5 | Judge pilots + up to 2 more (D43); export PDFs; `orebody summary`; demo script in `reports/demo.md` | deliverable complete | TODO |
 
+### Phase 12 — Desk view (D46)
+A per-project page for a trader or concentrate buyer, built on the ledgered claims of the note. Scheduled after Phase 11 (the deliverable comes first). Every field is a ledgered claim or a computed claim with a derivation; a field the documents do not disclose shows "Not disclosed", never an estimate (ground rule 4).
+| ID | Feature | AC | Status |
+|----|---------|----|--------|
+| F12.1 | **Deal sheet** (top of page): stage, next catalyst + expected date, cash, quarterly burn, runway, funding gap to construction, capital stack (strategic holders, streams, royalties). Reuses Section 2 and Section 5 claims (F5.3, F5.4). | funding gap = initial capex − cash − committed funding, computed with derivation listing input claim ids; fixture with two funders and one stream renders all fields; a missing catalyst date renders "Not disclosed" | TODO |
+| F12.2 | **Offtake status:** per agreement counterparty, product, tonnage or %, term, pricing basis; uncommitted share of planned production. Extends Section 4 (F5.3). | fixture with one partial offtake shows committed and uncommitted shares summing to 100%; no-offtake fixture shows "No offtake disclosed" | TODO |
+| F12.3 | **Product quality:** concentrate or cathode grade, by-product credits, deleterious elements (As, Bi, Hg, F, others disclosed) and any disclosed penalty terms, from Items 13 and 19. | each element value ledgered to its page; penalty risk stated only where the report states a threshold or penalty (no thresholds supplied by the tool); fixture report covers both cases | TODO |
+| F12.4 | **Logistics:** port, route (rail/truck/pipeline), distance to port and to smelter or SX-EW plant, power and water source, from Item 18. | fixture Item 18 yields all fields with pages; distances normalized to km by `core/units.py` with a parametrized test row per unit seen | TODO |
+| F12.5 | **Re-pricing at the desk's deck:** user-entered Cu price (and by-product prices where L7 exists) next to company deck, spot, deck A, deck B. Extends F9.5 (D20). | NPV/IRR update without an LLM call; company-deck column reproduces the Section 3 rebuilt NPV exactly | TODO |
+| F12.6 | **What changed since last note:** diff of the current vs previous technical report (capex, opex, NPV, IRR, grade, resource, mine life, start year, price deck) and of the latest two quarterly filings (cash, burn, debt, shares out). Shown first on the page. Uses the full study history in the manifest. | fixture pair of studies lists every changed field with old value, new value, both sources, and % change; price-deck change is listed beside NPV change; unchanged fields omitted | TODO |
+| F12.7 | **Location:** country, state/province, nearest town, coordinates, map pin, from Item 4. | `core/geo.py` (pure) converts degrees-minutes-seconds and UTM to decimal lat/long, parametrized tests incl. the Trek "57˚ 01' 34" N / UTM Zone 9" format; map renders the pin | TODO |
+| F12.8 | **Ownership:** project owner(s) and % interest, owner type ∈ {public company, private company or fund, state-owned, mixed (state agency stake or carried interest)}, royalty and stream holders, recent ownership changes. From Item 4, latest MD&A/AIF, and news. | fixture with a JV + royalty renders shares summing to 100%; owner type is set only from a disclosed fact (cited), otherwise "Not disclosed"; a sale in the news (e.g. Highland → Kinterra, White Pine North) appears as an ownership change with date | TODO |
+
 ### Later (backlog, not scheduled)
 | ID | Feature | Why deferred |
 |----|---------|--------------|
@@ -433,12 +447,15 @@ Built out of order so a professor demo exists on 2026-11-05. Each row maps to a 
 
 - **2026-11-04 (Phase D)** — Built DEMO_PLAN.md Tasks 1–12 (commits D1…D12b, one per task, TDD throughout). Live run on the MARI FS: `uv run orebody run MARI --as-of 2026-11-05 --spot 6.71 --deck-a 3.50 --deck-b 5.00` → stats line `MARI-2026-11-05-104923: verified 10/10 rate=1.00 cost=US$0.3391 seconds=0.1 items_missing=[]` (the first live call, run 104632, recorded fixture `1bc990a873026319.json` then aborted because the model invented a doc id; the pipeline now stamps `doc_id`, and later runs replay the recording). Hand audit in `reports/audit.md`: all ten figures correct; rebuilt base-case NPV US$570 M vs stated US$709 M (−19.6%), explained by the parametric model shape, nameplate vs LOM-average production, and the omitted US$77 M expansion capital. Plan deviations (all ledgered): TOC detection changed to a contiguous run of dot-leader pages (the plan's 'largest page ≤ 15' rule put Items 21–27 on their TOC entries); renderer escapes Markdown control characters in model text (security review); FakeProvider replays recorded cost; CLI refuses a technical report filed after `--as-of`. Spot price US$6.71/lb was a 2026-10-13 quote (no live feed yet). `make lint test`: `................                                                         [100%] 87 passed, 1 skipped in 1.07s`. Next: F0.2.
 
+- **2026-11-11** — Spec-only session, no pipeline code. Added Phase 12 "Desk view" (F12.1–F12.8, D46) at the user's request; scheduled after Phase 11. Also this session (separate commits): merged the AI-Tool-for-Equity-Research-Project workspace (logs and CLAUDE.local.md moved; its companies reviewed), collected drop folders with url + sha256 manifests for SURG, GCU, NCX, USCU, LEO, HI and news for all of them plus MARI, added `make fetch T=<TICKER>` and `docs/news_index.md`. These tickers differ from the §10 universe (SLS, FDY pilots); reconciling them is OQ5. Matcher gaps found: Lion Yerington PFS and Highland Copperwood FS use un-numbered item headings, so F2.1 finds no items (needs a parametrized row under F2.1). No `make lint test` change to report beyond: `89 passed, 1 skipped`.
+
 ## 13. Open questions
 
 - OQ1. Confirm the universe in §10 (status checks were web-search only).
 - OQ2. Whether any ASX-only filer (JORC) should be included; JORC reports have a different structure and the indexer in F2 covers only NI 43-101 and S-K 1300.
 - OQ3. Whether a non-Anthropic judge model/API account will be available for F10.1 (otherwise two Anthropic tiers are used and the limitation is noted in the summary).
 - OQ4. Demo date with the professor (not yet set; D42 cut order applies whenever it is).
+- OQ5. The drop folders collected on 2026-11-11 (SURG, GCU, NCX, USCU, LEO, HI) are not the §10 universe. Which list is the PoC universe? GCU is now a producer listed on NYSE American, and LEO and HI have S-K 1300 or un-numbered reports, which affects D45 and F2.1.
 
 ## 14. Risks (PoC-specific)
 
