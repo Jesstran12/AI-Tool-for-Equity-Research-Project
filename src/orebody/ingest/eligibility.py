@@ -28,6 +28,7 @@ from pydantic import BaseModel
 
 from orebody.index.ni43101 import detect_index, load_patterns
 from orebody.index.sk1300 import ECONOMICS_ITEMS, SK1300_SECTIONS, html_pages, sk1300_index
+from orebody.index.toc import TocCheck, cross_check, printed_pages
 from orebody.ingest.manifest import load_manifest
 
 COMMODITIES_IN_SCOPE = frozenset({"Cu"})
@@ -63,6 +64,27 @@ class Eligibility(BaseModel):
     primary_commodity: str = ""
     by_products: list[str] = []
     commodity_note: str = ""
+    # F2.1b contents cross-check of the index (a note, never a rule): None when no index was built
+    contents: TocCheck | None = None
+
+
+def contents_note(check: TocCheck | None) -> str:
+    """One line for `orebody check`, e.g. 'contents check: offset +25 over 27 items, no
+    disagreement'; 'contents check: item 21 found p.31, contents says p.9 (expected p.9)';
+    'contents check: not possible (<reason>)'. Empty string when check is None."""
+    if check is None:
+        return ""
+    if check.offset is None:
+        return f"contents check: not possible ({check.note})"
+    head = f"contents check: offset {check.offset:+d} over {check.checked} items"
+    if not check.flagged:
+        return f"{head}, no disagreement"
+    parts = [
+        f"item {f.item} found p.{f.index_start}, contents says p.{f.printed} "
+        f"(expected p.{f.expected})"
+        for f in check.flagged
+    ]
+    return f"{head}; " + "; ".join(parts)
 
 
 def _pages(path: Path) -> list[str]:
@@ -123,6 +145,7 @@ def check_folder(folder: Path, as_of: date, sections_yaml: Path) -> Eligibility:
 
     # 4-5 read the report itself (even one filed after as-of: readability does not depend on date)
     path3: Literal["economics", "no_study"] | None = None
+    contents: TocCheck | None = None
     if report is None:
         add("text_layer", False, "no technical report to check")
         add("items_found", False, "no technical report to check")
@@ -144,10 +167,13 @@ def check_folder(folder: Path, as_of: date, sections_yaml: Path) -> Eligibility:
             add("text_layer", chars > 0, f"HTML report, {len(pages)} pages, {chars} characters")
 
         if report.standard == "SK1300":
-            index = sk1300_index(pages, load_patterns(SK1300_SECTIONS))
+            patterns = load_patterns(SK1300_SECTIONS)
+            index = sk1300_index(pages, patterns)
             method = "S-K 1300"
         else:
-            index, method = detect_index(pages, load_patterns(sections_yaml))
+            patterns = load_patterns(sections_yaml)
+            index, method = detect_index(pages, patterns)
+        contents = cross_check(index, printed_pages(pages, patterns))
         ok = 1 in index and len(index) >= MIN_ITEMS
         add(
             "items_found",
@@ -166,6 +192,7 @@ def check_folder(folder: Path, as_of: date, sections_yaml: Path) -> Eligibility:
         passed=all(r.passed for r in results),
         rules=results,
         section3_path=path3,
+        contents=contents,
         primary_commodity=commodity,
         by_products=m.by_products,
         commodity_note=note,

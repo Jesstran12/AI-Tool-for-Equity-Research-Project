@@ -264,13 +264,15 @@ def check(
     data_dir: Annotated[Path, typer.Option(help="Data root (raw/)")] = Path("data"),
 ) -> None:
     """Apply the SPEC §10.1 eligibility rules to a drop folder (F1.6). Exit 1 if any rule fails."""
-    from orebody.ingest.eligibility import check_folder
+    from orebody.ingest.eligibility import check_folder, contents_note
 
     r = check_folder(data_dir / "raw" / ticker.upper(), as_of.date(), CONFIG_DIR / "sections.yaml")
     for rule in r.rules:
         typer.echo(f"{'PASS' if rule.passed else 'FAIL'}  {rule.message}")
     if r.commodity_note:
         typer.echo(f"NOTE  {r.commodity_note}")
+    if r.contents is not None:
+        typer.echo(f"NOTE  {contents_note(r.contents)}")
     typer.echo(
         f"{r.ticker}: {'ELIGIBLE' if r.passed else 'NOT ELIGIBLE'}"
         f"{f' (Section 3 path: {r.section3_path})' if r.section3_path else ''}"

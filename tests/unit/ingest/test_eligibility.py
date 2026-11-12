@@ -11,7 +11,7 @@ from pathlib import Path
 import pymupdf
 import pytest
 
-from orebody.ingest.eligibility import RULES, check_folder
+from orebody.ingest.eligibility import RULES, check_folder, contents_note
 
 ROOT = Path(__file__).resolve().parents[3]
 SECTIONS = ROOT / "config" / "sections.yaml"
@@ -198,3 +198,86 @@ def test_real_leo_is_eligible_after_f21() -> None:
     assert _rule(r, "items_found").passed
     assert "via subsection" in _rule(r, "items_found").message
     assert r.passed and r.section3_path == "economics"
+
+
+# --- F2.1b contents check surfaced in `check` (a note, never a rule) ---------------------------
+
+
+def _report_with_contents(path: Path, printed_21: int) -> None:
+    """Pages: 1 cover, 2 contents, 3-6 Items 1/14/21/22. The contents prints Item 21 on
+    `printed_21`; the true page is 5."""
+    pdf = pymupdf.open()
+    body = "Body text of the section. " * 8
+    toc = "\n".join(
+        [
+            "TABLE OF CONTENTS",
+            "1 Summary ........ 3",
+            "14 Mineral Resource Estimates ........ 4",
+            f"21 Capital and Operating Costs ........ {printed_21}",
+            "22 Economic Analysis ........ 6",
+            "26 Recommendations ........ 7",
+        ]
+    )
+    pages = ["Fixture cover page " * 6, toc]
+    titles = [
+        "1 Summary",
+        "14 Mineral Resource Estimates",
+        "21 Capital and Operating Costs",
+        "22 Economic Analysis",
+    ]
+    pages += [t + "\n" + body for t in titles]
+    for text in pages:
+        pdf.new_page().insert_text((50, 72), text, fontsize=9)
+    pdf.save(path)
+
+
+def test_contents_check_agrees(tmp_path: Path, fixture_pdf: Path) -> None:
+    d = _folder(tmp_path, fixture_pdf)
+    _report_with_contents(d / "report.pdf", printed_21=5)
+    r = check_folder(d, AS_OF, SECTIONS)
+    assert r.passed
+    assert (r.contents.offset, r.contents.checked, r.contents.flagged) == (0, 4, [])
+    assert contents_note(r.contents) == "contents check: offset +0 over 4 items, no disagreement"
+
+
+def test_contents_disagreement_is_a_note_not_a_failure(tmp_path: Path, fixture_pdf: Path) -> None:
+    d = _folder(tmp_path, fixture_pdf)
+    _report_with_contents(d / "report.pdf", printed_21=9)  # contents is wrong about Item 21
+    r = check_folder(d, AS_OF, SECTIONS)
+    assert r.passed  # eligibility unchanged
+    assert [f.item for f in r.contents.flagged] == [21]
+    assert contents_note(r.contents) == (
+        "contents check: offset +0 over 4 items; item 21 found p.5, contents says p.9 "
+        "(expected p.9)"
+    )
+
+
+def test_contents_note_when_check_is_impossible() -> None:
+    from orebody.index.toc import TocCheck
+
+    reason = "too few items agree on an offset (2 < 3)"
+    c = TocCheck(offset=None, checked=2, flagged=[], note=reason)
+    assert contents_note(c) == f"contents check: not possible ({reason})"
+    assert contents_note(None) == ""
+
+
+def test_check_cli_prints_the_contents_note(tmp_path: Path, fixture_pdf: Path) -> None:
+    from typer.testing import CliRunner
+
+    from orebody.cli import app
+
+    data = tmp_path / "data" / "raw"
+    data.mkdir(parents=True)
+    d = _folder(data, fixture_pdf)
+    _report_with_contents(d / "report.pdf", printed_21=5)
+    args = ["check", "FIX", "--as-of", "2026-11-11", "--data-dir", str(tmp_path / "data")]
+    out = CliRunner().invoke(app, args).output
+    assert "NOTE  contents check: offset +0 over 4 items, no disagreement" in out
+
+
+@pytest.mark.skipif(
+    not (RAW / "SURG" / "2026-06-12_berg_ni43-101-pfs.pdf").exists(), reason="SURG not fetched"
+)
+def test_real_surg_contents_check() -> None:
+    r = check_folder(RAW / "SURG", AS_OF, SECTIONS)
+    assert r.contents.offset == 25 and r.contents.flagged == []
