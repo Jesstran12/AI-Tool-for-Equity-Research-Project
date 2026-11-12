@@ -84,14 +84,15 @@ def test_fresh_database_gets_every_table(tmp_path: Path) -> None:
     c = connect(tmp_path / "t.sqlite")
     assert current_version(c) == 0
     applied = migrate(c)
-    assert applied == ["0001_initial"]
+    # Expected list updated for 0002_run_stats (F6.4) with the user's approval, 2026-11-12
+    assert applied == ["0001_initial", "0002_run_stats"]
     assert TABLES <= _tables(c)
-    assert current_version(c) == 1
+    assert current_version(c) == 2
 
 
 def test_migrate_is_idempotent(conn: sqlite3.Connection) -> None:
     assert migrate(conn) == []
-    assert current_version(conn) == 1
+    assert current_version(conn) == 2  # 0002_run_stats (F6.4)
 
 
 def test_new_migration_applies_once_in_order(tmp_path: Path) -> None:
@@ -147,7 +148,7 @@ def test_connect_turns_foreign_keys_on(tmp_path: Path) -> None:
 
 def test_init_db_creates_the_file(tmp_path: Path) -> None:
     path = tmp_path / "data" / "orebody.sqlite"
-    assert init_db(path) == ["0001_initial"]
+    assert init_db(path) == ["0001_initial", "0002_run_stats"]  # 0002 added in F6.4
     assert path.exists()
     assert init_db(path) == []
 
@@ -244,5 +245,6 @@ def test_db_init_cli(tmp_path: Path) -> None:
     first = CliRunner().invoke(app, ["db", "init", "--path", str(path)])
     assert first.exit_code == 0, first.output
     assert "applied 0001_initial" in first.output
+    assert "applied 0002_run_stats" in first.output  # F6.4
     again = CliRunner().invoke(app, ["db", "init", "--path", str(path)])
-    assert again.exit_code == 0 and "up to date (version 1)" in again.output
+    assert again.exit_code == 0 and "up to date (version 2)" in again.output

@@ -206,3 +206,19 @@ def test_run_refuses_when_no_report_is_filed_by_as_of(tmp_path: Path) -> None:
     assert "no technical report filed on or before 2025-01-01" in r.output
     assert "fixture_report.pdf (filed 2025-10-09)" in r.output
     assert not (tmp_path / "data" / "runs").exists()
+
+
+def test_run_records_stats_in_the_database(fixture_pdf: Path, tmp_path: Path) -> None:
+    # F6.4: the fake end-to-end run writes a 'done' run row with stats, under the data dir
+    from orebody.db import connect
+    from orebody.db.runs import get_run
+
+    test_run_fake_end_to_end(fixture_pdf, tmp_path)  # same setup and run as above
+    db = tmp_path / "data" / "orebody.sqlite"
+    assert db.exists()
+    conn = connect(db)
+    (run_id,) = conn.execute("SELECT run_id FROM runs").fetchone()
+    r = get_run(conn, run_id)
+    assert r["status"] == "done"
+    assert r["stats"]["total"] >= 1
+    assert r["stats"]["tier1_rate"] == r["stats"]["verification_rate"]  # tier 2 not built yet

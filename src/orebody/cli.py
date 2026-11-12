@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import time
-from datetime import date, datetime
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Annotated
 
@@ -16,15 +16,19 @@ from orebody.agents.schemas import EconInputs
 from orebody.config import load_config
 from orebody.core.npv import NpvInputs, NpvResult, npv
 from orebody.core.units import Quantity, to_usd_per_t
+from orebody.db import connect, migrate
+from orebody.db.runs import RunRow, record_run
 from orebody.index.ni43101 import build_index, load_patterns
 from orebody.ingest.asof import apply_as_of, select_report, write_exclusion_log
 from orebody.ingest.extract import extract_pages, read_page
 from orebody.ingest.manifest import load_manifest
+from orebody.ingest.register import doc_id_for
 from orebody.llm.anthropic_provider import AnthropicProvider
 from orebody.llm.fake import FakeProvider
 from orebody.llm.provider import LLMProvider
 from orebody.render.markdown import PriceDeck, render_section3
-from orebody.verify.tier1 import verification_rate, verify_tier1
+from orebody.verify.stats import run_stats, stats_line
+from orebody.verify.tier1 import verify_tier1
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 db_app = typer.Typer(no_args_is_help=True, help="SQLite store (F0.3).")
@@ -124,97 +128,146 @@ def run(
     if asof.excluded:
         typer.echo(f"as-of {as_of_date}: excluded {len(asof.excluded)} document(s), see asof.json")
 
-    extracted = extract_pages(pdf_path, data_dir / "pages")
-    pages = [read_page(extracted.pages_dir, n) for n in range(1, extracted.n_pages + 1)]
-    index = build_index(pages, load_patterns(CONFIG_DIR / "sections.yaml"))
-    bundle = build_context(extracted.pages_dir, index)
-    (run_dir / "context.txt").write_text(bundle.text)
-    if bundle.items_missing:
-        typer.echo(f"warning: items not found in index: {bundle.items_missing}", err=True)
-
-    config = load_config(CONFIG_DIR)
-    fa = config.agent("financial_analyst")
-    model, effort = fa.model, fa.effort
-    llm: LLMProvider
-    if provider == "fake":
-        llm = FakeProvider(fixtures)
-    elif provider == "anthropic":
-        llm = AnthropicProvider(record_dirs=[fixtures, run_dir], prices=config.price_table())
-    else:
-        typer.echo(f"error: unknown provider {provider!r}", err=True)
-        raise typer.Exit(code=2)
-    prompt_version, system = load_prompt(PROMPT_PATH)
-    (run_dir / "request.json").write_text(
-        json.dumps(
-            {"model": model, "effort": effort, "prompt_version": prompt_version, "system": system},
-            indent=2,
-        )
-    )
-
-    output, completion = run_financial_analyst(
-        llm, bundle, extracted.doc_id, model, effort, PROMPT_PATH
-    )
-    (run_dir / "output.json").write_text(
-        json.dumps(
-            {
-                "parsed": completion.parsed,
-                "usage": completion.usage.model_dump(),
-                "model": completion.model,
-                "cost_usd": completion.cost_usd,
-                "request_key": completion.request_key,
-                "raw_text": completion.raw_text,
-            },
-            indent=2,
-        )
-    )
-
-    verified = verify_tier1(output.claims, lambda n: read_page(extracted.pages_dir, n))
-    (run_dir / "claims.json").write_text(json.dumps([c.model_dump() for c in verified], indent=2))
-
-    deck = PriceDeck(
-        spot_usd_per_t=_per_lb(spot),
-        deck_a_usd_per_t=_per_lb(deck_a),
-        deck_b_usd_per_t=_per_lb(deck_b),
-        source="cli",
-    )
-    results, missing = _npv_results(output.inputs, deck)
-    note = render_section3(
-        ticker=ticker,
-        name=manifest.name,
-        as_of=as_of_date,
-        doc_id=extracted.doc_id,
-        inputs=output.inputs,
-        claims=verified,
-        deck=deck,
-        results=results,
-        missing=missing,
+    # F6.4: the run record lives in <data_dir>/orebody.sqlite: 'running' now, 'done' or 'failed'
+    db = connect(data_dir / "orebody.sqlite")
+    migrate(db)
+    run_row = RunRow(
         run_id=run_id,
-        cost_usd=completion.cost_usd,
+        ticker=ticker,
+        company_name=manifest.name,
+        as_of=as_of_date,
+        started_at=datetime.now(UTC).isoformat(timespec="seconds"),
+        git_sha=_git_sha(),
+        document_ids=[doc_id_for(ticker, report.file)],
+        excluded_docs=[e.file for e in asof.excluded],
+        price_deck={
+            "spot_usd_per_lb": spot,
+            "deck_a_usd_per_lb": deck_a,
+            "deck_b_usd_per_lb": deck_b,
+        },
     )
-    (run_dir / "note.md").write_text(note)
+    record_run(db, run_row)
+    try:
+        extracted = extract_pages(pdf_path, data_dir / "pages")
+        pages = [read_page(extracted.pages_dir, n) for n in range(1, extracted.n_pages + 1)]
+        index = build_index(pages, load_patterns(CONFIG_DIR / "sections.yaml"))
+        bundle = build_context(extracted.pages_dir, index)
+        (run_dir / "context.txt").write_text(bundle.text)
+        if bundle.items_missing:
+            typer.echo(f"warning: items not found in index: {bundle.items_missing}", err=True)
 
-    rate = verification_rate(verified)
-    stats = {
-        "run_id": run_id,
-        "ticker": ticker,
-        "as_of": as_of_date.isoformat(),
-        "verified": sum(1 for c in verified if c.final_status == "verified"),
-        "total": len(verified),
-        "rate": round(rate, 4),
-        "cost_usd": round(completion.cost_usd, 6),
-        "seconds": round(time.time() - t0, 1),
-        "model": completion.model,
-        "prompt_version": prompt_version,
-        "items_missing": bundle.items_missing,
-        "doc_sha256": extracted.sha256,
-        "npv_missing_fields": missing,
-    }
-    (run_dir / "stats.json").write_text(json.dumps(stats, indent=2))
-    typer.echo(
-        f"{run_id}: verified {stats['verified']}/{stats['total']} rate={rate:.2f} "
-        f"cost=US${stats['cost_usd']:.4f} seconds={stats['seconds']} "
-        f"items_missing={bundle.items_missing} note={run_dir / 'note.md'}"
-    )
+        config = load_config(CONFIG_DIR)
+        fa = config.agent("financial_analyst")
+        model, effort = fa.model, fa.effort
+        llm: LLMProvider
+        if provider == "fake":
+            llm = FakeProvider(fixtures)
+        elif provider == "anthropic":
+            llm = AnthropicProvider(record_dirs=[fixtures, run_dir], prices=config.price_table())
+        else:
+            typer.echo(f"error: unknown provider {provider!r}", err=True)
+            raise typer.Exit(code=2)
+        prompt_version, system = load_prompt(PROMPT_PATH)
+        (run_dir / "request.json").write_text(
+            json.dumps(
+                {
+                    "model": model,
+                    "effort": effort,
+                    "prompt_version": prompt_version,
+                    "system": system,
+                },
+                indent=2,
+            )
+        )
+
+        output, completion = run_financial_analyst(
+            llm, bundle, extracted.doc_id, model, effort, PROMPT_PATH
+        )
+        (run_dir / "output.json").write_text(
+            json.dumps(
+                {
+                    "parsed": completion.parsed,
+                    "usage": completion.usage.model_dump(),
+                    "model": completion.model,
+                    "cost_usd": completion.cost_usd,
+                    "request_key": completion.request_key,
+                    "raw_text": completion.raw_text,
+                },
+                indent=2,
+            )
+        )
+
+        verified = verify_tier1(output.claims, lambda n: read_page(extracted.pages_dir, n))
+        claims_json = json.dumps([c.model_dump() for c in verified], indent=2)
+        (run_dir / "claims.json").write_text(claims_json)
+
+        deck = PriceDeck(
+            spot_usd_per_t=_per_lb(spot),
+            deck_a_usd_per_t=_per_lb(deck_a),
+            deck_b_usd_per_t=_per_lb(deck_b),
+            source="cli",
+        )
+        results, missing = _npv_results(output.inputs, deck)
+        note = render_section3(
+            ticker=ticker,
+            name=manifest.name,
+            as_of=as_of_date,
+            doc_id=extracted.doc_id,
+            inputs=output.inputs,
+            claims=verified,
+            deck=deck,
+            results=results,
+            missing=missing,
+            run_id=run_id,
+            cost_usd=completion.cost_usd,
+        )
+        (run_dir / "note.md").write_text(note)
+
+        rs = run_stats(verified, cost_usd=completion.cost_usd, seconds=round(time.time() - t0, 1))
+        stats = {
+            "run_id": run_id,
+            "ticker": ticker,
+            "as_of": as_of_date.isoformat(),
+            "verified": rs.verified,
+            "total": rs.total,
+            "rate": round(rs.verification_rate, 4),
+            "tier1_rate": round(rs.tier1_rate, 4),
+            "unverified_by_section": rs.unverified_by_section,
+            "cost_usd": round(completion.cost_usd, 6),
+            "seconds": rs.seconds,
+            "model": completion.model,
+            "prompt_version": prompt_version,
+            "items_missing": bundle.items_missing,
+            "doc_sha256": extracted.sha256,
+            "npv_missing_fields": missing,
+        }
+        (run_dir / "stats.json").write_text(json.dumps(stats, indent=2))
+        run_row = run_row.model_copy(
+            update={
+                "status": "done",
+                "stats": rs,
+                "models": {"financial_analyst": {"model": model, "effort": effort}},
+                "prompt_versions": {"financial_analyst": prompt_version},
+            }
+        )
+        record_run(db, run_row)
+        typer.echo(
+            f"{stats_line(run_id, rs)} items_missing={bundle.items_missing} "
+            f"note={run_dir / 'note.md'}"
+        )
+    except BaseException:
+        record_run(db, run_row.model_copy(update={"status": "failed"}))
+        raise
+    finally:
+        db.close()
+
+
+def _git_sha() -> str:
+    """Pipeline version for the run record (§5.5); empty outside a git checkout."""
+    import subprocess
+
+    r = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=ROOT)
+    return r.stdout.strip() if r.returncode == 0 else ""
 
 
 @app.command()
