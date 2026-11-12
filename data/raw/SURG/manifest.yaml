@@ -7,6 +7,8 @@ ticker: SURG
 exchange: TSXV
 name: Surge Copper Corp.
 flagship_project: Berg Copper Project
+primary_commodity: Cu
+by_products: [Mo, Ag]   # Berg PFS: copper-molybdenum-silver
 reporting_currency: CAD   # verify on the financial statements cover page
 documents:
   - file: 2026-06-12_berg_ni43-101-pfs.pdf

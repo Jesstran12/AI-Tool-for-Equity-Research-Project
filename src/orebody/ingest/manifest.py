@@ -39,6 +39,8 @@ class Manifest(BaseModel):
     exchange: str = ""
     cik: str = ""  # 10-digit EDGAR CIK when the company files with the SEC (F1.8)
     flagship_project: str = ""
+    primary_commodity: str = ""  # element symbol, e.g. "Cu"; never inferred (F1.6)
+    by_products: list[str] = []  # other payable commodities stated in the study
     reporting_currency: str = "USD"
     documents: list[Document]
 

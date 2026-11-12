@@ -77,6 +77,7 @@ Same method for every ticker; MARI was the first. The tool's job is to gather th
 The end state is a website with one page per project. Each page has:
 - **Project overview:** stage, jurisdiction, ownership, flagship study headline numbers, all source-linked.
 - **History graph:** NPV, capex, resource and grade per study (PEA → PFS → FS), each point annotated with the metal price deck it used, so a higher deck is not mistaken for a better project.
+- **Grouped by primary commodity:** copper projects are the PoC; any project whose manifest states another primary commodity (Au, Zn, Ni, ...) is kept, not dropped, and gets its own report section on the site (e.g. "Gold projects"). By-products are listed on each project page. `orebody check` records the commodity and by-products for every project (F1.6).
 - **Recent news feed:** tagged (Funding, Deal, Study, Permits, Drilling, Production, Listing, People), newest first, with "what changed" in one line each.
 
 What the desk page must show (agreed with the user 2026-11-11; spec each as a feature before building):

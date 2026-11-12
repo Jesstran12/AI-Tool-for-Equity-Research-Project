@@ -8,6 +8,7 @@ cik: "0001514860"
 exchange: TSX
 name: Gunnison Copper Corp.
 flagship_project: Gunnison Copper Project
+primary_commodity: Cu
 reporting_currency: USD   # verify on the financial statements cover page
 documents:
   - file: 2026-03-18_gunnison-op-pea_ni43-101.pdf

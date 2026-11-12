@@ -6,6 +6,7 @@ ticker: USCU
 exchange: TSXV
 name: US Copper Corp.
 flagship_project: Moonlight-Superior Copper Project
+primary_commodity: Cu
 reporting_currency: CAD   # verify on the financial statements cover page
 documents:
   - file: 2024-12-16_moonlight-superior-pea_ni43-101.pdf

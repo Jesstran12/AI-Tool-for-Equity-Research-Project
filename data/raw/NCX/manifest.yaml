@@ -5,6 +5,8 @@ ticker: NCX
 exchange: TSXV
 name: Northisle Copper and Gold Inc.
 flagship_project: North Island Project
+primary_commodity: Cu
+by_products: [Au]   # North Island: copper-gold
 reporting_currency: CAD   # verify on the financial statements cover page
 documents:
   - file: 2025-02-12_north-island-pea_ni43-101.pdf

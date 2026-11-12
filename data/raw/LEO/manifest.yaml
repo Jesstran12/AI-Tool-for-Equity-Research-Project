@@ -7,6 +7,7 @@ cik: "0001339688"
 exchange: CSE (LEO) / Nasdaq (LCU)
 name: Lion Copper and Gold Corp.
 flagship_project: Yerington Copper Project
+primary_commodity: Cu
 reporting_currency: USD   # verify on the financial statements cover page
 documents:
   - file: 2025-05-31_yerington-pfs_ni43-101.pdf

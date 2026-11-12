@@ -252,3 +252,24 @@ def crosscheck(
     for r in rows:
         counts[r["status"]] = counts.get(r["status"], 0) + 1
     typer.echo(" ".join(f"{k}={v}" for k, v in sorted(counts.items())))
+
+
+@app.command()
+def check(
+    ticker: str,
+    as_of: Annotated[datetime, typer.Option(formats=["%Y-%m-%d"], help="As-of date")],
+    data_dir: Annotated[Path, typer.Option(help="Data root (raw/)")] = Path("data"),
+) -> None:
+    """Apply the SPEC §10.1 eligibility rules to a drop folder (F1.6). Exit 1 if any rule fails."""
+    from orebody.ingest.eligibility import check_folder
+
+    r = check_folder(data_dir / "raw" / ticker.upper(), as_of.date(), CONFIG_DIR / "sections.yaml")
+    for rule in r.rules:
+        typer.echo(f"{'PASS' if rule.passed else 'FAIL'}  {rule.message}")
+    if r.commodity_note:
+        typer.echo(f"NOTE  {r.commodity_note}")
+    typer.echo(
+        f"{r.ticker}: {'ELIGIBLE' if r.passed else 'NOT ELIGIBLE'}"
+        f"{f' (Section 3 path: {r.section3_path})' if r.section3_path else ''}"
+    )
+    raise typer.Exit(code=0 if r.passed else 1)
