@@ -53,3 +53,20 @@ def test_number_not_substring() -> None:
     assert number_on_page("The figure is 11,240.", "1,240") is False
     assert number_on_page("The figure is 1,240.", "1,240") is True
     assert number_on_page("The figure is 1,2405.", "1,240") is False
+
+
+@pytest.mark.parametrize(
+    ("page", "value_orig", "expected"),
+    [
+        # Bug found by the F3.6 tests (2026-11-12): a number matched as the integer part of a
+        # longer decimal, so "US$708 million" verified against "708.6".
+        ("NPV US$708.6 million", "US$708 million", False),
+        ("payback 2.5 years", "2 years", False),
+        ("NPV US$708.6 million.", "US$708.6 million", True),
+        ("capital of US$1,240.", "1,240", True),  # sentence-ending period is not a decimal part
+    ],
+)
+def test_number_is_not_the_integer_part_of_a_decimal(
+    page: str, value_orig: str, expected: bool
+) -> None:
+    assert number_on_page(page, value_orig) is expected
