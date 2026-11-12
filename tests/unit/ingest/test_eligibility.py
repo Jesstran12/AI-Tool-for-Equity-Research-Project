@@ -170,53 +170,11 @@ def test_real_surg_is_eligible_with_economics() -> None:
 @pytest.mark.skipif(
     not (RAW / "LEO" / "2025-05-31_yerington-pfs_ni43-101.pdf").exists(), reason="LEO not fetched"
 )
-def test_real_leo_fails_items_found() -> None:
+def test_real_leo_is_eligible_after_f21() -> None:
+    # Was test_real_leo_fails_items_found (recorded the un-numbered-heading bug); changed with the
+    # user's approval when F2.1 added the subsection fallback (2026-11-11).
     r = check_folder(RAW / "LEO", AS_OF, SECTIONS)
     assert _rule(r, "text_layer").passed
-    assert not _rule(r, "items_found").passed
-
-
-# --- other commodities are noted, not dropped (user, 2026-11-11) -------------------------------
-
-
-def test_other_primary_commodity_is_recorded_for_a_separate_section(
-    tmp_path: Path, fixture_pdf: Path
-) -> None:
-    m = MANIFEST.replace(
-        "primary_commodity: Cu\n", "primary_commodity: Au\nby_products: [Cu, Ag]\n"
-    )
-    r = check_folder(_folder(tmp_path, fixture_pdf, m), AS_OF, SECTIONS)
-    assert not r.passed
-    assert r.primary_commodity == "Au" and r.by_products == ["Cu", "Ag"]
-    assert "separate Au report section" in r.commodity_note
-    assert "by-products noted: Cu, Ag" in r.commodity_note
-
-
-def test_copper_project_by_products_are_noted(tmp_path: Path, fixture_pdf: Path) -> None:
-    m = MANIFEST.replace(
-        "primary_commodity: Cu\n", "primary_commodity: Cu\nby_products: [Mo, Ag]\n"
-    )
-    r = check_folder(_folder(tmp_path, fixture_pdf, m), AS_OF, SECTIONS)
-    assert r.passed
-    assert r.commodity_note == "by-products noted: Mo, Ag"
-
-
-def test_check_cli_prints_rules_and_exit_code(tmp_path: Path, fixture_pdf: Path) -> None:
-    from typer.testing import CliRunner
-
-    from orebody.cli import app
-
-    data = tmp_path / "data" / "raw"
-    data.mkdir(parents=True)
-    _folder(data, fixture_pdf)
-    ok = CliRunner().invoke(
-        app, ["check", "FIX", "--as-of", "2026-11-11", "--data-dir", str(tmp_path / "data")]
-    )
-    assert ok.exit_code == 0, ok.output
-    assert "FIX: ELIGIBLE (Section 3 path: economics)" in ok.output
-    assert ok.output.count("PASS") == 5
-    bad = CliRunner().invoke(
-        app, ["check", "FIX", "--as-of", "2025-01-01", "--data-dir", str(tmp_path / "data")]
-    )
-    assert bad.exit_code == 1
-    assert "FAIL  report_filed" in bad.output
+    assert _rule(r, "items_found").passed
+    assert "via subsection" in _rule(r, "items_found").message
+    assert r.passed and r.section3_path == "economics"

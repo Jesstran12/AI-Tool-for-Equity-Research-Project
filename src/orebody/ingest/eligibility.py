@@ -25,7 +25,7 @@ from typing import Literal
 import pymupdf
 from pydantic import BaseModel
 
-from orebody.index.ni43101 import build_index, load_patterns
+from orebody.index.ni43101 import detect_index, load_patterns
 from orebody.ingest.alternate import document_text
 from orebody.ingest.manifest import load_manifest
 
@@ -146,12 +146,12 @@ def check_folder(folder: Path, as_of: date, sections_yaml: Path) -> Eligibility:
         elif not is_pdf:
             add("items_found", False, "HTML report; the NI 43-101 index reads PDF pages only")
         else:
-            index = build_index(pages, load_patterns(sections_yaml))
+            index, method = detect_index(pages, load_patterns(sections_yaml))
             ok = 1 in index and len(index) >= MIN_ITEMS
             add(
                 "items_found",
                 ok,
-                f"{len(index)} items found (Item 1 "
+                f"{len(index)} items found via {method} headings (Item 1 "
                 f"{'found' if 1 in index else 'missing'}; need Item 1 and >= {MIN_ITEMS})",
             )
             if ok:
