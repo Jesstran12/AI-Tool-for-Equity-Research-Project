@@ -292,3 +292,28 @@ def db_init(
         conn = connect(path)
         typer.echo(f"up to date (version {current_version(conn)}) -> {path}")
         conn.close()
+
+
+@app.command()
+def ingest(
+    ticker: str,
+    data_dir: Annotated[Path, typer.Option(help="Data root (raw/)")] = Path("data"),
+    db: Annotated[Path, typer.Option(help="SQLite file")] = Path("data/orebody.sqlite"),
+) -> None:
+    """Register a company and its manifest documents in the database (F1.4). Exit 1 if any
+    document is missing or does not match its manifest sha256."""
+    from orebody.db import connect, migrate
+    from orebody.ingest.register import ingest_folder
+
+    conn = connect(db)
+    migrate(conn)
+    r = ingest_folder(conn, data_dir / "raw" / ticker.upper(), data_dir)
+    conn.close()
+    typer.echo(
+        f"{r.ticker}: added {len(r.added)}, unchanged {len(r.unchanged)}, "
+        f"changed {len(r.changed)}, missing {len(r.missing)}, mismatch {len(r.mismatch)}"
+    )
+    for label, files in (("changed", r.changed), ("missing", r.missing), ("mismatch", r.mismatch)):
+        for f in files:
+            typer.echo(f"{label}: {f}")
+    raise typer.Exit(code=0 if r.ok else 1)

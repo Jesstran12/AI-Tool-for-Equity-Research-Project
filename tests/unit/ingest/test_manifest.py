@@ -45,3 +45,25 @@ def test_no_technical_report_raises(tmp_path: Path) -> None:
     m = load_manifest(_write(tmp_path, text))
     with pytest.raises(ValueError, match="technical_report"):
         m.technical_report()
+
+
+# Real-data lesson (F1.4, 2026-11-11): YAML turns unquoted all-digit hashes into numbers.
+@pytest.mark.parametrize(
+    "raw",
+    [
+        "0" * 64,  # would be int 0
+        "0" + "7" * 63,  # would be read as octal
+        "1" * 64,  # would be a large int
+        "ab" * 32,  # ordinary hex
+    ],
+)
+def test_sha256_stays_text(tmp_path: Path, raw: str) -> None:
+    m = load_manifest(_write(tmp_path, VALID + f"    sha256: {raw}\n"))
+    assert m.documents[0].sha256 == raw
+
+
+def test_dates_still_parse_with_text_loader(tmp_path: Path) -> None:
+    from datetime import date
+
+    m = load_manifest(_write(tmp_path, VALID))
+    assert m.documents[0].filing_date == date(2025, 10, 9)

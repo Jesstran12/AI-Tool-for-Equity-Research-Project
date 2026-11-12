@@ -52,7 +52,10 @@ class Manifest(BaseModel):
 
 
 def load_manifest(path: Path) -> Manifest:
-    data = yaml.safe_load(Path(path).read_text())
+    # BaseLoader keeps every scalar as text: an unquoted all-digit sha256 would otherwise become
+    # an int, and one starting with 0 and using only 0-7 an octal int (F1.4, 2026-11-11).
+    # Pydantic still parses the date strings.
+    data = yaml.load(Path(path).read_text(), Loader=yaml.BaseLoader)
     try:
         return Manifest.model_validate(data)
     except ValidationError as e:
