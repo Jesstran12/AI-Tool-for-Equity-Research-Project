@@ -25,6 +25,8 @@ from orebody.ingest.manifest import load_manifest
 from orebody.ingest.register import doc_id_for
 from orebody.llm.anthropic_provider import AnthropicProvider
 from orebody.llm.fake import FakeProvider
+from orebody.llm.prompts import load_prompt as load_prompt_file
+from orebody.llm.prompts import run_record
 from orebody.llm.provider import LLMProvider
 from orebody.render.markdown import PriceDeck, render_section3
 from orebody.verify.stats import run_stats, stats_line
@@ -33,6 +35,8 @@ from orebody.verify.tier1 import verify_tier1
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 db_app = typer.Typer(no_args_is_help=True, help="SQLite store (F0.3).")
 app.add_typer(db_app, name="db")
+prompts_app = typer.Typer(no_args_is_help=True, help="Prompt versions and lock (F4.3).")
+app.add_typer(prompts_app, name="prompts")
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG_DIR = ROOT / "config"
@@ -247,7 +251,7 @@ def run(
                 "status": "done",
                 "stats": rs,
                 "models": {"financial_analyst": {"model": model, "effort": effort}},
-                "prompt_versions": {"financial_analyst": prompt_version},
+                "prompt_versions": run_record({"financial_analyst": load_prompt_file(PROMPT_PATH)}),
             }
         )
         record_run(db, run_row)
@@ -372,3 +376,33 @@ def ingest(
         for f in files:
             typer.echo(f"{label}: {f}")
     raise typer.Exit(code=0 if r.ok else 1)
+
+
+@prompts_app.command("check")
+def prompts_check(
+    dir: Annotated[Path, typer.Option(help="Prompt directory")] = ROOT / "prompts",
+    lock: Annotated[Path, typer.Option(help="Lock file")] = ROOT / "prompts" / "versions.lock",
+) -> None:
+    """Fail if a prompt's text changed without a version bump, or the lock is out of date."""
+    from orebody.llm.prompts import check_lock, load_prompts
+
+    prompts = load_prompts(dir)
+    problems = check_lock(prompts, lock)
+    for p in problems:
+        typer.echo(p)
+    if problems:
+        raise typer.Exit(code=1)
+    typer.echo(f"{len(prompts)} prompt(s) match the lock")
+
+
+@prompts_app.command("lock")
+def prompts_lock(
+    dir: Annotated[Path, typer.Option(help="Prompt directory")] = ROOT / "prompts",
+    lock: Annotated[Path, typer.Option(help="Lock file")] = ROOT / "prompts" / "versions.lock",
+) -> None:
+    """Rewrite the lock from the current prompt files (after a deliberate version bump)."""
+    from orebody.llm.prompts import load_prompts, write_lock
+
+    prompts = load_prompts(dir)
+    write_lock(prompts, lock)
+    typer.echo(f"locked {len(prompts)} prompt(s) -> {lock}")

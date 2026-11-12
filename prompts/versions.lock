@@ -1,0 +1,7 @@
+# F4.3 prompt lock (ground rule 6): each prompt's version and the sha256 of its text (the file
+# after the "version:" line, stripped, plus one newline). Edit a prompt -> bump its version ->
+# run `orebody prompts lock`. `orebody prompts check` and the test suite fail if a prompt's text
+# changed while its version did not.
+financial_analyst:
+  version: "1"
+  sha256: "585c00e1159025ab811a7c308853bc263220149246953240195c6a49e59ffaeb"

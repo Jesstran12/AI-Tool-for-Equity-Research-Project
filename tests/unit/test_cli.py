@@ -222,3 +222,18 @@ def test_run_records_stats_in_the_database(fixture_pdf: Path, tmp_path: Path) ->
     assert r["status"] == "done"
     assert r["stats"]["total"] >= 1
     assert r["stats"]["tier1_rate"] == r["stats"]["verification_rate"]  # tier 2 not built yet
+
+
+def test_run_records_prompt_version_and_hash(fixture_pdf: Path, tmp_path: Path) -> None:
+    # F4.3: the run row stores {name: {version, sha256}} for the prompt it used
+    import yaml as _yaml
+
+    from orebody.db import connect
+    from orebody.db.runs import get_run
+    from orebody.llm.prompts import LOCK_FILE
+
+    test_run_fake_end_to_end(fixture_pdf, tmp_path)
+    conn = connect(tmp_path / "data" / "orebody.sqlite")
+    (run_id,) = conn.execute("SELECT run_id FROM runs").fetchone()
+    locked = _yaml.safe_load(LOCK_FILE.read_text())["financial_analyst"]
+    assert get_run(conn, run_id)["prompt_versions"] == {"financial_analyst": locked}

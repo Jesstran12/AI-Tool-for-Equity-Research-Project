@@ -6,16 +6,14 @@ from pathlib import Path
 
 from orebody.agents.context import ContextBundle
 from orebody.agents.schemas import FinancialAnalystOutput
+from orebody.llm.prompts import load_prompt as load_prompt_file
 from orebody.llm.provider import Completion, LLMProvider
 
 
 def load_prompt(path: Path) -> tuple[str, str]:
-    """Return (version, body) from a prompt file whose first line is `version: N`."""
-    text = Path(path).read_text()
-    first, _, body = text.partition("\n")
-    if not first.startswith("version:"):
-        raise ValueError(f"{path}: first line must be 'version: N', got {first!r}")
-    return first.split(":", 1)[1].strip(), body.strip() + "\n"
+    """Return (version, body) from a prompt file whose first line is `version: N` (F4.3 loader)."""
+    p = load_prompt_file(path)
+    return p.version, p.body
 
 
 def run_financial_analyst(
