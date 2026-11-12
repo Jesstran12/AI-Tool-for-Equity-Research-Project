@@ -180,3 +180,29 @@ def test_discover_cli_writes_candidates(tmp_path: Path, monkeypatch) -> None:
     # Fixture Copper + Sedar Only included; REIT, Late Filer, No Report excluded
     assert "2 included, 3 excluded" in r.output
     assert len(json.loads(out.read_text())) == 5
+
+
+def test_run_refuses_when_no_report_is_filed_by_as_of(tmp_path: Path) -> None:
+    # F1.3: the error lists the excluded report and its date; no run directory is created.
+    raw = tmp_path / "data" / "raw" / "FIX"
+    raw.mkdir(parents=True)
+    (raw / "manifest.yaml").write_text(MANIFEST)  # report filed 2025-10-09
+    r = CliRunner().invoke(
+        app,
+        [
+            "run",
+            "FIX",
+            "--as-of",
+            "2025-01-01",
+            "--spot",
+            "4.5",
+            "--provider",
+            "fake",
+            "--data-dir",
+            str(tmp_path / "data"),
+        ],
+    )
+    assert r.exit_code == 2
+    assert "no technical report filed on or before 2025-01-01" in r.output
+    assert "fixture_report.pdf (filed 2025-10-09)" in r.output
+    assert not (tmp_path / "data" / "runs").exists()

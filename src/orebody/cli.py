@@ -17,6 +17,7 @@ from orebody.config import load_config
 from orebody.core.npv import NpvInputs, NpvResult, npv
 from orebody.core.units import Quantity, to_usd_per_t
 from orebody.index.ni43101 import build_index, load_patterns
+from orebody.ingest.asof import apply_as_of, select_report, write_exclusion_log
 from orebody.ingest.extract import extract_pages, read_page
 from orebody.ingest.manifest import load_manifest
 from orebody.llm.anthropic_provider import AnthropicProvider
@@ -100,13 +101,12 @@ def run(
         typer.echo(f"error: {manifest_path} not found", err=True)
         raise typer.Exit(code=2)
     manifest = load_manifest(manifest_path)
-    report = manifest.technical_report()
-    if report.filing_date > as_of_date:
-        typer.echo(
-            f"error: technical report filed {report.filing_date} is after as-of {as_of_date}",
-            err=True,
-        )
-        raise typer.Exit(code=2)
+    asof = apply_as_of(manifest, as_of_date)  # F1.3: the run sees only documents filed by as-of
+    try:
+        report = select_report(asof)
+    except ValueError as e:
+        typer.echo(f"error: {e}", err=True)
+        raise typer.Exit(code=2) from None
 
     pdf_path = raw_dir / report.file
     if not pdf_path.exists():
@@ -120,6 +120,9 @@ def run(
     run_id = f"{ticker}-{as_of_date.isoformat()}-{datetime.now().strftime('%H%M%S')}"
     run_dir = data_dir / "runs" / run_id
     run_dir.mkdir(parents=True, exist_ok=False)
+    write_exclusion_log(asof, run_dir)
+    if asof.excluded:
+        typer.echo(f"as-of {as_of_date}: excluded {len(asof.excluded)} document(s), see asof.json")
 
     extracted = extract_pages(pdf_path, data_dir / "pages")
     pages = [read_page(extracted.pages_dir, n) for n in range(1, extracted.n_pages + 1)]
