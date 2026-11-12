@@ -26,6 +26,8 @@ from orebody.render.markdown import PriceDeck, render_section3
 from orebody.verify.tier1 import verification_rate, verify_tier1
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
+db_app = typer.Typer(no_args_is_help=True, help="SQLite store (F0.3).")
+app.add_typer(db_app, name="db")
 
 ROOT = Path(__file__).resolve().parents[2]
 CONFIG_DIR = ROOT / "config"
@@ -271,3 +273,19 @@ def check(
         f"{f' (Section 3 path: {r.section3_path})' if r.section3_path else ''}"
     )
     raise typer.Exit(code=0 if r.passed else 1)
+
+
+@db_app.command("init")
+def db_init(
+    path: Annotated[Path, typer.Option(help="SQLite file")] = Path("data/orebody.sqlite"),
+) -> None:
+    """Create the database, or apply any pending migrations (F0.3)."""
+    from orebody.db import connect, current_version, init_db
+
+    applied = init_db(path)
+    for name in applied:
+        typer.echo(f"applied {name}")
+    if not applied:
+        conn = connect(path)
+        typer.echo(f"up to date (version {current_version(conn)}) -> {path}")
+        conn.close()
