@@ -91,6 +91,7 @@ The evidence base is Francis & Zhang (2026): a four-agent GPT-4o/CrewAI system p
 | D43 | Total API spend ceiling ≈ US$50. Pilots may be run several times; the remaining companies get one pass each; judges on a subset (pilots + up to 2 more). Every live response is recorded as a `FakeProvider` fixture so fixes replay offline. Cumulative spend is printed by `orebody summary`. | user |
 | D44 | Son Ha hand-writes comparator notes (same template, same claims format) for MARI and SLS; the compare page shows agent vs human, blinded. | user |
 | D45 | S-K 1300 section index (F2.2) is DEFERRED: no company in the universe files under S-K 1300. Revived if a US filer is added. | my call (reviewer finding) |
+| D47 | §10 universe is a rule plus a discovery step (10.1, 10.2), not a hand list. The evaluation sample is the PROJECTLOG Phase 1 sample (frozen 2026-10-27); the old §10 proposed list is superseded. | user, 2026-11-11 |
 | D46 | Desk view (Phase 12): eight per-project features chosen for a trading-desk reader (deal sheet, offtake, product quality, logistics, re-pricing at the desk's deck, what changed, location, ownership). Volumes, peer table and alerts were considered and left out. Scheduled after Phase 11. | user, 2026-11-11 |
 
 ## 4. The note
@@ -270,24 +271,27 @@ Tests: hand-computed fixtures (3 synthetic projects), IRR bracket test, zero-min
 
 `orebody judge <note_id> --models m1,m2`: each judge model receives the anonymized note Markdown and scores 1–10 on clarity/structure, depth, data relevance, logical consistency, actionable insight (the paper's five) plus **factual accuracy** (judge is given the ledger with statuses), and returns a short justification. Scores stored per (note, model, rubric_version). `orebody summary` writes `reports/summary.md`: per-company verification rate, tier-1 pass rate, unverified count by section, cost, wall time, judge scores, reconciliation gap.
 
-## 10. PoC universe (PROPOSED — confirm or edit)
+## 10. Universe (rule-based, not a fixed list)
 
-Copper-primary, listed, spanning stages. Status as of early Nov 2026 web checks; **verify each is still listed and which technical report is current before collecting documents**.
+Revised 2026-11-11 (D47). The tool is meant to cover every mining project whose documents it can get, so the universe is defined by a rule and found by a discovery step, not typed in by hand.
 
-| # | Company | Ticker | Flagship | Stage (believed) | Note |
-|---|---------|--------|----------|------------------|------|
-| 1 | Kodiak Copper | KDK.V | MPD, BC | Exploration (resource, no study) | tests D12 path |
-| 2 | Faraday Copper | FDY.TO | Copper Creek, AZ | PEA (2023) | old report → staleness flag |
-| 3 | Hot Chili | HCH.AX / HCH.TO | Costa Fuego, Chile | PFS | ASX + TSX dual filer |
-| 4 | Los Andes Copper | LA.V | Vizcachitas, Chile | PFS (2023) | |
-| 5 | Solaris Resources | SLS.TO | Warintza, Ecuador | PFS (Nov 2025) | Royal Gold stream, Zijin stake → tests §2/§4 |
-| 6 | Marimaca Copper | MARI.TO | Marimaca Oxide, Chile | DFS (Aug 2025) | SX-EW cathode, no concentrate |
-| 7 | Western Copper and Gold | WRN.TO | Casino, Yukon | FS (2022) | Cu-Au-Mo, large capex |
-| 8 | Highland Copper | HI.V | Copperwood, MI | FS (2023) | US project, NI 43-101 filer |
-| 9 | NGEx Minerals | NGEX.TO | Lunahuasi, Argentina | Exploration (no resource/study) | replaces Foran; construction stage is covered by Taseko's Florence |
-| 10 | Taseko Mines | TKO.TO / TGB | Gibraltar + Florence, BC/AZ | Production (+ construction) | has sell-side coverage → acts as a covered control |
+### 10.1 Eligibility rule
+A project is in the universe when all of these hold on the as-of date:
+1. **Listed owner:** the project (or a majority/operated interest) belongs to a listed company, so disclosure obligations apply.
+2. **Technical report accessible:** at least one NI 43-101 technical report or S-K 1300 technical report summary is downloadable from the company website, EDGAR, or SEDAR+ (by hand), and is filed on or before the as-of date.
+3. **Primary commodity in scope:** copper for the PoC (copper/zinc for Stage 1, PROJECTLOG); other commodities after L10.
+4. **Readable:** the report has a text layer or passes the vision fallback (F2.4), and the section index (F2.1, or F2.2 for S-K 1300) finds its items.
 
-Alternates: Ero Copper (ERO.TO, producer), Northern Dynasty (NDM.TO, Pebble). Excluded: Foran Mining (acquired by Eldorado Gold, Apr 2026), Arizona Sonoran (acquired by Hudbay, June 2026), Alta Copper (acquired by Fortescue, 2026), SolGold (acquired by Jiangxi, Mar 2026).
+Stage decides the Section 3 path, not eligibility: a project with a PEA/PFS/FS gets the economics path; an exploration-stage report gets the "No economic study disclosed" block (ground rule 4).
+
+### 10.2 Discovery (how projects enter)
+Discovery finds candidates and records why each one is in or out (see F1.5, F1.6). Sources, in order: EDGAR full-text search for S-K 1300 technical report summaries (Ex. 96) and 40-F/6-K filers; company websites; SEDAR+ by hand. A candidate becomes a drop folder only when the rule in 10.1 passes. Every exclusion is logged with its reason (acquired, no report, not copper-primary, unreadable).
+
+### 10.3 Evaluation sample (frozen)
+The Phase 1 sample in `PROJECTLOG.md` ("Phase 1 sample", locked 2026-10-27) is the sample the pass conditions are measured on. It is a fixed subset drawn from the universe and is not edited without a dated Decisions entry there. The earlier proposed list in this section (Kodiak, Hot Chili, Los Andes, Solaris, Western, NGEx, Taseko, ...) is superseded; MARI stays as the demo company.
+
+### 10.4 Collected so far
+Generated from `data/raw/*/manifest.yaml`, not maintained by hand: as of 2026-11-11 the drop folders are MARI, SURG, GCU, NCX, USCU, LEO, HI. Of the frozen sample, SURG, GCU and LEO are collected; Ivanhoe Electric, Sandfire Black Butte, Faraday (Copper Creek PEA), Edge Copper, IDEX, Oreterra and Star Copper are not yet (Oreterra and Star Copper reports exist in the old workspace and are exploration-stage).
 
 ## 11. Feature log
 
@@ -327,12 +331,15 @@ Built out of order so a professor demo exists on 2026-11-05. Each row maps to a 
 | F1.2 | PyMuPDF page extraction → `data/pages/<doc_id>/NNN.txt`, sha256, page count, idempotent | fixture PDF extracts; re-run is a no-op | DONE (D3) |
 | F1.3 | As-of filter with exclusion log | docs after as-of excluded; log lists them; tests | TODO |
 | F1.4 | `orebody ingest <TICKER>` CLI | registers documents in DB | TODO |
+| F1.5 | **Discovery** (`orebody discover`, D47): EDGAR full-text search for S-K 1300 Ex. 96 summaries and 40-F/6-K mining filers (official API, descriptive User-Agent, rate-limited), plus a hand-kept `config/candidates.yaml` for SEDAR+-only names; writes `data/universe/candidates.json` with company, project, source, report found (y/n), and exclusion reason. Absorbs L4. | offline test on recorded EDGAR responses finds the planted Ex. 96 filer and skips a non-mining filer; each candidate has a source URL and a reason when excluded | TODO |
+| F1.6 | **Eligibility check** (`orebody check <TICKER>`): applies §10.1 to a drop folder: listed owner, technical report filed ≤ as-of, primary commodity, text layer, items found by the section index. | fixture folders: one passes, one fails per rule, each with the rule named in the message | TODO |
+| F1.7 | **Collection** (`orebody collect <TICKER>`): turns a passing candidate into a drop folder by the CLAUDE.md "Data collection" method and writes the manifest with url + sha256 (generalizes `scripts/fetch.py` and the 2026-11-11 hand collection). | fixture site + recorded EDGAR index produce a valid manifest; re-run is a no-op; HTML news stored without sha256 | TODO |
 
 ### Phase 2 — Technical report index
 | ID | Feature | AC | Status |
 |----|---------|----|--------|
 | F2.1 | NI 43-101 item index (heading regex + TOC cross-check) | on a fixture report, ≥ 20 of 27 items found with correct start pages | IN PROGRESS (D4: demo slice built, 27/27 items on the MARI FS after the TOC rule became 'contiguous run of dot-leader pages'; remaining AC: TOC cross-check, a second real report) |
-| F2.2 | S-K 1300 section index | same on an S-K 1300 fixture | DEFERRED (D45; see L11) |
+| F2.2 | S-K 1300 section index | same on an S-K 1300 fixture; items found on the Lion Yerington Ex. 99.1 | TODO (D47 reverses D45: LEO and Ivanhoe Electric in the frozen sample file under S-K 1300) |
 | F2.3 | Table-garble detector | precision/recall measured on 20 hand-labelled pages from the pilot reports, logged in tests | TODO |
 | F2.4 | Vision fallback (sonnet-5-5, page image → Markdown table), cached | flagged page re-extracts; cost logged | TODO |
 
@@ -430,14 +437,14 @@ A per-project page for a trader or concentrate buyer, built on the ledgered clai
 | L1 | Human overrides in dashboard (D33) | after core pipeline |
 | L2 | Annual cash-flow schedule DCF when disclosed | D3 |
 | L3 | Web fetch with URL + snapshot citations | D23 |
-| L4 | EDGAR API ingestion for S-K 1300 filers | D2 |
+| L4 | EDGAR API ingestion for S-K 1300 filers | moved into F1.5 (D47) |
 | L5 | Postgres migration + hosted evaluator interface for Stage 2 | multi-user only |
 | L6 | NSR / TC-RC payability model | D32 |
 | L7 | Multi-metal NPV, by-product revenue lines | §7 single-metal |
 | L8 | Refresh-on-filing watcher | product feature |
 | L9 | Cross-vendor Verifier (self-preference check) | needs second API account; provider interface already allows it |
 | L10 | Zinc and nickel universes | after copper proves out |
-| L11 | S-K 1300 section index (was F2.2) | no S-K 1300 filer in the universe (D45) |
+| L11 | S-K 1300 section index (was F2.2) | back in Phase 2 as F2.2 (D47) |
 
 ## 12. Session log
 
@@ -448,14 +455,15 @@ A per-project page for a trader or concentrate buyer, built on the ledgered clai
 - **2026-11-04 (Phase D)** — Built DEMO_PLAN.md Tasks 1–12 (commits D1…D12b, one per task, TDD throughout). Live run on the MARI FS: `uv run orebody run MARI --as-of 2026-11-05 --spot 6.71 --deck-a 3.50 --deck-b 5.00` → stats line `MARI-2026-11-05-104923: verified 10/10 rate=1.00 cost=US$0.3391 seconds=0.1 items_missing=[]` (the first live call, run 104632, recorded fixture `1bc990a873026319.json` then aborted because the model invented a doc id; the pipeline now stamps `doc_id`, and later runs replay the recording). Hand audit in `reports/audit.md`: all ten figures correct; rebuilt base-case NPV US$570 M vs stated US$709 M (−19.6%), explained by the parametric model shape, nameplate vs LOM-average production, and the omitted US$77 M expansion capital. Plan deviations (all ledgered): TOC detection changed to a contiguous run of dot-leader pages (the plan's 'largest page ≤ 15' rule put Items 21–27 on their TOC entries); renderer escapes Markdown control characters in model text (security review); FakeProvider replays recorded cost; CLI refuses a technical report filed after `--as-of`. Spot price US$6.71/lb was a 2026-10-13 quote (no live feed yet). `make lint test`: `................                                                         [100%] 87 passed, 1 skipped in 1.07s`. Next: F0.2.
 
 - **2026-11-11** — Spec-only session, no pipeline code. Added Phase 12 "Desk view" (F12.1–F12.8, D46) at the user's request; scheduled after Phase 11. Also this session (separate commits): merged the AI-Tool-for-Equity-Research-Project workspace (logs and CLAUDE.local.md moved; its companies reviewed), collected drop folders with url + sha256 manifests for SURG, GCU, NCX, USCU, LEO, HI and news for all of them plus MARI, added `make fetch T=<TICKER>` and `docs/news_index.md`. These tickers differ from the §10 universe (SLS, FDY pilots); reconciling them is OQ5. Matcher gaps found: Lion Yerington PFS and Highland Copperwood FS use un-numbered item headings, so F2.1 finds no items (needs a parametrized row under F2.1). No `make lint test` change to report beyond: `89 passed, 1 skipped`.
+- **2026-11-11 (later)** — Rewrote §10 as a rule-based universe with discovery (D47): eligibility rule 10.1, discovery 10.2, evaluation sample = PROJECTLOG Phase 1 sample (frozen 2026-10-27), collected list 10.4. Added F1.5 discover, F1.6 eligibility check, F1.7 collect; F2.2 S-K 1300 index back to TODO (reverses D45); L4 folded into F1.5. OQ1 and OQ5 answered. No code. `make lint test`: `89 passed, 1 skipped`.
 
 ## 13. Open questions
 
-- OQ1. Confirm the universe in §10 (status checks were web-search only).
+- OQ1. ~~Confirm the universe in §10.~~ Answered 2026-11-11 by D47: rule-based universe, frozen evaluation sample in PROJECTLOG.
 - OQ2. Whether any ASX-only filer (JORC) should be included; JORC reports have a different structure and the indexer in F2 covers only NI 43-101 and S-K 1300.
 - OQ3. Whether a non-Anthropic judge model/API account will be available for F10.1 (otherwise two Anthropic tiers are used and the limitation is noted in the summary).
 - OQ4. Demo date with the professor (not yet set; D42 cut order applies whenever it is).
-- OQ5. The drop folders collected on 2026-11-11 (SURG, GCU, NCX, USCU, LEO, HI) are not the §10 universe. Which list is the PoC universe? GCU is now a producer listed on NYSE American, and LEO and HI have S-K 1300 or un-numbered reports, which affects D45 and F2.1.
+- OQ5. ~~Which list is the PoC universe?~~ Answered by D47. Original question: the drop folders collected on 2026-11-11 (SURG, GCU, NCX, USCU, LEO, HI) are not the §10 universe. Which list is the PoC universe? GCU is now a producer listed on NYSE American, and LEO and HI have S-K 1300 or un-numbered reports, which affects D45 and F2.1.
 
 ## 14. Risks (PoC-specific)
 
