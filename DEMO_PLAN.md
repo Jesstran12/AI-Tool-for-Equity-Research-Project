@@ -63,7 +63,7 @@ tests/fixtures/llm/                  recorded live responses (committed)
 
 ---
 
-### Task 0: Prerequisites (Son Ha, before any coding)
+### Task 0: Prerequisites (Jess Tran, before any coding)
 
 - [x] Demo company = **MARI** (Marimaca Copper). `data/raw/MARI/` holds the NI 43-101 FS technical report (361 pages, effective 2025-08-25) plus financials, MD&A, AIF, news, presentation, and `manifest.yaml` (done 2026-11-04). Base-case figures to check against from the company's summary: ~50,000 t/yr cathode, 13-year reserve life, pre-production capex ~US$587 M, post-tax NPV8 ~US$709 M at US$4.30/lb, IRR ~31%.
 - [ ] Confirm credentials: run `ant auth status` or check `echo ${ANTHROPIC_API_KEY:+set}` prints `set`.
@@ -79,7 +79,7 @@ tests/fixtures/llm/                  recorded live responses (committed)
 **Interfaces:**
 - Produces: a `uv` project named `orebody` with dependencies `pydantic>=2`, `pymupdf`, `pyyaml`, `typer`, `anthropic`; dev deps `pytest`, `ruff`; console script `orebody = "orebody.cli:app"`; `make lint` = `uv run ruff check . && uv run ruff format --check .`; `make test` = `uv run pytest -q`.
 
-- [ ] **Step 0: Fix the git root.** `git rev-parse --show-toplevel` must print `/Users/sonhathai/project-4`. If it prints the home directory, run `git init` inside `project-4` so commits never sweep in home-folder files. Then confirm `git status --short` shows only project files.
+- [ ] **Step 0: Fix the git root.** `git rev-parse --show-toplevel` must print the repo root (e.g. `/Users/jesstran/orebody`). If it prints the home directory, run `git init` inside `project-4` so commits never sweep in home-folder files. Then confirm `git status --short` shows only project files.
 - [ ] **Step 1: Write `tests/unit/test_smoke.py`** asserting `import orebody` works and `orebody.__version__ == "0.0.1"`.
 - [ ] **Step 2: Run `uv run pytest -q`** → FAIL (no package).
 - [ ] **Step 3: Create `pyproject.toml`** (hatchling build, `[tool.ruff] line-length = 100`, `[tool.pytest.ini_options] testpaths = ["tests"]`, marker `live`), `src/orebody/__init__.py` with `__version__`, `Makefile`, `.gitignore` (`data/`, `*.sqlite`, `.env`, `.venv/`, `__pycache__/`, `reports/*.pdf`), `.env.example` with `ANTHROPIC_API_KEY=`.

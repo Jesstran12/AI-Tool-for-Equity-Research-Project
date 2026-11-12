@@ -7,7 +7,7 @@ response, so nothing can fail on network or API. Total API spend to date: US$0.3
 
 ## 0. Before you walk in (10 minutes, the night before)
 
-1. Open a terminal in the repo (`git clone https://github.com/sonha2409/orebody` if needed) and
+1. Open a terminal in the repo (`git clone https://github.com/Jesstran12/AI-Tool-for-Equity-Research-Project` if needed) and
    install:
    ```
    uv sync

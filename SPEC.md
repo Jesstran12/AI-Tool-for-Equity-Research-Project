@@ -75,7 +75,7 @@ The evidence base is Francis & Zhang (2026): a four-agent GPT-4o/CrewAI system p
 | D27 | Ports: API **8114**, web **3014**. | user |
 | D28 | Solo repo; SPEC.md and CLAUDE.md committed. | user |
 | D29 | Ground rules: uv + ruff + pytest, TDD; pure-function core without LLM calls; reproducible runs with versioned prompts; small per-feature commits, no credit lines, SPEC.md updated in the same commit. | user |
-| D30 | Universe proposed by Claude (§10), to be confirmed/edited by Son Ha. | user |
+| D30 | Universe proposed by Claude (§10), to be confirmed/edited by Jess Tran. | user |
 | D31 | Models tiered: Project Analyst, Advisor, vision fallback, renderer-free = `claude-sonnet-5-5`; Financial Analyst and tier-2 Verifier = `claude-opus-5-5`. Per-agent model is config; a single-model run is one flag. | user |
 | D32 | Section 4 = disclosed offtake/stream/royalty terms + computed uncommitted share of planned production; no NSR modelling. | user |
 | D33 | Human overrides (mark claim verified, fix value, override stage/flagship) stored separately from agent output, in a later phase. | user |
@@ -89,7 +89,7 @@ The evidence base is Francis & Zhang (2026): a four-agent GPT-4o/CrewAI system p
 | D41 | Pilot companies = Marimaca (MARI, demo company) and Solaris (SLS); documents collected by hand (F1.0) so real filings exist for Phase 2 fixtures and the first live run. Third pilot = Faraday (FDY), for the staleness-flag path. Foran was dropped on 2026-11-04: acquired by Eldorado Gold (closed 2026-04-14), shares delisted. | user; revised after web check |
 | D42 | Cut line: after the CLI phase, run the three pilots end-to-end and keep them demo-ready (F7.5). If time runs short, cut in this order: judges (Phase 10) → secondary dashboard pages (ledger, trace, compare) → company count. Company count is cut last. | user |
 | D43 | Total API spend ceiling ≈ US$50. Pilots may be run several times; the remaining companies get one pass each; judges on a subset (pilots + up to 2 more). Every live response is recorded as a `FakeProvider` fixture so fixes replay offline. Cumulative spend is printed by `orebody summary`. | user |
-| D44 | Son Ha hand-writes comparator notes (same template, same claims format) for MARI and SLS; the compare page shows agent vs human, blinded. | user |
+| D44 | Jess Tran hand-writes comparator notes (same template, same claims format) for MARI and SLS; the compare page shows agent vs human, blinded. | user |
 | D45 | S-K 1300 section index (F2.2) is DEFERRED: no company in the universe files under S-K 1300. Revived if a US filer is added. | my call (reviewer finding) |
 | D49 | Projects whose primary commodity is not copper are recorded, not dropped: `orebody check` keeps primary commodity and by-products, and the site will give each commodity its own report section. The PoC note pipeline stays copper-only (§10.1 rule 3). | user, 2026-11-11 |
 | D48 | Every number gets a second source where one exists: primary copy from the company website, alternate from EDGAR (SEDAR+ by hand otherwise); the copies are compared on normalized numbers, not bytes (PDF vs HTML exhibit). A `differs` result blocks the claim from `verified` until a human resolves it. | user, 2026-11-11 |
@@ -420,7 +420,7 @@ Built out of order so a professor demo exists on 2026-11-05. Each row maps to a 
 | F11.1 | Confirm universe; collect documents + manifests for the remaining 7 | all manifests validate | TODO |
 | F11.2 | Run the remaining 7 once each (D43); fix parser/prompt issues offline via fixtures; selective re-runs only | 10 notes released | TODO |
 | F11.3 | Manual audit of capex, NPV, resource figures on every note (recorded in `reports/audit.md`) | no unsupported capex/NPV/resource figure, or each exception documented | TODO |
-| F11.4 | **Human comparator notes (Son Ha, by hand, D44):** MARI and SLS in the note template with a claims file; import via F7.4 | two human notes in the DB, blinded compare works | TODO |
+| F11.4 | **Human comparator notes (Jess Tran, by hand, D44):** MARI and SLS in the note template with a claims file; import via F7.4 | two human notes in the DB, blinded compare works | TODO |
 | F11.5 | Judge pilots + up to 2 more (D43); export PDFs; `orebody summary`; demo script in `reports/demo.md` | deliverable complete | TODO |
 
 ### Phase 12 — Desk view (D46)
