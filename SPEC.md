@@ -4,11 +4,12 @@
 
 ## 0. Current state
 
-- **Phase:** D complete (demo slice built 2026-11-04 for the 2026-11-05 demo; see `DEMO_PLAN.md` and `reports/audit.md`). Resume the main plan at Phase 0.
-- **Last completed feature:** D13 (Phase D done: `orebody run MARI` produces a tier-1-verified Section 3 note; first live note 10/10 verified, US$0.34)
-- **Next feature:** F2.3 (table-garble detector), or the first live SURG note when the API key is set. F2.1b, F2.2, F1.4, F1.3, F0.3, F0.2, F1.5, F1.6, F1.8a, F2.1a DONE 2026-11-11; LEO and HI now eligible. F0.1, F1.1, F1.2, F3.3, F4.1, F4.2, F6.1 are DONE via Phase D; F2.1, F3.1, F3.6, F5.3, F5.6, F7.1 are IN PROGRESS with the demo-slice subset built.
+- **Phase:** 1–2 (ingestion and indexing). Phase D demo slice done 2026-11-04; F0.2, F0.3, F1.3–F1.6, F1.8a, F2.1a/b, F2.2 done 2026-11-11.
+- **Last completed feature:** F3.2 (FX resolution), 2026-11-12.
+- **Next feature:** surface the F2.1b contents check in `orebody check`; restore MARI's 7 files. Then the first live SURG note once `ANTHROPIC_API_KEY` is set. F2.3 waits for 20 hand-labelled pages from the user. F0.1, F1.1, F1.2, F3.3, F4.1, F4.2, F6.1 are DONE via Phase D; F2.1, F3.1, F3.6, F5.3, F5.6, F7.1 are IN PROGRESS with the demo-slice subset built.
 - **Blockers:** none. Demo fallback: `uv run orebody run MARI --as-of 2026-11-05 --spot 6.71 --deck-a 3.50 --deck-b 5.00 --provider fake` replays the recorded response.
-- **Universe status:** proposed in §10, not yet confirmed. Foran (FOM) removed 2026-11-04 (acquired by Eldorado Gold, closed 2026-04-14). Pilots are now MARI (demo company, documents collected), SLS, FDY. MARI drop folder complete: technical report (361 pp), FY2025 FS + MD&A, AIF 2026, Q2 2026 FS + MD&A, Oct 2026 news, Nov 2026 presentation.
+- **Universe status:** rule-based (§10, D47). Drop folders: MARI, SURG, GCU, NCX, USCU, LEO, HI. Eligible by `orebody check` (2026-11-11): MARI, SURG, LEO, HI. MARI is missing 7 hand-collected files (no url in its manifest).
+- **Repository:** github.com/Jesstran12/AI-Tool-for-Equity-Research-Project (commit authorship unified to Jess Tran 2026-11-11).
 - **Spend to date:** US$0.34 of ≈ US$50 (D43) — one Opus 5.5 call on the MARI FS (US$0.3391) plus the D8 smoke test (US$0.0006)
 
 ## 1. Intent
@@ -352,7 +353,7 @@ Built out of order so a professor demo exists on 2026-11-05. Each row maps to a 
 | ID | Feature | AC | Status |
 |----|---------|----|--------|
 | F3.1 | `core/units.py`: scale/unit/currency parsing and normalization (D39) | 40+ parametrized cases incl. "US$1,240 M", "C$1.2 billion", "412 Mt @ 0.48% Cu", "2.1 Blb", "g/t", "short tons" | IN PROGRESS (D5: demo slice built, 12 rows + FX/lb; remaining AC: 40+ cases incl. grade, short tons, '412 Mt @ 0.48% Cu') |
-| F3.2 | `core/fx.py` | stated-rate precedence, fallback, error | TODO |
+| F3.2 | `core/fx.py`: USD identity → report-stated rate → config/fx.yaml (dated ≤ as-of) → error; every resolution carries its source | stated-rate precedence, fallback, error | DONE (2026-11-12; not yet wired into `run`: that comes with F5.3, where the stated rate arrives as a claim) |
 | F3.3 | `core/npv.py` (§7) | hand-computed fixtures match to 0.1%; IRR, payback | DONE (D6; audit.md asks for expansion capex + production profile later) |
 | F3.4 | `core/insitu.py` | fixture match | TODO |
 | F3.5 | `core/prices.py` with yfinance + override + as-of | override wins; as-of close used; offline test via recorded data | TODO |
@@ -470,6 +471,7 @@ A per-project page for a trader or concentrate buyer, built on the ledgered clai
 - **2026-11-11 (F1.4)** — `orebody ingest`, tests first. Company upsert + one row per present document (sha256, pages, path relative to data/, url); doc_id `TICKER/<stem>` because stems repeat across companies. With the user's agreement the test fixture dropped its second copy of the same PDF (the schema rejects identical contents twice per company). Bug found by the user's run: YAML read an unquoted all-digit sha256 as an int (and a 0-7 one starting with 0 would be octal); manifests are now loaded with `yaml.BaseLoader` (all text, dates still parsed by Pydantic), with 5 test rows. Data gap: MARI's 7 hand-collected files (FS, MD&A, AIF, Q2, Oct news, presentation) have no url, so `make fetch` cannot restore them. User-run results: `ingest MARI` → added 20, missing 7; rerun → unchanged 20; `ingest SURG` → added 20, rerun after the loader change → unchanged 20. `make lint test` (run by the user): `All checks passed!` / `74 files already formatted` / `246 passed, 2 skipped in 9.18s`.
 - **2026-11-11 (F2.2)** — S-K 1300 index, tests first. EDGAR HTML exhibits are split at CSS page breaks (`html_pages`) so claims keep page numbers; S-K 1300 titles in `config/sections_sk1300.yaml`; costs/economics are Items 18/19 (`ECONOMICS_ITEMS`). Eligibility now indexes any HTML report and uses S-K 1300 titles for SK1300 reports. With the user's approval F1.6's placeholder `test_sk1300_report_fails_items_found_until_f22` became `test_sk1300_html_report_is_eligible`. Real-data lesson from the user's run: Lion's contents page 6 lists only Items 18-19 plus sub-sections, so "≥ 5 item headings" missed it and Items 18/19 landed on p.6; added a second contents signal, ≥ 10 "N.M / title / page" entries (contents pages hold 34-39, body pages ≤ 4), with a test. `make lint test` (run by the user): `All checks passed!` / `76 files already formatted` / `253 passed, 2 skipped in 9.16s`.
 - **2026-11-11 (F2.1b)** — Contents cross-check, tests first. `printed_pages` reads dot-leader and three-line contents (title prefix must match the configured title); `cross_check` takes the most common (index start − printed page) as the offset, needs ≥ 3 agreeing items, flags items more than 1 page off. Offsets measured by hand and asserted on real reports: MARI +25 (27 items, no false flags: the AC), SURG +25, Lion S-K 1300 exhibit +20. Not yet called by `check` or `run`. `make lint test` (run by the user): `All checks passed!` / `78 files already formatted` / `266 passed, 2 skipped in 12.59s`.
+- **2026-11-12 (F3.2)** — FX resolution, tests first, every expected number hand-computed in the test. Precedence per D14: USD identity → rate stated in the report (with its claim id) → config/fx.yaml only if dated on or before as-of (ground rule 5) → error naming both remedies; never a guessed rate. config/fx.yaml stays empty (no rate without a source), so a CAD note needs the report's stated rate. Not wired into `run` yet (F5.3). SPEC §0 refreshed (it still described the 2026-11-04 demo). `make lint test` (run by the user): `All checks passed!` / `81 files already formatted` / `275 passed, 2 skipped in 12.64s`.
 
 ## 13. Open questions
 
