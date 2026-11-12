@@ -6,10 +6,23 @@ AI-generated, source-linked equity research notes for under-covered copper junio
 ## Session protocol
 1. Read SPEC.md §0 "Current state" + last session-log entry.
 2. Announce which feature ID you are building.
-3. Write the tests first, then the implementation, until `make lint test` is green.
+3. Write the tests first, then the implementation. **The user runs every test, not Claude** (see "User runs the commands" below): Claude gives the exact command, the user runs it and pastes the output, and Claude iterates until it is green.
 4. Update the feature's status, §0, and append a §12 entry **in the same commit** as the code.
 5. One feature per commit. If a feature grows, split it into F<N>.<M>a/b in SPEC.md and say why.
-6. Never mark `DONE` without pasting the passing test output in the session-log entry.
+6. Never mark `DONE` without pasting the passing test output (as reported by the user) in the session-log entry.
+
+## User runs the commands (added 2026-11-11)
+The user stays in control of everything that executes. Claude does not run tests, the pipeline, or anything that calls a network service or the Anthropic API.
+- **Claude gives the line, the user runs it.** At each point where a check is needed, end the message with the exact command(s) in a code block, from the repo root, in the order to run them, with one line on what a pass looks like. Example:
+  ```
+  make lint test
+  ```
+  Pass: `All checks passed!` and `N passed`, no failures.
+- **What this covers:** `make lint`, `make test`, `pytest` on single files, `make fetch`, every `orebody` command (`run`, `discover`, `crosscheck`, ...), live tests (`OREBODY_LIVE_EDGAR=1 ...`, `-m live`), and any script that downloads or writes data.
+- **Wait for the report.** Do not continue past a check, mark anything `DONE`, or commit until the user has pasted the output. If the output shows a failure, say what failed and why before changing code.
+- **Claude may still** read files, search the code, and write or edit code and docs; those change nothing until the user runs them.
+- **Commits:** propose the commit (files and message) and make it only after the user says so.
+- **Environment:** commands that call EDGAR need `OREBODY_SEC_CONTACT` (set in `.env`); live LLM runs need `ANTHROPIC_API_KEY`. Nothing loads `.env` automatically yet, so prefix such commands with `set -a; source .env; set +a;`.
 
 ## Stack
 - Python 3.12, `uv`, `ruff`, `pytest`, Pydantic v2, PyMuPDF, FastAPI, SQLite (stdlib `sqlite3`, SQL migration files), yfinance, Anthropic SDK (official `anthropic` package only; never raw HTTP; never OpenAI-compatible shims).
@@ -39,7 +52,7 @@ orebody db init | ingest <TICKER> | run <TICKER> --as-of YYYY-MM-DD | export <no
 10. **Stance language.** Only `Favourable / Neutral / Unfavourable on disclosed fundamentals`. No price targets, no return language, disclaimer verbatim from SPEC §4.2.
 11. **Data hygiene.** `data/`, `*.sqlite`, `.env`, `web/node_modules`, `reports/*.pdf` are gitignored. Never commit a company PDF. Never commit API keys.
 12. **Commits.** Small, one feature each, imperative subject (`F3.3: NPV engine with IRR and payback`). No `Co-Authored-By`, no AI credit lines, ever.
-13. **Verification before claiming done.** Run the command, read the output, then say it passed. No "should work".
+13. **Verification before claiming done.** The user runs the command and pastes the output; read it, then say it passed. No "should work", and no claiming a pass from a run the user has not reported.
 14. **Library docs.** Use Context7 MCP for PyMuPDF, FastAPI, Next.js, react-pdf, Anthropic SDK questions before guessing an API.
 15. **Scope.** Do not build backlog items (SPEC §11 "Later") or anything not in the current feature's AC. If you think the spec is wrong, say so in the session log and ask; do not silently change the design.
 
