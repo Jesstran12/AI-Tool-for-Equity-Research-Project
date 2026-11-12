@@ -5,7 +5,7 @@
 ## 0. Current state
 
 - **Phase:** 1–2 (ingestion and indexing). Phase D demo slice done 2026-11-04; F0.2, F0.3, F1.3–F1.6, F1.8a, F2.1a/b, F2.2 done 2026-11-11.
-- **Last completed feature:** F3.2 (FX resolution), 2026-11-12.
+- **Last completed feature:** F3.1 (units), 2026-11-12.
 - **Next feature:** restore MARI's 7 files (urls into its manifest). Then the first live SURG note once `ANTHROPIC_API_KEY` is set. F2.3 waits for 20 hand-labelled pages from the user. F0.1, F1.1, F1.2, F3.3, F4.1, F4.2, F6.1 are DONE via Phase D; F2.1, F3.1, F3.6, F5.3, F5.6, F7.1 are IN PROGRESS with the demo-slice subset built.
 - **Blockers:** none. Demo fallback: `uv run orebody run MARI --as-of 2026-11-05 --spot 6.71 --deck-a 3.50 --deck-b 5.00 --provider fake` replays the recorded response.
 - **Universe status:** rule-based (§10, D47). Drop folders: MARI, SURG, GCU, NCX, USCU, LEO, HI. Eligible by `orebody check` (2026-11-11): MARI, SURG, LEO, HI. MARI is missing 7 hand-collected files (no url in its manifest).
@@ -352,7 +352,7 @@ Built out of order so a professor demo exists on 2026-11-05. Each row maps to a 
 ### Phase 3 — Deterministic core
 | ID | Feature | AC | Status |
 |----|---------|----|--------|
-| F3.1 | `core/units.py`: scale/unit/currency parsing and normalization (D39) | 40+ parametrized cases incl. "US$1,240 M", "C$1.2 billion", "412 Mt @ 0.48% Cu", "2.1 Blb", "g/t", "short tons" | IN PROGRESS (D5: demo slice built, 12 rows + FX/lb; remaining AC: 40+ cases incl. grade, short tons, '412 Mt @ 0.48% Cu') |
+| F3.1 | `core/units.py`: scale/unit/currency parsing and normalization (D39) | 40+ parametrized cases incl. "US$1,240 M", "C$1.2 billion", "412 Mt @ 0.48% Cu", "2.1 Blb", "g/t", "short tons" | DONE (2026-11-12: 62 rows (12 Phase D + 50), `parse_tonnage_grade`, exact short-ton factor) |
 | F3.2 | `core/fx.py`: USD identity → report-stated rate → config/fx.yaml (dated ≤ as-of) → error; every resolution carries its source | stated-rate precedence, fallback, error | DONE (2026-11-12; not yet wired into `run`: that comes with F5.3, where the stated rate arrives as a claim) |
 | F3.3 | `core/npv.py` (§7) | hand-computed fixtures match to 0.1%; IRR, payback | DONE (D6; audit.md asks for expansion capex + production profile later) |
 | F3.4 | `core/insitu.py` | fixture match | TODO |
@@ -473,6 +473,7 @@ A per-project page for a trader or concentrate buyer, built on the ledgered clai
 - **2026-11-11 (F2.1b)** — Contents cross-check, tests first. `printed_pages` reads dot-leader and three-line contents (title prefix must match the configured title); `cross_check` takes the most common (index start − printed page) as the offset, needs ≥ 3 agreeing items, flags items more than 1 page off. Offsets measured by hand and asserted on real reports: MARI +25 (27 items, no false flags: the AC), SURG +25, Lion S-K 1300 exhibit +20. Not yet called by `check` or `run`. `make lint test` (run by the user): `All checks passed!` / `78 files already formatted` / `266 passed, 2 skipped in 12.59s`.
 - **2026-11-12 (F3.2)** — FX resolution, tests first, every expected number hand-computed in the test. Precedence per D14: USD identity → rate stated in the report (with its claim id) → config/fx.yaml only if dated on or before as-of (ground rule 5) → error naming both remedies; never a guessed rate. config/fx.yaml stays empty (no rate without a source), so a CAD note needs the report's stated rate. Not wired into `run` yet (F5.3). SPEC §0 refreshed (it still described the 2026-11-04 demo). `make lint test` (run by the user): `All checks passed!` / `81 files already formatted` / `275 passed, 2 skipped in 12.64s`.
 - **2026-11-12 (F2.1b follow-up)** — Contents cross-check shown in `orebody check` as a NOTE (never a rule): `Eligibility.contents` + `contents_note`, tests first (5 tests: agreement, a wrong contents entry that leaves the company eligible, "not possible", the CLI line, real SURG). User-run results: SURG `NOTE  contents check: offset +25 over 26 items, no disagreement`; LEO `not possible (no item in both index and contents)` because Lion's PDF contents are un-numbered like its headings (known limit, recorded on F2.1b). `make lint test` (run by the user): `All checks passed!` / `81 files already formatted` / `280 passed, 2 skipped in 16.62s`.
+- **2026-11-12 (F3.1)** — Units finished, tests first: 50 new rows (62 total) and `parse_tonnage_grade` ("412 Mt @ 0.48% Cu", "at", "grading", element symbol or name). Fixed a wrong-number case confirmed by the user's stub run: "89 million pounds" parsed as US$89 M and "4.9 billion pounds" as 4,900 (money), now metal in lb; specific tails are now tried before money scale words. US "tons"/"short tons"/"st" convert at the exact 0.90718474 t (Lion PFS "721,352 tons" → 654,399.53 t; previously not parsed at all). Negatives: leading minus or accounting parentheses. MARI manifest: urls for all 27 documents (7 from marimaca.com/reports-and-filings, FS url + sha256 from the Makefile); download pending (`make fetch T=MARI`). `make lint test` (run by the user): `All checks passed!` / `82 files already formatted` / `330 passed, 2 skipped in 15.81s`.
 
 ## 13. Open questions
 
