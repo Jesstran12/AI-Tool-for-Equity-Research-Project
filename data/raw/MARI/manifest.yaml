@@ -16,6 +16,8 @@ documents:
     effective_date: 2025-08-25
     filing_date: 2025-10-09
     title: "Marimaca Oxide Deposit Project NI 43-101 Technical Report & Feasibility Study"
+    url: https://marimaca.com/wp-content/uploads/2026/07/25-10-09-Marimaca-Oxide-Deposit-NI-43-101-Technical-Report-Feasibility-Study_FINAL.pdf
+    sha256: "304cebd3a54345684938132d7f00f3f456647184ac03475c88b3decb8c89222b"   # same as Makefile MARI_FS_SHA
     project: Marimaca Oxide Deposit
   - file: 2025-12-31_FS_annual-2025.pdf
     type: annual_financials
@@ -23,42 +25,49 @@ documents:
     effective_date: 2025-12-31
     filing_date: 2026-03-30
     title: "Consolidated financial statements, year ended 31 December 2025"
+    url: https://marimaca.com/wp-content/uploads/2026/06/MARI-Q4-2025_FS.pdf   # added 2026-11-12 from marimaca.com/reports-and-filings
   - file: 2025-12-31_MDA_annual-2025.pdf
     type: mdna
     standard: none
     effective_date: 2025-12-31
     filing_date: 2026-03-30
     title: "MD&A, year ended 31 December 2025"
+    url: https://marimaca.com/wp-content/uploads/2026/06/MARI-Q4-2025_MDA.pdf   # added 2026-11-12 from marimaca.com/reports-and-filings
   - file: 2026-03-30_AIF-2025.pdf
     type: aif
     standard: none
     effective_date: 2025-12-31
     filing_date: 2026-03-30
     title: "Annual Information Form, 30 March 2026"
+    url: https://marimaca.com/wp-content/uploads/2026/06/MARI-AIF-30-MARCH-2026.pdf   # added 2026-11-12 from marimaca.com/reports-and-filings
   - file: 2026-06-30_FS_Q2-2026.pdf
     type: quarterly_financials
     standard: none
     effective_date: 2026-06-30
     filing_date: 2026-08-14   # approx
     title: "Condensed interim financial statements, Q2 2026"
+    url: https://marimaca.com/wp-content/uploads/2026/08/MARI-Q2-2026_FS.pdf   # added 2026-11-12 from marimaca.com/reports-and-filings
   - file: 2026-06-30_MDA_Q2-2026.pdf
     type: mdna
     standard: none
     effective_date: 2026-06-30
     filing_date: 2026-08-14   # approx
     title: "MD&A, Q2 2026"
+    url: https://marimaca.com/wp-content/uploads/2026/08/MARI-Q2-2026_MDA.pdf   # added 2026-11-12 from marimaca.com/reports-and-filings
   - file: 2026-10-01_news_project-updates.pdf
     type: news_release
     standard: none
     effective_date: 2026-10-01
     filing_date: 2026-10-01
     title: "Marimaca announces project updates"
+    url: https://marimaca.com/wp-content/uploads/2026/10/Marimaca-Announces-Project-Updates-Oct-1-2026_vF.pdf   # added 2026-11-12 from marimaca.com/reports-and-filings
   - file: 2026-11-01_presentation_corporate-nov-2026.pdf
     type: presentation
     standard: none
     effective_date: 2026-11-01
     filing_date: 2026-11-01   # approx
     title: "Corporate presentation, November 2026"
+    url: https://marimaca.com/wp-content/uploads/2026/11/Marimaca-Copper-Corporate-Presentation-November-2026.pdf   # added 2026-11-12 from marimaca.com/reports-and-filings
   - file: 2025-11-11_news_25-11-11-marimaca-announces-receipt-of-environmental-approva.pdf
     type: news_release
     standard: none
