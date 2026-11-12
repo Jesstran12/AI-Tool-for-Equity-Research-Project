@@ -9,18 +9,17 @@ from pathlib import Path
 from typing import Annotated
 
 import typer
-import yaml
 
 from orebody.agents.context import build_context
 from orebody.agents.financial_analyst import load_prompt, run_financial_analyst
 from orebody.agents.schemas import EconInputs
+from orebody.config import load_config
 from orebody.core.npv import NpvInputs, NpvResult, npv
 from orebody.core.units import Quantity, to_usd_per_t
 from orebody.index.ni43101 import build_index, load_patterns
 from orebody.ingest.extract import extract_pages, read_page
 from orebody.ingest.manifest import load_manifest
 from orebody.llm.anthropic_provider import AnthropicProvider
-from orebody.llm.cost import load_prices
 from orebody.llm.fake import FakeProvider
 from orebody.llm.provider import LLMProvider
 from orebody.render.markdown import PriceDeck, render_section3
@@ -128,15 +127,14 @@ def run(
     if bundle.items_missing:
         typer.echo(f"warning: items not found in index: {bundle.items_missing}", err=True)
 
-    models = yaml.safe_load((CONFIG_DIR / "models.yaml").read_text())
-    model, effort = models["financial_analyst"]["model"], models["financial_analyst"]["effort"]
+    config = load_config(CONFIG_DIR)
+    fa = config.agent("financial_analyst")
+    model, effort = fa.model, fa.effort
     llm: LLMProvider
     if provider == "fake":
         llm = FakeProvider(fixtures)
     elif provider == "anthropic":
-        llm = AnthropicProvider(
-            record_dirs=[fixtures, run_dir], prices=load_prices(CONFIG_DIR / "models.yaml")
-        )
+        llm = AnthropicProvider(record_dirs=[fixtures, run_dir], prices=config.price_table())
     else:
         typer.echo(f"error: unknown provider {provider!r}", err=True)
         raise typer.Exit(code=2)

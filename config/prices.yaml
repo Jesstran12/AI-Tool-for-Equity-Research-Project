@@ -1,0 +1,9 @@
+# Market prices (SPEC §6.3, D13). Optional file; read by orebody.config (F0.2).
+# proxies: yfinance symbol per commodity (delayed, free). overrides: manual price that wins over
+# the proxy; each needs value, unit (USD/lb or USD/t), as_of and source.
+# Default decks A/B in USD/lb are the values used in the MARI demo (2026-11-05); CLI flags win.
+proxies:
+  Cu: HG=F
+overrides: {}
+deck_a_usd_per_lb: 3.50
+deck_b_usd_per_lb: 5.00

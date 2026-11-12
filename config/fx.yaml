@@ -1,0 +1,5 @@
+# Fallback FX rates (D14), used only when the technical report states no rate. Optional file.
+# Each rate needs usd_per_unit, as_of and source; no rate is entered without a source.
+# Example shape (not a real rate):
+#   CAD: {usd_per_unit: 0.0, as_of: 2026-11-11, source: "Bank of Canada daily rate"}
+rates: {}
