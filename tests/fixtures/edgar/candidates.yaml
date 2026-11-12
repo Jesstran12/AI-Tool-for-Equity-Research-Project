@@ -1,0 +1,12 @@
+# Hand-kept SEDAR+-only candidates (fixture). A report_url means a technical report was found.
+candidates:
+  - company: Sedar Only Copper Inc.
+    ticker: SOC
+    exchange: TSXV
+    project: North Hill
+    report_url: https://example.com/north-hill-ni43-101.pdf
+    report_filed: 2026-05-01
+  - company: No Report Resources Ltd.
+    ticker: NRR
+    exchange: TSXV
+    project: Blank Ridge

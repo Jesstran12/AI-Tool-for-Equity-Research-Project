@@ -1,0 +1,60 @@
+# Hand-kept candidates that EDGAR discovery cannot find (SEDAR+-only filers), F1.5.
+# A report_url means a technical report was found and is downloadable; report_filed is the
+# SEDAR+ filing date (approx until checked). Entries without report_url are excluded with
+# "no technical report found" until someone adds one.
+# Seeded 2026-11-11 from the frozen Phase 1 sample (PROJECTLOG) and the collected drop folders.
+candidates:
+  - company: Surge Copper Corp.
+    ticker: SURG
+    exchange: TSXV
+    project: Berg Copper Project
+    report_url: https://surgecopper.com/site/assets/files/6250/berg_copper_project_ni_43-101_technical_report_and_pfs_final_1.pdf
+    report_filed: 2026-07-29
+  - company: Northisle Copper and Gold Inc.
+    ticker: NCX
+    exchange: TSXV
+    project: North Island Project
+    report_url: https://www.northisle.ca/wp-content/uploads/2025/04/NorthIsle-NI-43-101-Technical-Report-and-PEA_-Rev-0-compressed.pdf
+    report_filed: 2025-04-04
+  - company: US Copper Corp.
+    ticker: USCU
+    exchange: TSXV
+    project: Moonlight-Superior Copper Project
+    report_url: https://uscoppercorp.com/wp-content/uploads/2025/07/US-Copper-M-S-PEA-Rev3.pdf
+    report_filed: 2025-07-15
+  - company: Highland Copper Company Inc.
+    ticker: HI
+    exchange: TSXV
+    project: Copperwood Project
+    report_url: https://www.highlandcopper.com/wp-content/uploads/2024/01/Feasability-Study-Update-Copperwood.pdf
+    report_filed: 2023-03-20
+  - company: Marimaca Copper Corp.
+    ticker: MARI
+    exchange: TSX
+    project: Marimaca Oxide Deposit
+    report_url: https://marimaca.com/wp-content/uploads/2026/07/25-10-09-Marimaca-Oxide-Deposit-NI-43-101-Technical-Report-Feasibility-Study_FINAL.pdf
+    report_filed: 2025-10-09
+  - company: Oreterra Metals Corp.
+    ticker: OTMC
+    exchange: TSXV
+    project: Trek South
+  - company: Star Copper Corp.
+    ticker: STCU
+    exchange: CSE
+    project: Star
+  - company: Sandfire Resources America Inc.
+    ticker: SFR
+    exchange: TSXV
+    project: Black Butte
+  - company: Faraday Copper Corp.
+    ticker: FDY
+    exchange: TSX
+    project: Copper Creek
+  - company: Edge Copper Corp.
+    ticker: EDCU
+    exchange: TSXV
+    project: Zonia
+  - company: IDEX Metals Corp.
+    ticker: IDEX
+    exchange: TSXV
+    project: Freeze

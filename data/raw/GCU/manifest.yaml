@@ -4,6 +4,7 @@
 # Financials, MD&A and AIF come from EDGAR (CIK 1514860): the Oct 2026 Form 40-F registration attaches the Canadian disclosure record as Ex. 99.x.
 # Listed on NYSE American as GUNN since 26 Oct 2026; Johnson Camp reached commercial production Sept 2026.
 ticker: GCU
+cik: "0001514860"
 exchange: TSX
 name: Gunnison Copper Corp.
 flagship_project: Gunnison Copper Project

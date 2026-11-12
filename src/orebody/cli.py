@@ -212,3 +212,43 @@ def run(
         f"cost=US${stats['cost_usd']:.4f} seconds={stats['seconds']} "
         f"items_missing={bundle.items_missing} note={run_dir / 'note.md'}"
     )
+
+
+@app.command()
+def discover(
+    as_of: Annotated[datetime, typer.Option(formats=["%Y-%m-%d"], help="As-of date")],
+    candidates: Annotated[Path, typer.Option(help="Hand-kept SEDAR+-only candidates")] = (
+        CONFIG_DIR / "candidates.yaml"
+    ),
+    out: Annotated[Path, typer.Option(help="Output JSON")] = Path("data/universe/candidates.json"),
+) -> None:
+    """Find candidate copper projects with a technical report (SPEC §10.2, F1.5)."""
+    from orebody.ingest import discover as disc
+
+    found = disc.discover(
+        disc.EdgarClient(disc.http_fetch),
+        candidates if candidates.exists() else None,
+        as_of.date(),
+    )
+    disc.write_candidates(found, out)
+    n_in = sum(c.included for c in found)
+    typer.echo(f"{n_in} included, {len(found) - n_in} excluded -> {out}")
+
+
+@app.command()
+def crosscheck(
+    ticker: str,
+    data_dir: Annotated[Path, typer.Option(help="Data root (raw/)")] = Path("data"),
+) -> None:
+    """Compare each collected document with its EDGAR copy (F1.8)."""
+    from orebody.ingest.alternate import crosscheck_folder
+    from orebody.ingest.discover import EdgarClient, http_fetch
+
+    rows = crosscheck_folder(data_dir / "raw" / ticker.upper(), EdgarClient(http_fetch))
+    for r in rows:
+        if r["status"] != "no_alternate":
+            typer.echo(f"{r['status']:<11} {r.get('number_overlap', 0):.2f}  {r['file']}")
+    counts: dict[str, int] = {}
+    for r in rows:
+        counts[r["status"]] = counts.get(r["status"], 0) + 1
+    typer.echo(" ".join(f"{k}={v}" for k, v in sorted(counts.items())))

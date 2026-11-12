@@ -29,12 +29,15 @@ class Document(BaseModel):
     filing_date: date
     title: str = ""
     project: str = ""
+    url: str = ""  # where the file was downloaded from
+    sha256: str = ""
 
 
 class Manifest(BaseModel):
     ticker: str
     name: str
     exchange: str = ""
+    cik: str = ""  # 10-digit EDGAR CIK when the company files with the SEC (F1.8)
     flagship_project: str = ""
     reporting_currency: str = "USD"
     documents: list[Document]

@@ -34,4 +34,7 @@ select = ["E", "F", "I", "UP", "B"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = ["-W", "ignore:builtin type:DeprecationWarning"]
-markers = ["live: calls the live Anthropic API; skipped without ANTHROPIC_API_KEY"]
+markers = [
+    "live: calls the live Anthropic API; skipped without ANTHROPIC_API_KEY",
+    "edgar_live: calls the live SEC EDGAR API; skipped unless OREBODY_LIVE_EDGAR=1",
+]

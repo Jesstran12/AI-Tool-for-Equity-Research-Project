@@ -3,6 +3,7 @@
 # The first technical_report listed is the current economic study, which `orebody run` uses.
 # Ticker folder LEO = CSE symbol (moved from TSXV); Nasdaq symbol is LCU. S-K 1300 .htm exhibits from EDGAR are kept for provenance; the pipeline reads the NI 43-101 PDFs.
 ticker: LEO
+cik: "0001339688"
 exchange: CSE (LEO) / Nasdaq (LCU)
 name: Lion Copper and Gold Corp.
 flagship_project: Yerington Copper Project

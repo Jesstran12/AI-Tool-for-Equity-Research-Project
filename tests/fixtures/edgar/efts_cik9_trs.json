@@ -1,0 +1,5 @@
+{"hits": {"total": {"value": 1}, "hits": [
+  {"_id": "0000000009-26-000100:ex99-1.htm",
+   "_source": {"ciks": ["0000000009"], "display_names": ["Fixture Copper Corp  (FXC)  (CIK 0000000009)"],
+               "form": "8-K", "file_type": "EX-99.1", "file_date": "2026-02-18",
+               "file_description": "Fixture Copper Project Pre-Feasibility Study", "sics": ["1000"]}}]}}

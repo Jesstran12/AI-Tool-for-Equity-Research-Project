@@ -1,0 +1,84 @@
+{
+  "hits": {
+    "total": {
+      "value": 5
+    },
+    "hits": [
+      {
+        "_id": "0000000001-26-000010:ex96-1.htm",
+        "_source": {
+          "ciks": [
+            "0000000001"
+          ],
+          "display_names": [
+            "Fixture Copper Corp  (FXC)  (CIK 0000000001)"
+          ],
+          "form": "10-K",
+          "file_type": "EX-96.1",
+          "file_date": "2026-03-30",
+          "file_description": "Technical Report Summary - Fixture Copper Project"
+        }
+      },
+      {
+        "_id": "0000000001-25-000004:ex96-1.htm",
+        "_source": {
+          "ciks": [
+            "0000000001"
+          ],
+          "display_names": [
+            "Fixture Copper Corp  (FXC)  (CIK 0000000001)"
+          ],
+          "form": "8-K",
+          "file_type": "EX-96.1",
+          "file_date": "2025-03-26",
+          "file_description": "Initial Assessment - Fixture Copper Project"
+        }
+      },
+      {
+        "_id": "0000000002-26-000020:ex96-1.htm",
+        "_source": {
+          "ciks": [
+            "0000000002"
+          ],
+          "display_names": [
+            "Copper Lane REIT Inc  (CLR)  (CIK 0000000002)"
+          ],
+          "form": "10-K",
+          "file_type": "EX-96.1",
+          "file_date": "2026-02-15",
+          "file_description": "Property report"
+        }
+      },
+      {
+        "_id": "0000000003-26-000030:ex96-1.htm",
+        "_source": {
+          "ciks": [
+            "0000000003"
+          ],
+          "display_names": [
+            "Late Filer Mining Ltd  (LFM)  (CIK 0000000003)"
+          ],
+          "form": "10-K",
+          "file_type": "EX-96.1",
+          "file_date": "2026-12-01",
+          "file_description": "Technical Report Summary - Late Project"
+        }
+      },
+      {
+        "_id": "0000000001-26-000010:fxc-10k.htm",
+        "_source": {
+          "ciks": [
+            "0000000001"
+          ],
+          "display_names": [
+            "Fixture Copper Corp  (FXC)  (CIK 0000000001)"
+          ],
+          "form": "10-K",
+          "file_type": "10-K",
+          "file_date": "2026-03-30",
+          "file_description": "Annual report"
+        }
+      }
+    ]
+  }
+}

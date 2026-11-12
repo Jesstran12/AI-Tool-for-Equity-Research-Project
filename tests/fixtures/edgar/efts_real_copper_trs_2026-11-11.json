@@ -1,0 +1,107 @@
+{
+ "_comment": "Real EDGAR full-text search response (efts.sec.gov), pulled 2026-11-11 for q=\"copper\" \"technical report summary\"; trimmed to 4 hits and these fields. Search metadata only, no filing content.",
+ "hits": {
+  "total": {
+   "value": 723,
+   "relation": "eq"
+  },
+  "hits": [
+   {
+    "_id": "0001558370-25-002017:scco-20241231xex96d1.pdf",
+    "_source": {
+     "ciks": [
+      "0001001838"
+     ],
+     "display_names": [
+      "SOUTHERN COPPER CORP/  (SCCO)  (CIK 0001001838)"
+     ],
+     "file_date": "2025-03-03",
+     "file_description": "EX-96.1",
+     "file_type": "EX-96.1",
+     "form": "10-K",
+     "root_forms": [
+      "10-K"
+     ],
+     "sics": [
+      "1000"
+     ],
+     "biz_states": [
+      "AZ"
+     ],
+     "period_ending": "2024-12-31"
+    }
+   },
+   {
+    "_id": "0001104659-25-061364:tm2518281d1_ex96-1.htm",
+    "_source": {
+     "ciks": [
+      "0001879016"
+     ],
+     "display_names": [
+      "Ivanhoe Electric Inc.  (IE)  (CIK 0001879016)"
+     ],
+     "file_date": "2025-06-23",
+     "file_description": "EXHIBIT 96.1",
+     "file_type": "EX-96.1",
+     "form": "8-K",
+     "root_forms": [
+      "8-K"
+     ],
+     "sics": [
+      "1000"
+     ],
+     "biz_states": [
+      "AZ"
+     ],
+     "period_ending": "2025-06-23"
+    }
+   },
+   {
+    "_id": "0001493152-26-038782:ex96-2.htm",
+    "_source": {
+     "ciks": [
+      "0000795800"
+     ],
+     "display_names": [
+      "NexMetals Mining Corp.  (NEXM)  (CIK 0000795800)"
+     ],
+     "file_date": "2026-08-17",
+     "file_description": "EX-96.2",
+     "file_type": "EX-96.2",
+     "form": "10-Q",
+     "root_forms": [
+      "10-Q"
+     ],
+     "sics": [
+      "1000"
+     ],
+     "biz_states": [],
+     "period_ending": "2026-06-30"
+    }
+   },
+   {
+    "_id": "0001628280-26-068459:csa_copperxmines-k1300trs2.htm",
+    "_source": {
+     "ciks": [
+      "0001023514"
+     ],
+     "display_names": [
+      "HARMONY GOLD MINING CO LTD  (HMY, HGMCF)  (CIK 0001023514)"
+     ],
+     "file_date": "2026-10-30",
+     "file_description": "EX-96.15",
+     "file_type": "EX-96.15",
+     "form": "20-F",
+     "root_forms": [
+      "20-F"
+     ],
+     "sics": [
+      "1040"
+     ],
+     "biz_states": [],
+     "period_ending": "2026-06-30"
+    }
+   }
+  ]
+ }
+}

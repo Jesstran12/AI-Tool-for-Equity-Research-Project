@@ -164,3 +164,19 @@ def test_run_missing_pdf_errors_clearly(tmp_path: Path) -> None:
     )
     assert result.exit_code == 2
     assert "fixture_report.pdf" in result.output and "README" in result.output
+
+
+def test_discover_cli_writes_candidates(tmp_path: Path, monkeypatch) -> None:
+    from orebody.ingest import discover as disc
+    from tests.unit.ingest.test_discover import RecordedFetch
+
+    monkeypatch.setattr(disc, "http_fetch", RecordedFetch())
+    out = tmp_path / "candidates.json"
+    fix = ROOT / "tests" / "fixtures" / "edgar" / "candidates.yaml"
+    r = CliRunner().invoke(
+        app, ["discover", "--as-of", "2026-11-11", "--candidates", str(fix), "--out", str(out)]
+    )
+    assert r.exit_code == 0, r.output
+    # Fixture Copper + Sedar Only included; REIT, Late Filer, No Report excluded
+    assert "2 included, 3 excluded" in r.output
+    assert len(json.loads(out.read_text())) == 5

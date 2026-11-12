@@ -1,0 +1,8 @@
+{"cik": "9", "name": "Fixture Copper Corp", "sic": "1000", "sicDescription": "Metal Mining",
+ "tickers": ["FXC"], "exchanges": ["NYSE American"],
+ "filings": {"recent": {
+   "form": ["10-Q", "10-K", "8-K"],
+   "filingDate": ["2026-11-10", "2026-03-31", "2026-02-18"],
+   "accessionNumber": ["0000000009-26-000300", "0000000009-26-000200", "0000000009-26-000100"],
+   "primaryDocument": ["fxc-10q.htm", "fxc-10k.htm", "fxc-8k.htm"],
+   "primaryDocDescription": ["10-Q", "10-K", "8-K"]}}}
