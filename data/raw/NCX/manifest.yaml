@@ -1,0 +1,271 @@
+# Northisle Copper and Gold Inc.: written 2026-11-11 from public company-website and EDGAR downloads (same approach as MARI).
+# filing_date marked approx = estimated from the press release or upload month; confirm on SEDAR+ if an as-of lands near it.
+# The first technical_report listed is the current economic study, which `orebody run` uses.
+ticker: NCX
+exchange: TSXV
+name: Northisle Copper and Gold Inc.
+flagship_project: North Island Project
+reporting_currency: CAD   # verify on the financial statements cover page
+documents:
+  - file: 2025-02-12_north-island-pea_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2025-02-12
+    filing_date: 2025-04-04
+    title: "North Island Project NI 43-101 Technical Report and PEA (2025)"
+    project: North Island Project
+    url: https://www.northisle.ca/wp-content/uploads/2025/04/NorthIsle-NI-43-101-Technical-Report-and-PEA_-Rev-0-compressed.pdf
+    sha256: 2dd20236561d93ad699e8e3daff2b2519a662c329e7bc03d97e320976a180cfd
+  - file: 2026-07-31_north-island-resource_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2026-07-31
+    filing_date: 2026-09-21   # approx
+    title: "North Island Project Resource Update NI 43-101 (2026)"
+    project: North Island Project
+    url: https://www.northisle.ca/wp-content/uploads/2026/10/Northisle_Resource_Update_NI_43-101_FINAL_20260918_en-1-compressed.pdf
+    sha256: 578b52dd64e798424431e2ae0eb9c8240a3a7387d0257d13b429bac198735064
+  - file: 2024-09-23_north-island-resource_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2024-09-23
+    filing_date: 2024-11-08   # approx
+    title: "North Island Project Resource Update NI 43-101 (2024)"
+    project: North Island Project
+    url: https://www.northisle.ca/wp-content/uploads/2024/11/Northisle_Resource_Update_NI_43-101_FINAL_20241108.pdf
+    sha256: e150e64cda738e7b012c6673b59a18a2c67c60756c8bba6702dac5f3bab26bef
+  - file: 2021-02-04_north-island-pea-amended_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2021-02-04
+    filing_date: 2022-06-08
+    title: "North Island Project 2021 PEA (amended)"
+    project: North Island Project
+    url: https://www.northisle.ca/wp-content/uploads/2024/07/Amended-2021-PEA-Final-SEDAR-Copy-1.pdf
+    sha256: 5dd17369066042071eed8ca6027ab931a8e84ae696068bf7ccd97e7c47bbef00
+  - file: 2017-10-24_north-island-pea_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2017-10-24
+    filing_date: 2017-11-01   # approx
+    title: "North Island Project PEA (2017)"
+    project: North Island Project
+    url: https://northisle.ca/wp-content/uploads/2022/06/NorthIsle_NI_43-101_PEA_Rev0_24-Oct-17_RC2.pdf
+    sha256: ca04fcdf9f39d9bfaa86e50b942b7cc9df18478fb8d74fa9ca37f6a0f56aadc5
+  - file: 2017-03_red-dog_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    filing_date: 2017-03-31   # approx
+    title: "Red Dog Technical Report (2017)"
+    project: Red Dog
+    url: https://northisle.ca/wp-content/uploads/2022/06/Red-Dog-Technical-Report-March-2017-1.pdf
+    sha256: 527caffc34eb6c36694cf58130c0a7e55b95b4e068779e4bd771c9392c870dd0
+  - file: 2012_hushamu-resource_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    filing_date: 2012-12-31   # approx
+    title: "Hushamu Deposit Updated Resource Report (2012)"
+    project: Hushamu
+    url: https://northisle.ca/wp-content/uploads/2022/06/NI43-101-Updated_Resource_Report_Hushamu_Deposit_2012.pdf
+    sha256: e4b8da7541587158d13de933d58a16e4b2abc44cddf0370f4796a9a2e2bad4e1
+  - file: 2011-10-17_north-island_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2011-10-17
+    filing_date: 2011-10-17   # approx
+    title: "North Island Project Technical Report (2011)"
+    project: North Island Project
+    url: https://northisle.ca/wp-content/uploads/2022/06/TechnicalReport_2011Oct17.pdf
+    sha256: 4db8b159431a1bb6badf6114be94d6abb8a0187a2a5d276f22a3d1bede893b67
+  - file: 2025-12-31_FS_annual-2025.pdf
+    type: annual_financials
+    standard: none
+    effective_date: 2025-12-31
+    filing_date: 2026-04-15   # approx
+    title: "Consolidated financial statements, year ended 31 December 2025"
+    url: https://www.northisle.ca/wp-content/uploads/2026/04/Northisle_FS-Q4-2025.pdf
+    sha256: 0505ba8a4a5f5928bd8c8fa74908a1af2db92b9a13442a79c8ac4a9b9cd8b0b4
+  - file: 2025-12-31_MDA_annual-2025.pdf
+    type: mdna
+    standard: none
+    effective_date: 2025-12-31
+    filing_date: 2026-04-15   # approx
+    title: "MD&A, year ended 31 December 2025"
+    url: https://www.northisle.ca/wp-content/uploads/2026/04/Northisle_MDA-Q4-2025.pdf
+    sha256: 14dafc7968d20085f2c20e9930ebdd820817c92c8ad48671562c01c9bffbf029
+  - file: 2026-06-30_FS_Q2-2026.pdf
+    type: quarterly_financials
+    standard: none
+    effective_date: 2026-06-30
+    filing_date: 2026-08-19   # approx
+    title: "Condensed interim financial statements, Q2 2026"
+    url: https://www.northisle.ca/wp-content/uploads/2026/08/Q2-2026-Northisle_FS_08192026.pdf
+    sha256: 017aaea44084d41304e3d3ba816c7404c31712509c01365022b94861f49040d5
+  - file: 2026-06-30_MDA_Q2-2026.pdf
+    type: mdna
+    standard: none
+    effective_date: 2026-06-30
+    filing_date: 2026-08-19   # approx
+    title: "MD&A, Q2 2026"
+    url: https://www.northisle.ca/wp-content/uploads/2026/08/Q2-2026-Northisle_MDA_08192026.pdf
+    sha256: 723ac265bcc38785e7c2dd7d3b29db31603122a4b37c710d0ae4804b6dd8ca85
+  - file: 2026-10-15_presentation_corporate-oct-2026.pdf
+    type: presentation
+    standard: none
+    effective_date: 2026-10-15
+    filing_date: 2026-10-15   # approx
+    title: "Corporate presentation, October 2026"
+    url: https://www.northisle.ca/wp-content/uploads/2026/10/2026-10-15-NCX-Corporate-Presentation.pdf
+    sha256: ed2cccc38b9fdff5ffd5786a010572fb473b79350ccad1604e686fc39b22705a
+  - file: 2025-11-17_news_northisle-announces-continued-growth-of-west-goodspeed-targe.htm
+    type: news_release
+    standard: none
+    effective_date: 2025-11-17
+    filing_date: 2025-11-17
+    title: "Northisle Announces Continued Growth of West Goodspeed Target to over 1.2km Strike with Additional High-Grade Intervals – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-continued-growth-of-west-goodspeed-target-to-over-1-2km-strike-with-additional-high-grade-intervals/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-01-21_news_northisle-provides-corporate-and-exploration-update-and-2026.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-01-21
+    filing_date: 2026-01-21
+    title: "Northisle Provides Corporate and Exploration Update and 2026 Execution Plan – Northisle"
+    url: https://www.northisle.ca/news/northisle-provides-corporate-and-exploration-update-and-2026-execution-plan/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-02-23_news_northisle-included-in-bcs-critical-mineral-office.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-02-23
+    filing_date: 2026-02-23
+    title: "Northisle Included in BC’s Critical Minerals Office – Northisle"
+    url: https://www.northisle.ca/news/northisle-included-in-bcs-critical-mineral-office/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-02-26_news_northisle-announces-c100-million-financing.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-02-26
+    filing_date: 2026-02-26
+    title: "NORTHISLE ANNOUNCES C$100 MILLION FINANCING – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-c100-million-financing/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-03-04_news_northisle-announces-total-financing-of-115-million-including.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-03-04
+    filing_date: 2026-03-04
+    title: "Northisle Announces Total Financing of $115 million Including Wheaton Precious Metals Placement of $5 million and Update on Public Offering – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-total-financing-of-115-million-including-wheaton-precious-metals-placement-of-5-million-and-update-on-public-offering/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-03-06_news_northisle-announces-closing-of-115-million-financing.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-03-06
+    filing_date: 2026-03-06
+    title: "Northisle Announces Closing of $115 million Financing – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-closing-of-115-million-financing/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-03-31_news_northisle-announces-infill-drill-results-at-northwest-expo-e.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-03-31
+    filing_date: 2026-03-31
+    title: "Northisle Announces Infill Drill Results at Northwest Expo Extend Strike and Add New High-Grade Intervals – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-infill-drill-results-at-northwest-expo-extend-strike-and-add-new-high-grade-intervals/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-04-07_news_northisle-announces-expansion-of-executive-and-technical-adv.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-04-07
+    filing_date: 2026-04-07
+    title: "Northisle Announces Expansion of Executive and Technical Advisory Team – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-expansion-of-executive-and-technical-advisory-team/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-05-01_news_northisle-announces-the-passing-of-chairman-dale-corman.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-05-01
+    filing_date: 2026-05-01
+    title: "Northisle Announces the Passing of Chairman Dale Corman – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-the-passing-of-chairman-dale-corman/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-05-27_news_northisle-announces-board-slate-for-2026-agm.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-05-27
+    filing_date: 2026-05-27
+    title: "Northisle Announces Board Slate for 2026 AGM – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-board-slate-for-2026-agm/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-06-10_news_northisle-announces-drill-results-at-red-dog-identify-emergi.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-06-10
+    filing_date: 2026-06-10
+    title: "Northisle Announces Drill Results at Red Dog Identify Emerging High-Grade Trend in Eastern Portion of Deposit – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-drill-results-at-red-dog-identify-emerging-high-grade-trend-in-eastern-portion-of-deposit/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-06-29_news_northisle-announces-results-of-annual-general-meeting-6.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-06-29
+    filing_date: 2026-06-29
+    title: "Northisle Announces Results of Annual General Meeting – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-results-of-annual-general-meeting-6/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-08-06_news_northisle-announces-significant-increase-to-north-island-res.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-08-06
+    filing_date: 2026-08-06
+    title: "Northisle Announces Significant Increase to North Island Resource Estimate – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-significant-increase-to-north-island-resource-estimate/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-08-25_news_northisle-announces-additions-to-board-and-advisory-team.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-08-25
+    filing_date: 2026-08-25
+    title: "Northisle Announces Additions to Board and Advisory Team – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-additions-to-board-and-advisory-team/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-09-11_news_northisle-announces-selection-of-the-north-island-project-fo.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-09-11
+    filing_date: 2026-09-11
+    title: "Northisle Announces Selection of the North Island Project for the  2026 Canada Investment Summit Dealbook – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-selection-of-the-north-island-project-for-the-2026-canada-investment-summit-dealbook/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-09-14_news_northisle-announces-inclusion-in-global-junior-gold-miners-i.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-09-14
+    filing_date: 2026-09-14
+    title: "Northisle Announces Inclusion in Global Junior Gold Miners Index – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-inclusion-in-global-junior-gold-miners-index/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-09-20_news_northisle-announces-filing-of-ni-43-101-technical-report-for.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-09-20
+    filing_date: 2026-09-20
+    title: "Northisle Announces Filing of NI 43-101 Technical Report for the North Island Project – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-filing-of-ni-43-101-technical-report-for-the-north-island-project/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-10-13_news_northisle-announces-exploration-and-geology-team-transition.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-10-13
+    filing_date: 2026-10-13
+    title: "Northisle Announces Exploration and Geology Team Transition Plan – Northisle"
+    url: https://www.northisle.ca/news/northisle-announces-exploration-and-geology-team-transition-plan/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-11-03_news_northisle-commences-environmental-assessment-process-for-the.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-11-03
+    filing_date: 2026-11-03
+    title: "Northisle Commences Environmental Assessment Process for the North Island Project – Northisle"
+    url: https://www.northisle.ca/news/northisle-commences-environmental-assessment-process-for-the-north-island-project/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch

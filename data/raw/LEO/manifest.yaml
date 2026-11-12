@@ -1,0 +1,216 @@
+# Lion Copper and Gold Corp.: written 2026-11-11 from public company-website and EDGAR downloads (same approach as MARI).
+# filing_date marked approx = estimated from the press release or upload month; confirm on SEDAR+ if an as-of lands near it.
+# The first technical_report listed is the current economic study, which `orebody run` uses.
+# Ticker folder LEO = TSXV symbol; Nasdaq symbol is LCU. S-K 1300 .htm exhibits from EDGAR are kept for provenance; the pipeline reads the NI 43-101 PDFs.
+ticker: LEO
+exchange: TSXV / Nasdaq (LCU)
+name: Lion Copper and Gold Corp.
+flagship_project: Yerington Copper Project
+reporting_currency: USD   # verify on the financial statements cover page
+documents:
+  - file: 2025-05-31_yerington-pfs_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2025-05-31
+    filing_date: 2025-09-15   # approx
+    title: "Yerington Copper Project NI 43-101 Pre-Feasibility Study"
+    project: Yerington Copper Project
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2025/09/NI-43-101-Yerington-Copper-Project-IFS-Final-Release-wSignatures.pdf
+    sha256: c5a2c6a81d3db7b861e3153a91bd9b78ee6d69e68451f144cf1a33d8bc90953a
+  - file: 2024-01-30_yerington-pea_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2024-01-30
+    filing_date: 2024-03-15   # approx
+    title: "Yerington Copper Project NI 43-101 Preliminary Economic Assessment"
+    project: Yerington Copper Project
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2025/01/2024_leo_yerington_pea_tr.pdf
+    sha256: dc2b34dcb1014033a81a88326e4d9a3d99c7ee9b374290d016186319d8f25fa0
+  - file: 2026-07-21_bear-mre_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2026-07-21
+    filing_date: 2026-09-14   # approx
+    title: "Bear Project Mineral Resource Estimate NI 43-101 Technical Report"
+    project: Bear Project
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/09/2026-0914-Bear-NI43-101-MRE.pdf
+    sha256: 004f65a8b05b8066e81f781d5d35bb96d703b102a40bb5221f190bb2450050bf
+  - file: 2024-12-31_yerington-ia_sk1300_ex96-1.htm
+    type: technical_report
+    standard: SK1300
+    effective_date: 2024-12-31
+    filing_date: 2025-03-26
+    title: "Yerington Copper Project S-K 1300 Initial Assessment (8-K Ex. 96.1)"
+    project: Yerington Copper Project
+    url: https://www.sec.gov/Archives/edgar/data/1339688/000106299325006322/exhibit96-1.htm
+    sha256: d1c9410b3ffef04fdb28499b9329ae5d448ee9396196db44665947e5fcc314c7
+  - file: 2025-05-31_yerington-pfs_sk1300_ex99-1.htm
+    type: technical_report
+    standard: SK1300
+    effective_date: 2025-05-31
+    filing_date: 2026-02-18
+    title: "Yerington Copper Project S-K 1300 Pre-Feasibility Study (8-K Ex. 99.1)"
+    project: Yerington Copper Project
+    url: https://www.sec.gov/Archives/edgar/data/1339688/000106299326001052/exhibit99-1.htm
+    sha256: bb84daa447979f6e568028b2c6b1688f6ffda1e86987222589a91759fababa37
+  - file: 2026-10-31_bear-resource_sk1300_ex96-1.htm
+    type: technical_report
+    standard: SK1300
+    effective_date: 2026-10-31
+    filing_date: 2026-11-10
+    title: "Bear Project Mineral Resource Technical Report Summary (10-Q Ex. 96.1)"
+    project: Bear Project
+    url: https://www.sec.gov/Archives/edgar/data/1339688/000149315226050863/ex96-1.htm
+    sha256: ad149c227d3fb73c54a45c124777764d8f19b2019434e019d1b43ece4ca8f9ae
+  - file: 2025-12-31_10-K_annual-2025.htm
+    type: annual_financials
+    standard: none
+    effective_date: 2025-12-31
+    filing_date: 2026-03-31
+    title: "Form 10-K, year ended 31 December 2025"
+    url: https://www.sec.gov/Archives/edgar/data/1339688/000106299326001760/form10k.htm
+    sha256: 957fbad350823f3f9bc708138007e65f6fe7d3d22ced26ce1dc45e0174d72512
+  - file: 2026-09-30_10-Q_Q3-2026.htm
+    type: quarterly_financials
+    standard: none
+    effective_date: 2026-09-30
+    filing_date: 2026-11-10
+    title: "Form 10-Q, quarter ended 30 September 2026"
+    url: https://www.sec.gov/Archives/edgar/data/1339688/000149315226050863/form10-q.htm
+    sha256: aeead25c6049ed2412a130cad3bc760666b9e98d4e6bcffa11a57731295b4e17
+  - file: 2026-10-21_presentation_corporate-oct-2026.pdf
+    type: presentation
+    standard: none
+    effective_date: 2026-10-21
+    filing_date: 2026-10-21   # approx
+    title: "Corporate presentation, October 2026"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/10/LCU-Corporate-Presentation-26-10-21.pdf
+    sha256: 38ed84fa1e4e33beb71db8a52a5cd5f172180a1d2269de9194210a4db26eaa80
+  - file: 2026-01-26_news_2026-0126-nr-nuton-funding.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-01-26
+    filing_date: 2026-01-26
+    title: "2026-0126-nr-nuton-funding"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/01/2026-0126-NR-Nuton-Funding.pdf
+    sha256: fbeb876f6d5cac6e3b5c58ce0f779cfa6d2cd82e42646315c5e5a6422d7bb876
+  - file: 2026-04-15_news_lcg-pr-dfs-and-permitting-26-0415.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-04-15
+    filing_date: 2026-04-15
+    title: "lcg-pr-dfs-and-permitting-26-0415"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/04/LCG-PR-DFS-and-Permitting-26-0415.pdf
+    sha256: 1217727b0a1a40ef2d3286475a1fb90a176140db4747c6ce95a256d70c5971f4
+  - file: 2026-06-29_news_nr-26-0629-application-to-list-on-nasdaq.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-06-29
+    filing_date: 2026-06-29
+    title: "nr-26-0629-application-to-list-on-nasdaq"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/06/NR-26-0629-Application-to-List-on-Nasdaq.pdf
+    sha256: 2201a9ec135ecc50f748e75c654381ea98b61cbcffed4e19e7e8b78caffcd12a
+  - file: 2026-07-28_news_nr-26-0728-ds-transition.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-07-28
+    filing_date: 2026-07-28
+    title: "nr-26-0728-ds-transition"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/07/NR-26-0728-DS-Transition.pdf
+    sha256: 822f1b3d53782fa435eeb657230297651eb4e1a045eb6185e9b2aa658965ee74
+  - file: 2026-07-31_news_nr-26-0731-bear-land-acquisition.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-07-31
+    filing_date: 2026-07-31
+    title: "nr-26-0731-bear-land-acquisition"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/07/NR-26-0731-Bear-Land-Acquisition.pdf
+    sha256: 29c47f9a83d013160a87911ee71dd1bbd9780ae6571fd72ec8ad580e62969e5a
+  - file: 2026-08-04_news_nr-26-0804-bear-mre-2.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-08-04
+    filing_date: 2026-08-04
+    title: "nr-26-0804-bear-mre-2"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/08/NR-26-0804-Bear-MRE.2.pdf
+    sha256: 40f8f4bdf835063f20a35130a504faa72a8b9c275e5a6d9797ce5fcf99407825
+  - file: 2026-08-10_news_nr-26-0810-dfs-update.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-08-10
+    filing_date: 2026-08-10
+    title: "nr-26-0810-dfs-update"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/08/NR-26-0810-DFS-update.pdf
+    sha256: 180d1d12d142af0cd57584e2156f50ad63679f6d7309c346544bbcebf542ac82
+  - file: 2026-08-18_news_nr-26-0818-directors.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-08-18
+    filing_date: 2026-08-18
+    title: "nr-26-0818-directors"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/08/NR-26-0818-Directors.pdf
+    sha256: 55de2b8e78470df5370df2c7aa2b21e77c98e73ae18401fec27415d384cf458e
+  - file: 2026-09-04_news_nr-26-0904-share-consolidation.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-09-04
+    filing_date: 2026-09-04
+    title: "nr-26-0904-share-consolidation"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/09/NR-26-0904-Share-Consolidation.pdf
+    sha256: 45d4bb1bb6d5e1c3b2663d8698318605be9414a0d87e46a8a606f5003338175c
+  - file: 2026-09-14_news_nr-26-0914-bear-mre-3.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-09-14
+    filing_date: 2026-09-14
+    title: "nr-26-0914-bear-mre-3"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/09/NR-26-0914-Bear-MRE.3.pdf
+    sha256: f6728ec5b7a4a761ac75e7bf071d6a3496931a0e5fb913acb5ee5db315f32bd5
+  - file: 2026-09-14_news_nr-26-0914-consolidation-2.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-09-14
+    filing_date: 2026-09-14
+    title: "nr-26-0914-consolidation-2"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/09/NR-26-0914-CONSOLIDATION.2.pdf
+    sha256: 15e30136f8061e775544d1ca5b88fd1a24679313890d5daca9802056b5cf486d
+  - file: 2026-10-05_news_nr-26-1005-banning-director.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-10-05
+    filing_date: 2026-10-05
+    title: "nr-26-1005-banning-director"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/10/NR-26-1005-Banning-Director.pdf
+    sha256: 5e11ef21589ade05d0c35c5ab6f34b8fa8fd06095ff0d008156ba897fe284251
+  - file: 2026-10-14_news_nr-26-1014-nasdaq-approval.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-10-14
+    filing_date: 2026-10-14
+    title: "nr-26-1014-nasdaq-approval"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/10/NR-26-1014-NASDAQ-approval.pdf
+    sha256: 70cb75d6c3806768f706456784833d04f28051cbda2c170d14e22126f6297b55
+  - file: 2026-10-19_news_nr-26-1019-nasdaq-and-renmark.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-10-19
+    filing_date: 2026-10-19
+    title: "nr-26-1019-nasdaq-and-renmark"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/10/NR-26-1019-Nasdaq-and-Renmark.pdf
+    sha256: 1ffe086466ae417c147a6e4d551422c163de5dbfc579d0e296c93cfc1c071736
+  - file: 2026-10-20_news_nr-26-1020-debenture-atrium.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-10-20
+    filing_date: 2026-10-20
+    title: "nr-26-1020-debenture-atrium"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/10/NR-26-1020-Debenture-Atrium-.pdf
+    sha256: 3e48971d80f6c028765ef4ab7697a54e03c05fac64840cf017211c8876a3cbef
+  - file: 2026-11-11_news_nr-26-1111-bear-s-k-1300-final.pdf
+    type: news_release
+    standard: none
+    effective_date: 2026-11-11
+    filing_date: 2026-11-11
+    title: "nr-26-1111-bear-s-k-1300-final"
+    url: https://wp-lioncg-2025.s3.ca-central-1.amazonaws.com/media/2026/11/NR-26-1111-Bear-S-K-1300-FINAL.pdf
+    sha256: 71972daaa5e13ec2403047a2dc327891c1938e729a5a593cd081f85d268549bc

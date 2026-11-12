@@ -1,0 +1,58 @@
+# US Copper Corp.: written 2026-11-11 from public company-website and EDGAR downloads (same approach as MARI).
+# filing_date marked approx = estimated from the press release or upload month; confirm on SEDAR+ if an as-of lands near it.
+# The first technical_report listed is the current economic study, which `orebody run` uses.
+# The 2018 Moonlight PEA is SEDAR+ only (see SEDAR_TODO).
+ticker: USCU
+exchange: TSXV
+name: US Copper Corp.
+flagship_project: Moonlight-Superior Copper Project
+reporting_currency: CAD   # verify on the financial statements cover page
+documents:
+  - file: 2024-12-16_moonlight-superior-pea_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2024-12-16
+    filing_date: 2025-07-15   # approx
+    title: "Moonlight-Superior Copper Project NI 43-101 PEA (Rev 3)"
+    project: Moonlight-Superior Copper Project
+    url: https://uscoppercorp.com/wp-content/uploads/2025/07/US-Copper-M-S-PEA-Rev3.pdf
+    sha256: 424c21820fda56f22727a3178a332ff508d5c02d77ee172f2c757f70bafb41d9
+  - file: 2025-12-31_FS_annual-2025.pdf
+    type: annual_financials
+    standard: none
+    effective_date: 2025-12-31
+    filing_date: 2026-04-30   # approx
+    title: "Consolidated financial statements, year ended 31 December 2025"
+    url: https://uscoppercorp.com/wp-content/uploads/2026/05/US-Copper-Corp.-December-31-2025-FS.pdf
+    sha256: 90eb70e23b787b2aa87c9118a8cf48fb126d054308a63f073b24f45e53238546
+  - file: 2025-12-31_MDA_annual-2025.pdf
+    type: mdna
+    standard: none
+    effective_date: 2025-12-31
+    filing_date: 2026-04-30   # approx
+    title: "MD&A, year ended 31 December 2025"
+    url: https://uscoppercorp.com/wp-content/uploads/2026/05/US-Copper-Corp.-December-31-2025-MDA.pdf
+    sha256: 26ab85662a50805fa4927a3b85b2455c92109da24eabad57b20e122d860389be
+  - file: 2025-08_factsheet.pdf
+    type: presentation
+    standard: none
+    filing_date: 2025-08-01   # approx
+    title: "Fact sheet, August 2025"
+    url: https://uscoppercorp.com/wp-content/uploads/2025/08/FactSheetTSXvUSCU.pdf
+    sha256: 1de4132c6564ccb26831368fa1d5809e2f59182bf47a1b235100fe7d783628dc
+  - file: 2025-12-15_news_us-copper-stakes-additional-claims-to-accommodate-future-sur.htm
+    type: news_release
+    standard: none
+    effective_date: 2025-12-15
+    filing_date: 2025-12-15
+    title: "US Copper Stakes Additional Claims to Accommodate Future Surface Facilities at the Moonlight-Superior Copper Project – US Copper Corp"
+    url: https://uscoppercorp.com/us-copper-stakes-additional-claims-to-accommodate-future-surface-facilities-at-the-moonlight-superior-copper-project/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-06-17_news_us-copper-announces-positive-locked-cycle-test-results-from.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-06-17
+    filing_date: 2026-06-17
+    title: "US Copper Announces Positive Locked Cycle Test Results from Metallurgical Testwork at the Moonlight-Superior Copper Project – US Copper Corp"
+    url: https://uscoppercorp.com/us-copper-announces-positive-locked-cycle-test-results-from-metallurgical-testwork-at-the-moonlight-superior-copper-project/
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch

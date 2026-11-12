@@ -1,0 +1,238 @@
+# Gunnison Copper Corp.: written 2026-11-11 from public company-website and EDGAR downloads (same approach as MARI).
+# filing_date marked approx = estimated from the press release or upload month; confirm on SEDAR+ if an as-of lands near it.
+# The first technical_report listed is the current economic study, which `orebody run` uses.
+# Financial statements, MD&A and AIF are not posted on gunnisoncopper.com: SEDAR+ only (see SEDAR_TODO).
+ticker: GCU
+exchange: TSX
+name: Gunnison Copper Corp.
+flagship_project: Gunnison Copper Project
+reporting_currency: USD   # verify on the financial statements cover page
+documents:
+  - file: 2026-03-18_gunnison-op-pea_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2026-03-18
+    filing_date: 2026-03-31
+    title: "Gunnison Copper Project NI 43-101 Technical Report and Preliminary Economic Assessment (2026)"
+    project: Gunnison Copper Project
+    url: https://gunnisoncopper.com/images/pdf/Presentation/2026/M3-PN210313.007-Gunnison_OP_HV_PEA_2025_Rev_0.pdf
+    sha256: bbb49e5e78cd7b580eefc944b8667d71bfbb45b66ead64723c9fda25fbc04ab6
+  - file: 2025-03-12_johnson-camp_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2025-03-12
+    filing_date: 2025-03-31
+    title: "Johnson Camp Mine NI 43-101 Technical Report"
+    project: Johnson Camp Mine
+    url: https://gunnisoncopper.com/images/pdf/Presentation/2025/M3-PN210313.006_JCM_Technical_Report_Rev_0_compressed.pdf
+    sha256: 1612dec9e02d39e56e31c13abd16177ea227a1961ba52861c42926505f1f8746
+  - file: 2024-11-01_gunnison-op-pea_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2024-11-01
+    filing_date: 2024-12-18   # approx
+    title: "Gunnison Copper Project Open Pit PEA (2024)"
+    project: Gunnison Copper Project
+    url: https://minedocs.com/27/Gunnison-PEA-11012024.pdf
+    sha256: c1b957b0eac51a70efa6e455b8cbb237da93029986ca2c7184306d3c2dbe41c0
+  - file: 2023-02-01_gunnison-pfs-update_jcm-pea_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2023-02-01
+    filing_date: 2023-02-22   # approx
+    title: "Gunnison PFS Update and Johnson Camp Heap Leach PEA"
+    project: Gunnison Copper Project
+    url: https://minedocs.com/19/Gunnison-PFS-Update-and-JCM-Heap-Leach-PEA-02012023.pdf
+    sha256: 54bccea84b460a533658c325a550b6ad27b48b9fd904bcf1e4d67d22b44acafd
+  - file: 2026-11-02_presentation_corporate-nov-2026.pdf
+    type: presentation
+    standard: none
+    effective_date: 2026-11-02
+    filing_date: 2026-11-02   # approx
+    title: "Corporate presentation, November 2026"
+    url: https://gunnisoncopper.com/images/pdf/Presentation/2026/2026%2011%2002%20-%20Gunnison%20Copper%20Corporate%20Presentation%20-%20November%202026.pdf
+    sha256: d0345dd3ca228fe1cce856c41136e96f78f178865c7f68969be5f7301a7dffd9
+  - file: 2025-12-01_news_gunnison-copper-repays-us73-million-of-nebari-secured-debt20.htm
+    type: news_release
+    standard: none
+    effective_date: 2025-12-01
+    filing_date: 2025-12-01
+    title: "Gunnison Copper Repays US$7.3 Million of Nebari Secured Debt, Fully Eliminating Non-Convertible Portion of Second ARCA"
+    url: https://gunnisoncopper.com/news/news-2025/gunnison-copper-repays-us73-million-of-nebari-secured-debt2025-12-01-140502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2025-12-04_news_gunnison-copper-announces-that-rio-tintos-nuton-technology-2.htm
+    type: news_release
+    standard: none
+    effective_date: 2025-12-04
+    filing_date: 2025-12-04
+    title: "Gunnison Copper Announces That Rio Tinto's Nuton Technology Produces First Copper"
+    url: https://gunnisoncopper.com/news/news-2025/gunnison-copper-announces-that-rio-tintos-nuton-technology-2025-12-04-033503
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2025-12-19_news_gunnison-copper-enters-into-collaboration-framework-agreemen.htm
+    type: news_release
+    standard: none
+    effective_date: 2025-12-19
+    filing_date: 2025-12-19
+    title: "Gunnison Copper Enters into Collaboration Framework Agreement with Lunasonde to Perform Initial Survey for Critical Minerals in Arizona's Cochise Mining District"
+    url: https://gunnisoncopper.com/news/news-2025/gunnison-copper-enters-into-collaboration-framework-agreemen2025-12-19-033503
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-06-25_news_gunnison-copper-corp-announces-agm-results2026-06-25-140502.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-06-25
+    filing_date: 2026-06-25
+    title: "Gunnison Copper Corp. Announces AGM Results"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-corp-announces-agm-results2026-06-25-140502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-06-26_news_gunnison-copper-appoints-bjorn-meyer-as-chief-operating-offi.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-06-26
+    filing_date: 2026-06-26
+    title: "Gunnison Copper Appoints Bjorn Meyer as Chief Operating Officer"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-appoints-bjorn-meyer-as-chief-operating-offi2026-06-26-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-07-07_news_gunnison-copper-eliminates-convertible-debt-through-cash-set.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-07-07
+    filing_date: 2026-07-07
+    title: "Gunnison Copper Eliminates Convertible Debt Through Cash Settlement, Preventing the Issuance of 28.9 Million Common Shares"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-eliminates-convertible-debt-through-cash-set2026-07-07-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-07-09_news_gunnison-copper-achieves-key-milestone-under-us-department20.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-07-09
+    filing_date: 2026-07-09
+    title: "Gunnison Copper Achieves Key Milestone Under U.S. Department of Energy 48C Program"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-achieves-key-milestone-under-us-department2026-07-09-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-08-10_news_gunnison-copper-attends-the-american-mining-industry-and-cri.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-08-10
+    filing_date: 2026-08-10
+    title: "Gunnison Copper Attends the American Mining Industry and Critical Minerals Roundtable in Washington D.C. Focused on Strengthening Domestic Supply Chains"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-attends-the-american-mining-industry-and-cri2026-08-10-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-08-13_news_gunnison-copper-reports-second-quarter-2026-financial-and-op.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-08-13
+    filing_date: 2026-08-13
+    title: "Gunnison Copper Reports Second Quarter 2026 Financial and Operational Results"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-reports-second-quarter-2026-financial-and-op2026-08-13-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-08-17_news_gunnison-copper-accelerates-district-wide-drill-program-pre2.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-08-17
+    filing_date: 2026-08-17
+    title: "Gunnison Copper Accelerates District-Wide Drill Program, Preparing for Six-Rig Expansion and Upcoming Preliminary Metallurgical Results"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-accelerates-district-wide-drill-program-pre2026-08-17-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-09-16_news_gunnison-copper-and-nuton-optimize-stage-2-mine-plan-with-ap.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-09-16
+    filing_date: 2026-09-16
+    title: "Gunnison Copper and Nuton Optimize Stage 2 Mine Plan with Approximately 3 Million Additional Tons of Mineralized Material"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-and-nuton-optimize-stage-2-mine-plan-with-ap2026-09-16-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-09-17_news_gunnison-copper-submits-mined-land-reclamation-plan-permit-a.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-09-17
+    filing_date: 2026-09-17
+    title: "Gunnison Copper Submits Mined Land Reclamation Plan Permit Amendment and Outlines Path to Fully Permitted Gunnison Project by Mid-2028"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-submits-mined-land-reclamation-plan-permit-a2026-09-17-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-09-22_news_gunnison-copper-achieves-commercial-production-at-johnson-ca.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-09-22
+    filing_date: 2026-09-22
+    title: "Gunnison Copper Achieves Commercial Production at Johnson Camp Mine"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-achieves-commercial-production-at-johnson-ca2026-09-22-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-09-23_news_gunnison-copper-recognized-by-arizona-governor-katie-hobbs-f.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-09-23
+    filing_date: 2026-09-23
+    title: "Gunnison Copper Recognized by Arizona Governor Katie Hobbs for Job Creation at Johnson Camp"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-recognized-by-arizona-governor-katie-hobbs-f2026-09-23-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-09-28_news_gunnison-copper-appoints-us-defense-sector-executive-as-ch20.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-09-28
+    filing_date: 2026-09-28
+    title: "Gunnison Copper Appoints U.S. Defense Sector Executive as Chief Financial Officer"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-appoints-us-defense-sector-executive-as-ch2026-09-28-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-10-01_news_gunnison-copper-appoints-former-hudbay-minerals-coo-andre-la.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-10-01
+    filing_date: 2026-10-01
+    title: "Gunnison Copper Appoints Former Hudbay Minerals COO Andre Lauzon to Board of Directors"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-appoints-former-hudbay-minerals-coo-andre-la2026-10-01-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-10-05_news_gunnison-copper-advances-toward-nyse-american-listing-as-cop.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-10-05
+    filing_date: 2026-10-05
+    title: "Gunnison Copper Advances Toward NYSE American Listing as Copper Reaches Record Highs"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-advances-toward-nyse-american-listing-as-cop2026-10-05-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-10-20_news_gunnison-copper-to-commence-trading-on-nyse-american-october.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-10-20
+    filing_date: 2026-10-20
+    title: "Gunnison Copper to Commence Trading on NYSE American October 26, 2026, Under Ticker Symbol 'GUNN'"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-to-commence-trading-on-nyse-american-october2026-10-20-030502
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-10-22_news_gunnison-copper-hosts-secretary-of-the-interior-doug-burgum.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-10-22
+    filing_date: 2026-10-22
+    title: "Gunnison Copper Hosts Secretary of the Interior Doug Burgum and Congressman Juan Ciscomani, Highlights Growth in American Copper Production"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-hosts-secretary-of-the-interior-doug-burgum-and-congressman-juan-ciscomani-highlights-growth-in-american-copper-production
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-10-26_news_gunnison-copper-officially-begins-trading-on-nyse-american-u.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-10-26
+    filing_date: 2026-10-26
+    title: "Gunnison Copper Officially Begins Trading on NYSE American Under Ticker 'GUNN'"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-officially-begins-trading-on-nyse-american-under-ticker-gunn-2026-10-26-11-03-15
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-10-28_news_gunnison-copper-awards-equity-across-its-workforce-to-mark-n.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-10-28
+    filing_date: 2026-10-28
+    title: "Gunnison Copper Awards Equity Across Its Workforce to Mark NYSE American Debut Under the Ticker 'GUNN'"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-awards-equity-across-its-workforce-to-mark-nyse-american-debut-under-the-ticker-gunn-2026-10-28-10-05-03
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-11-05_news_gunnison-copper-celebrates-nyse-american-gunn-debut-with-250.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-11-05
+    filing_date: 2026-11-05
+    title: "Gunnison Copper Celebrates NYSE American 'GUNN' Debut with $25,000 'GUNN 25 Challenge' Sweepstakes"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-celebrates-nyse-american-gunn-debut-with-25000-gunn-25-challenge-sweepstakes-2026-11-05-11-05-02
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch
+  - file: 2026-11-10_news_gunnison-copper-confirms-high-grade-massive-copper-zinc-silv.htm
+    type: news_release
+    standard: none
+    effective_date: 2026-11-10
+    filing_date: 2026-11-10
+    title: "Gunnison Copper Confirms High-Grade Massive Copper-Zinc-Silver Sulfides at Strong & Harris, Including 40 Feet Grading 5.1% Copper and 12.0% Zinc"
+    url: https://gunnisoncopper.com/news/news-2026/gunnison-copper-confirms-high-grade-massive-copper-zinc-silver-sulfides-at-strong--harris-including-40-feet-grading-51-copper-and-120-zinc-2026-11-10-11-05-03
+    # no sha256: HTML page carries session tokens and a live quote, so bytes change per fetch

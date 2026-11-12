@@ -1,4 +1,4 @@
-.PHONY: lint test api web demo-data fetch-mari
+.PHONY: lint test api web demo-data fetch-mari fetch
 
 MARI_FS_URL = https://marimaca.com/wp-content/uploads/2026/07/25-10-09-Marimaca-Oxide-Deposit-NI-43-101-Technical-Report-Feasibility-Study_FINAL.pdf
 MARI_FS_PDF = data/raw/MARI/2025-08-25_MarimacaOxide_FS_NI43-101.pdf
@@ -23,3 +23,6 @@ api:
 
 web:
 	cd web && npm run dev -- -p 3014
+
+fetch:  # make fetch T=SURG : downloads every document with a url in data/raw/$(T)/manifest.yaml and checks sha256
+	uv run python scripts/fetch.py $(T)

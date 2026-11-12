@@ -1,0 +1,45 @@
+# Highland Copper Company Inc.: written 2026-11-11 from public company-website and EDGAR downloads (same approach as MARI).
+# filing_date marked approx = estimated from the press release or upload month; confirm on SEDAR+ if an as-of lands near it.
+# The first technical_report listed is the current economic study, which `orebody run` uses.
+# White Pine North was sold to Kinterra (closed March 2026); flagship is now Copperwood.
+# News releases not collected: highlandcopper.com news and GlobeNewswire both refuse automated access.
+# Fiscal year ends 30 June.
+ticker: HI
+exchange: TSXV
+name: Highland Copper Company Inc.
+flagship_project: Copperwood Project
+reporting_currency: USD   # verify on the financial statements cover page
+documents:
+  - file: 2023-03-06_copperwood-fs-update_ni43-101.pdf
+    type: technical_report
+    standard: NI43-101
+    effective_date: 2023-03-06
+    filing_date: 2023-03-20   # approx
+    title: "Copperwood Project Feasibility Study Update NI 43-101"
+    project: Copperwood Project
+    url: https://www.highlandcopper.com/wp-content/uploads/2024/01/Feasability-Study-Update-Copperwood.pdf
+    sha256: 4d9935cdcdeaa9ce551b73a588cdf8a8b51635ef6f35d9243fef3daa3a0eccab
+  - file: 2026-06-30_FS_annual-FY2026.pdf
+    type: annual_financials
+    standard: none
+    effective_date: 2026-06-30
+    filing_date: 2026-10-07   # approx
+    title: "Audited annual financial statements, year ended 30 June 2026"
+    url: https://www.highlandcopper.com/wp-content/uploads/2026/10/HI-2026-10-07-audited-annual-financial-statements-english-266b.pdf-combined.pdf
+    sha256: 9a09fcfa702a4e8e8334db39f2b4bf604a9cd43149d26dd9f816fc7fb16c5939
+  - file: 2026-03-31_FS-MDA_Q3-FY2026.pdf
+    type: quarterly_financials
+    standard: none
+    effective_date: 2026-03-31
+    filing_date: 2026-05-26   # approx
+    title: "Interim financial statements and MD&A, quarter ended 31 March 2026"
+    url: https://www.highlandcopper.com/wp-content/uploads/2026/05/HCC-2026-03-31-FS-and-MDA-Merged-V2.pdf
+    sha256: e84d94b4f25a61bdf6b54157328527e058201869a2ba5240f1d20233e559baf4
+  - file: 2026-10-27_presentation_corporate-oct-2026.pdf
+    type: presentation
+    standard: none
+    effective_date: 2026-10-27
+    filing_date: 2026-10-27   # approx
+    title: "Corporate presentation, October 2026"
+    url: https://www.highlandcopper.com/wp-content/uploads/2026/10/27102026-Highland-Copper-Corporate-Presentation.pdf
+    sha256: 0a08f85ffb1f62bae90c3b41e3850f32076f443239d6f54891c8d637a14b2616
